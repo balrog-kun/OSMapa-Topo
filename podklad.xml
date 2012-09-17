@@ -552,20 +552,8 @@
       <LineSymbolizer stroke="#000000" stroke-width="2" stroke-dasharray="4 4 2 4"/>
     </Rule>
     <Rule>
-      <MinScaleDenominator>12500000</MinScaleDenominator>
-      <MaxScaleDenominator>25000000</MaxScaleDenominator>
-      <Filter>[boundary]='administrative' and [admin_level]='4'</Filter>
-      <LineSymbolizer stroke="#444444" stroke-width="0.15" stroke-dasharray="4 4 2 4"/>
-    </Rule>
-    <Rule>
-      <MinScaleDenominator>3000000</MinScaleDenominator>
-      <MaxScaleDenominator>12500000</MaxScaleDenominator>
-      <Filter>[boundary]='administrative' and [admin_level]='4'</Filter>
-      <LineSymbolizer stroke="#444444" stroke-width="0.25" stroke-dasharray="4 4 2 4"/>
-    </Rule>
-    <Rule>
       <MinScaleDenominator>500000</MinScaleDenominator>
-      <MaxScaleDenominator>3000000</MaxScaleDenominator>
+      <MaxScaleDenominator>1000000</MaxScaleDenominator>
       <Filter>[boundary]='administrative' and [admin_level]='4'</Filter>
       <LineSymbolizer stroke="#444444" stroke-width="0.5" stroke-dasharray="4 4 2 4"/>
     </Rule>
@@ -663,6 +651,24 @@
       <MaxScaleDenominator>5000000</MaxScaleDenominator>
       <Filter>[boundary]='administrative' and [admin_level]='2'</Filter>
       <LineSymbolizer stroke="#333333" stroke-width="1" stroke-dasharray="4 4 2 4"/>
+    </Rule>
+    <Rule>
+      <MinScaleDenominator>12500000</MinScaleDenominator>
+      <MaxScaleDenominator>25000000</MaxScaleDenominator>
+      <Filter>[boundary]='administrative' and [admin_level]='4'</Filter>
+      <LineSymbolizer stroke="#444444" stroke-width="0.15" stroke-dasharray="4 4 2 4"/>
+    </Rule>
+    <Rule>
+      <MinScaleDenominator>3000000</MinScaleDenominator>
+      <MaxScaleDenominator>12500000</MaxScaleDenominator>
+      <Filter>[boundary]='administrative' and [admin_level]='4'</Filter>
+      <LineSymbolizer stroke="#444444" stroke-width="0.25" stroke-dasharray="4 4 2 4"/>
+    </Rule>
+    <Rule>
+      <MinScaleDenominator>1000000</MinScaleDenominator>
+      <MaxScaleDenominator>3000000</MaxScaleDenominator>
+      <Filter>[boundary]='administrative' and [admin_level]='4'</Filter>
+      <LineSymbolizer stroke="#444444" stroke-width="0.5" stroke-dasharray="4 4 2 4"/>
     </Rule>
   </Style>
   <Style name="koleje">
@@ -3368,13 +3374,14 @@
 <Parameter name="table">planet_osm_polygon</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
+  </Layer>
   <Layer name="pokrycie_terenu_dol_lasy_dol">
     <StyleName>pokrycie_terenu_dol_lasy_dol</StyleName>
     <Datasource>
       &datasource-settings;
 <Parameter name="table">planet_osm_polygon</Parameter>
 <!-- TODO: simplify geometries on the fly -->
-<Parameter name="table">(SELECT way, way_area FROM planet_osm_polygon WHERE (landuse = 'forest' OR natural = 'wood' OR landuse = 'wood') AND way_area >= 250000</Filter>
+<Parameter name="table">(SELECT way, way_area FROM planet_osm_polygon WHERE (landuse = 'forest' OR "natural" = 'wood' OR landuse = 'wood') AND way_area &gt;= 250000) AS lasy</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
@@ -3422,7 +3429,7 @@
     <StyleName>admin_lores</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(SELECT * FROM planet_osm_lores_line WHERE admin_level = '2') AS admin_lores</Parameter>
+<Parameter name="table">(SELECT * FROM planet_osm_lores_line WHERE admin_level IN ('2', '4')) AS admin_lores</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
