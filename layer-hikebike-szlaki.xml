@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map [
+<!ENTITY % entities SYSTEM "entities.xml.inc">
+%entities;
+<!ENTITY maxscale_szlaki "<MaxScaleDenominator>200000</MaxScaleDenominator>">
+]>
+<Map background-color="#cae5fb" srs="&srsgoog;">
+ &hikebike;
+ &szlaki;
+</Map>

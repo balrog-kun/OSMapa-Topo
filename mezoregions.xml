@@ -1,0 +1,255 @@
+<Style name="mezoregion">
+        <Rule>
+		&maxscale_zoom8;
+                <Filter>[region_category]='physiographic' and [region_type]='mezoregion'</Filter>
+                <LineSymbolizer
+                        stroke="#303050"
+                        stroke-width="2"
+			stroke-opacity="0.6"			
+                 />
+        </Rule>
+</Style>
+<Style name="makroregion">
+        <Rule>
+                &maxscale_zoom6;
+                &minscale_zoom9;
+                <Filter>[region_category]='physiographic' and [region_type]='macroregion'</Filter>
+                <LineSymbolizer
+                        stroke="#400070"
+                        stroke-width="2"
+                        stroke-opacity="0.8"
+                 />
+        </Rule>
+</Style>
+<Style name="subprowincje">
+        <Rule>
+		&maxscale_zoom5;
+                &minscale_zoom7;
+                <Filter>[region_category]='physiographic' and [region_type]='subprovince'</Filter>
+                <LineSymbolizer
+                        stroke="#8030F0"
+                        stroke-width="3"
+                        stroke-opacity="0.9"
+                 />
+
+        </Rule>
+
+</Style>
+<Style name="prowincje">
+        <Rule>
+                &minscale_zoom7;
+                <Filter>[region_category]='physiographic' and [region_type]='province'</Filter>
+                <LineSymbolizer
+                        stroke="#8080A0"
+                        stroke-width="3"
+                        stroke-opacity="0.9"
+                 />
+
+        </Rule>
+
+</Style>
+
+
+<Style name="geo-names">
+        <Rule>
+		&maxscale_zoom9;
+		<Filter>[region_category]='physiographic' and [region_type]='mezoregion'</Filter>
+		<TextSymbolizer avoid-edges="true" face-name="DejaVu Sans Book" fill="#303050" placement="point" size="20" wrap-width="50" opacity="0.7">[name]</TextSymbolizer>
+	</Rule>
+        <Rule>
+                &maxscale_zoom7;
+		&minscale_zoom9;
+                <Filter>[region_category]='physiographic' and [region_type]='macroregion'</Filter>
+                <TextSymbolizer avoid-edges="true" face-name="DejaVu Sans Book" fill="#400070" placement="point" size="20" wrap-width="50">[name]</TextSymbolizer>
+        </Rule>
+        <Rule>
+                &maxscale_zoom6;
+		&minscale_zoom7;
+                <Filter>[region_category]='physiographic' and [region_type]='subprovince'</Filter>
+                <TextSymbolizer avoid-edges="true" face-name="DejaVu Sans Book" fill="#8030F0" placement="point" size="20" wrap-width="50">[name]</TextSymbolizer>
+        </Rule>
+        <Rule>
+                &maxscale_zoom5;
+                &minscale_zoom7;
+                <Filter>[region_category]='physiographic' and [region_type]='province'</Filter>
+                <TextSymbolizer avoid-edges="true" face-name="DejaVu Sans Book" fill="#8080A0" placement="point" size="20" wrap-width="50">[name]</TextSymbolizer>
+        </Rule>
+
+</Style>
+
+
+<Style name="areas">
+        <Rule>
+                &minscale_zoom7;
+                <Filter>[region_category]='physiographic' and [region_type]='province'</Filter>
+                <PolygonSymbolizer
+                        fill="#A05050"                        
+                        fill-opacity="0.3"
+                />
+	</Rule>
+	<Rule>
+		&maxscale_zoom5;
+                &minscale_zoom7;
+                <Filter>[region_category]='physiographic' and [region_type]='subprovince'</Filter>
+                <PolygonSymbolizer
+                        fill="#A0B050"                       
+                        fill-opacity="0.3"
+                />
+	</Rule>
+        <Rule>
+		&maxscale_zoom6;
+                &minscale_zoom9;
+                <Filter>[region_category]='physiographic' and [region_type]='macroregion'</Filter>
+                <PolygonSymbolizer
+                        fill="#F0A050"                       
+                        fill-opacity="0.3"
+                />
+	</Rule>
+        <Rule>
+		&maxscale_zoom8;
+                <Filter>[region_category]='physiographic' and [region_type]='mezoregion'</Filter>
+                <PolygonSymbolizer
+                        fill="#F050B0"                       
+                        fill-opacity="0.3"
+                />
+        </Rule>
+</Style>
+
+<!--
+<Layer>
+ <StyleName>areas</StyleName>
+ <Datasource>
+        <Parameter name="type">postgis</Parameter>
+        <Parameter name="dbname">osm</Parameter>
+        <Parameter name="user">osm</Parameter>
+        <Parameter name="estimate_extent">false</Parameter>
+        <Parameter name="extent">1558472,6257910,2693932,7400780</Parameter>
+        <Parameter name="table">mezoregion_polygon</Parameter>
+        <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+-->
+
+<Layer>
+ <StyleName>mezoregion</StyleName>
+ <StyleName>makroregion</StyleName>
+ <StyleName>subprowincje</StyleName>
+ <StyleName>prowincje</StyleName>
+ <StyleName>geo-names</StyleName>
+ <Datasource>
+	<Parameter name="type">postgis</Parameter>
+	<Parameter name="dbname">osm</Parameter>
+	<Parameter name="user">osm</Parameter>
+	<Parameter name="estimate_extent">false</Parameter>
+	<Parameter name="extent">1558472,6257910,2693932,7400780</Parameter>
+	<Parameter name="table">mezoregion_polygon</Parameter>
+	<Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+
+
+<Style name="Time_nodes">
+ 	<Rule>
+&maxscale_zoom13;                                                                                                                                                                                                                                           &minscale_zoom17;
+		<PointSymbolizer allow-overlap="true" file="img/red_dot.12.png" />
+	</Rule>          
+</Style>
+
+
+
+<Layer>
+ <StyleName>Time_nodes</StyleName>
+ <Datasource>
+        &datasource-settings;
+        <Parameter name="table">
+(
+SELECT DISTINCT point as way FROM (                                                                                                                                                                                                    
+SELECT ST_StartPoint(t.line) AS point FROM planet_trails_times AS t 
+-- WHERE line ST_Intersects(!bbox!)
+UNION                                                                                                                                                                                                                                                       
+SELECT ST_EndPoint(t.line) AS point FROM planet_trails_times AS t 
+-- WHERE line ST_Intersects(!bbox!)
+) As t)As w
+	
+	</Parameter>
+        <Parameter name="geometry_field">way</Parameter>
+	<Parameter name="geometry_table">planet_osm_line</Parameter>
+ </Datasource>
+</Layer>
+
+
+
+
+<Style name="Time_text">
+        <Rule>
+		&maxscale_zoom13;
+                &minscale_zoom17;
+<!--
+<TextSymbolizer name="'one&#10;two&#10;three'" face-name="DejaVu Sans Book"  halo-fill="#d0ffd0" halo-radius="3"  size="10" fill="#F33" placement="line" dy="15" max-char-angle-delta="50" spacing="1700" minimum-distance="50" avoid-edges="true" opacity="0.8" minimum-path-length="250" />
+-->
+<TextSymbolizer face-name="DejaVu Sans Book"  halo-fill="#d0ffd0" halo-radius="3"  size="10" fill="#F33" placement="line" dy="15" max-char-angle-delta="50" spacing="1700" minimum-distance="50" avoid-edges="true" opacity="0.8" minimum-path-length="250">[normal]</TextSymbolizer>
+
+<!--              <LineSymbolizer
+                      stroke="#80F0F0"
+                      stroke-width="2"
+                      stroke-opacity="1"
+               />
+		<MarkersSymbolizer spacing="100" file="img/oneway-arrow.png" transform="translate(0 0) scale(2.0)"/>
+-->
+       </Rule>          
+</Style>
+
+
+<Layer>
+ <StyleName>Time_text</StyleName>
+ <Datasource>
+        <Parameter name="type">postgis</Parameter>
+        <Parameter name="dbname">osm</Parameter>
+        <Parameter name="user">osm</Parameter>
+        <Parameter name="extent">1558472,6257910,2693932,7400780</Parameter>
+        <Parameter name="table">
+(
+SELECT line as way, ( '&#8592;' || to_char(round((up*0.08+dist*15/1000)/5)*5 ,'999D')|| 'min[' ||to_char(up, '9999')||'m]' || '{'|| to_char(dist/1000,'99D9' ) ||'km}' || to_char(round((up_rev*0.08+dist*15/1000)/5)*5 ,'999D')|| 'min[' ||to_char(up_rev, '9999')||'m]' || '&#8594;'  ) As normal FROM
+(
+SELECT up,up_rev,dist,ST_Translate(line, ST_X(center)-ST_X(line_center),ST_Y(center)-ST_Y(line_center) ) as line FROM
+(
+SELECT up,up_rev,dist,line,center,ST_Line_Interpolate_Point(line, 0.5) as line_center FROM
+(
+  SELECT ST_MakeLine(ST_StartPoint(line),ST_EndPoint(line)) as line,  ST_Line_Interpolate_Point(line, 0.5) as center,
+    (CASE  WHEN up IS NULL THEN 0 WHEN degrees(ST_Azimuth(ST_StartPoint(line), ST_EndPoint(line))) &lt; 180 THEN up_rev ELSE up END) as  up,
+    (CASE  WHEN up_rev IS NULL THEN 0  WHEN degrees(ST_Azimuth(ST_StartPoint(line), ST_EndPoint(line))) &lt; 180 THEN up ELSE up_rev END) as  up_rev,
+    dist FROM planet_trails_times WHERE ST_Intersects (line,!bbox!)
+) as f4
+) as f3
+) as f2
+) as f1
+        </Parameter>
+        <Parameter name="geometry_field">way</Parameter>
+	<Parameter name="geometry_table">planet_osm_line</Parameter>
+ </Datasource>
+</Layer>
+
+<!-- 
+Wersja z liniami rownoleglymi!
+
+(
+SELECT  line as way, ( to_char(round((up*0.08+dist*15/1000)/5)*5 ,'999D')|| 'min[' ||to_char(up, '999D')||'m]' || '-&gt;') As normal FROM
+  ( 
+
+    SELECT parallel as line, (CASE WHEN dir='n' THEN up ELSE up_rev END) As up, dist FROM
+      (
+      SELECT (CASE WHEN ST_Distance(ST_StartPoint(parallel),ST_StartPoint(line)) &lt; ST_Distance(ST_EndPoint(parallel),ST_StartPoint(line)) THEN 'n'
+          ELSE 'r' END) as dir,* FROM
+        (
+        SELECT st_removepoint(
+               st_removepoint(st_linemerge(ST_Difference(st_boundary(geom1),line))         ,0),
+               st_npoints(st_linemerge(ST_Difference(st_boundary(geom1),line)))-2) as parallel,id,up,up_rev,dist,line FROM
+          ( 
+            SELECT (ST_Dump( ST_Polygonize(st_union(ST_Boundary(ST_Buffer(line, 100, 'endcap=flat join=mitre mitre_limit=5.0')), line)))).geom AS geom1,id,up,up_rev,line,dist FROM  planet_trails_times WHERE  ST_Intersects(line,!bbox!) AND up>0 GROUP BY id,up,up_rev,line,dist
+          ) As f1
+        ) As f2
+      ) As f3
+    ) As f4
+) as W
+-->
+

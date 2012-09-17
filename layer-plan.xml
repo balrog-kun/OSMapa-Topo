@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map [
+<!ENTITY % entities SYSTEM "entities.xml.inc">
+%entities;
+<!ENTITY bgcol "#e1d5c4">
+]>
+<Map background-color="#cae5fb" srs="&srsgoog;">
+ &ground;
+ &base;
+ &names;
+</Map>

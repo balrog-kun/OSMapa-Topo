@@ -1,0 +1,295 @@
+<Style name="komzpa-buildings">
+ <!-- Edges -->
+ <Rule>
+  <Filter>([visible] = 'yes-v' and [diff] &gt; 0.4 and [diff] &lt;= 0.7) or [visible] = 'yes-h' or [visible] = 'border-yes-v'</Filter>
+  &maxscale_zoom16;
+  <LineSymbolizer
+   stroke="#444444"
+   stroke-width=".3"
+   stroke-linejoin="round"
+  />
+ </Rule>
+ <Rule>
+  <Filter>[visible] = 'yes-v' and [diff] &gt; 0.7</Filter>
+  &maxscale_zoom16;
+  <LineSymbolizer
+   stroke="#444444"
+   stroke-width=".5"
+   stroke-linejoin="round"
+  />
+ </Rule>
+ <Rule>
+  <Filter>[visible] = 'yes-v' and [diff] &gt; 0.3 and [diff] &lt;= 0.45</Filter>
+  &maxscale_zoom16;
+  <LineSymbolizer
+   stroke="#444444"
+   stroke-width=".2"
+   stroke-linejoin="round"
+  />
+ </Rule>
+ <Rule>
+  <Filter>[visible] = 'yes-v' and [diff] &gt; 0.15 and [diff] &lt;= 0.3</Filter>
+  &maxscale_zoom16;
+  <LineSymbolizer
+   stroke="#444444"
+   stroke-width=".1"
+   stroke-linejoin="round"
+  />
+ </Rule>
+ <Rule>
+  <Filter>[visible] = 'no-h'</Filter>
+  &maxscale_zoom16;
+  <LineSymbolizer
+   stroke="#444444"
+   stroke-width=".2"
+   stroke-linejoin="round"
+  />
+ </Rule>
+ <Rule>
+  <Filter>([visible] = 'no-v' and [diff] &gt; 0.3) or [visible] = 'border-no-v' or [visible] = 'no-h-d'</Filter>
+  &maxscale_zoom16;
+  <LineSymbolizer
+   stroke="#444444"
+   stroke-width=".3"
+   stroke-linejoin="round"
+   stroke-dasharray="3,3"
+  />
+ </Rule>
+
+ <!--Rule>
+  &maxscale_zoom16;
+  <Filter>[visible]='yes-v' or [visible]='no-v'</Filter>
+  <TextSymbolizer name="diff" face-name="DejaVu Sans Book" size="10" fill="black" halo-fill= "white" halo-radius="1" placement="point" allow-overlap="false"/>
+ </Rule-->
+
+ <!-- Planes -->
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[visible] = 'yes'</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.3"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 0.0 and [azim] &lt; 18.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.35"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 18.0 and [azim] &lt; 36.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.345105651629"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 36.0 and [azim] &lt; 54.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.33090169943"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 54.0 and [azim] &lt; 72.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.30877852523"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 72.0 and [azim] &lt; 90.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.2809016994"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 90.0 and [azim] &lt; 108.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.25"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 108.0 and [azim] &lt; 126.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.21909830056"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 126.0 and [azim] &lt; 144.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.191221474771"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 144.0 and [azim] &lt; 162.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.169098300562"
+  />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 162.0 and [azim] &lt; 180.0</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity="0.15489434837"
+  />
+ </Rule>
+
+ <!-- Flat buildings? -->
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 2 and [visible] = 'yes-h'</Filter>
+  <PolygonSymbolizer
+   fill="silver"
+   fill-opacity=".4"
+  />
+ </Rule>
+
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[hv] = 3 and [visible] = 'yes'</Filter>
+  <PolygonSymbolizer
+   fill-opacity=".4"
+  />
+  <LineSymbolizer
+   stroke="#444444"
+   stroke-width=".4"
+   stroke-linejoin="round"
+  />
+ </Rule>
+</Style>
+
+<Layer>
+ <StyleName>komzpa-buildings</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">
+(
+(
+with buildings as (select  way,
+                 (CASE WHEN z."height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."height" AS FLOAT) ELSE
+                      CASE WHEN z."building:levels" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:levels" AS FLOAT) * 3 ELSE 6 END END) * &tilt; as hei,
+                  (CASE WHEN z."min_height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."min_height" AS FLOAT) ELSE
+                      CASE WHEN z."building:min_level" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:min_level" AS FLOAT) * 3 ELSE 0 END END) * &tilt; as minhei
+
+                        from 
+(select way, "building:levels", "height", "building:min_level", "min_height" from
+
+planet_osm_polygon  where (building is not NULL or "man_made" in ('chimney', 'tower') or (area is not NULL and barrier in ('fence','wall') ) ) and (building is not NULL or height is not NULL or "building:levels" is not NULL) and way &amp;&amp; expand(!bbox!,500)
+
+union
+
+select ST_Buffer(way,7), "building:levels", "height", "building:min_level", "min_height" from
+
+planet_osm_point  where (building is not NULL or "man_made" in ('chimney', 'tower') ) and (height is not NULL or "building:levels" is not NULL) and way &amp;&amp; expand(!bbox!,500)
+
+union 
+
+
+select ST_Buffer(way,0.1), "building:levels", case when "height" is not NULL then height else '1.5' end as height, "building:min_level", "min_height" from
+
+planet_osm_line  where (building is not NULL or "man_made" in ('chimney', 'tower')  or barrier in ('fence','wall')) and way &amp;&amp; expand(!bbox!,500)
+
+union
+select ST_Buffer(ST_Boundary(way),0.1), "building:levels", case when "height" is not NULL then height else '1.5' end as height, "building:min_level", "min_height" from
+
+planet_osm_polygon where ( barrier in ('fence','wall')) and "area" is NULL and way &amp;&amp; expand(!bbox!,500)
+
+) z
+)  
+                     -- Walls fill
+select (ST_ConvexHull(ST_Collect(ST_MakeLine(ST_Translate(p2,0,minhei),ST_Translate(p1,0,minhei)), ST_MakeLine(ST_Translate(p2,0,hei),ST_Translate(p1,0,hei))))) as way, LEAST(ST_Y(p1),ST_Y(p2)) as lea, 1 as hv,
+case when ST_X(p1)&gt;ST_X(p2) then 'yes' else 'no' end as visible,
+ST_Azimuth(p2,p1)/3.14159265358*180 as azim, minhei, hei, 'area' as fill, 1 as diff
+
+from (
+   select (ST_PointN(way,generate_series(1, ST_NPoints(way)-1))) as p1, 
+          (ST_PointN(way,generate_series(2, ST_NPoints(way)))  ) as p2, hei*2 as hei, minhei*2 as minhei
+            from (select (ST_Dump(ST_Boundary(ST_ForceRHR(ST_SimplifyPreserveTopology(way,.4))))).geom as way,minhei, hei from buildings) p) a 
+
+                      -- Roofs
+union
+
+select ST_Translate(way,0,hei) as way, ST_YMin(way) as lea, 2 as hv, 'yes-h' as visible, -500 as azim, minhei, hei, 'area' as fill, 1 as diff
+                from (select case when o.way IS NOT NULL then ST_Difference(n.way,o.way) else n.way end as way, n.minhei *2 as minhei, n.hei*2 as hei  
+from buildings n LEFT OUTER JOIN (select ST_Union(way) as way, minhei from buildings group by minhei) o on (n.hei = o.minhei)  ) p
+
+                      -- Walls lines
+union
+
+select (ST_MakeLine(ST_Translate(p2, 0, minhei), ST_Translate(p2, 0, hei))) as way, LEAST(ST_Y(p1), ST_Y(p2)) as lea, 1 as hv,
+case when (ST_X(p3) - ST_X(p2)) * (ST_X(p2) - ST_X(p1)) &lt; 0 then case when (ST_X(p2) - ST_X(p1)) * (ST_Y(p3) - ST_Y(p2)) - (ST_X(p3) - ST_X(p2)) * (ST_Y(p2) - ST_Y(p1)) &lt; 0 then 'border-yes-v' else 'border-no-v' end when ST_X(p1) &gt; ST_X(p2) then 'yes-v' else 'no-v' end as visible, 
+ST_Azimuth(p2, p1) / 3.14159265358 * 180 as azim, minhei, hei, 'line' as fill, 1 - abs(abs(ST_Azimuth(p3, p2) - ST_Azimuth(p2, p1)) / 3.14159265358 - 1) as diff
+
+
+from (
+   select (ST_PointN(way, generate_series(1, ST_NPoints(way) - 1))) as p1,
+          (ST_PointN(way, generate_series(2, ST_NPoints(way)))) as p2,
+          (ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1)) as p3, hei * 2 as hei, minhei * 2 as minhei
+            from (select (ST_Dump(ST_Boundary(ST_ForceRHR(ST_SimplifyPreserveTopology(way, .4))))).geom as way, minhei, hei from buildings) p) a
+
+UNION
+
+SELECT ST_Translate(way, 0, hei) AS way, ST_YMin(way) AS lea, 2 AS hv,
+	'no-h' AS visible, -500 AS azim, hei AS minhei, hei,
+	'line' AS fill, 1 AS diff
+FROM
+	(SELECT CASE
+		WHEN o.way IS NOT NULL THEN ST_Difference(n.way, o.way)
+		ELSE n.way END AS way, n.hei * 2 AS hei
+	FROM (SELECT ST_Buffer(ST_Collect(way), 0) AS way, hei FROM buildings GROUP BY hei) n
+		LEFT OUTER JOIN (SELECT ST_Buffer(ST_Collect(way), 0) AS way,
+			minhei FROM buildings GROUP BY minhei) o
+		ON (n.hei = o.minhei)) p
+  
+                      -- Bottom lines
+UNION
+
+--SELECT way, ST_YMin(way) AS lea, 2 AS hv, 'yes-h' AS visible, -500 AS azim,
+--	0 AS minhei, 0 AS hei, 'line' AS fill, 1 AS diff
+--FROM (SELECT n.way AS way FROM buildings n WHERE n.minhei = 0) p
+SELECT ST_Translate(ST_MakeLine(p1, p2), 0, minhei) AS way,
+	LEAST(ST_Y(p1), ST_Y(p2)) as lea, 2 AS hv, CASE
+		WHEN ST_X(p2) &gt; ST_X(p1) THEN 'no-h-d'
+		ELSE 'no-h' END AS visible, -500 AS azim,
+	minhei, minhei AS hei, 'line' AS fill, 1 AS diff
+FROM
+	(SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) as p1,
+		ST_PointN(way, generate_series(2, ST_NPoints(way))) as p2,
+		minhei
+	FROM
+		(SELECT (ST_Dump(ST_Boundary(ForceRHR(CASE
+				WHEN o.way IS NOT NULL THEN
+					ST_Difference(n.way, o.way)
+				ELSE n.way END)))).geom AS way,
+			n.minhei * 2 AS minhei
+		FROM (SELECT ST_Buffer(ST_Collect(way), 0) AS way, minhei
+				FROM buildings GROUP BY minhei) n
+			LEFT OUTER JOIN (SELECT ST_Buffer(ST_Collect(way), 0) AS way, hei
+				FROM buildings GROUP BY hei) o
+			ON (n.minhei = o.hei) WHERE o.way IS NULL OR NOT ST_IsEmpty(ST_Difference(n.way, o.way))) p) r
+ 
+) order by minhei, lea DESC, fill, hv, hei
+) as text
+  </Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+  <Parameter name="geometry_table">planet_osm_line</Parameter>
+ </Datasource>
+</Layer>

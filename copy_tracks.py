@@ -31,13 +31,13 @@ for opt, val in opts:
         assert False, "unhandled option"
 
 # Create connection to DB server.
-connection = connect("dbname='%s' host='localhost' port='5432' user='postgres' password='geo' " % (db_name));
+connection = connect("dbname='%s' user='osm' " % (db_name));
 cursor = connection.cursor()
 relation_cursor = connection.cursor()
 
 # Clean previous tracks.
 cursor.execute("BEGIN")
-cursor.execute("DROP TABLE IF EXISTS planet_osm_track")
+cursor.execute("DROP TABLE IF EXISTS planet_osm_track CASCADE")
 
 # Create temporary table that selects only relevant rows and columns and
 # transforms Slovak and German style tagging to Czech style tagging.
@@ -185,6 +185,7 @@ cursor.execute("CREATE TABLE planet_osm_track AS \
     kct_yellow, kct_red, kct_green, kct_blue, kct_black \
   FROM tmp_planet_osm_track \
   WHERE osm_id > 0")
+#cursor.execute("CREATE INDEX planet_osm_track_pkey ON planet_osm_track ( osm_id )")
 
 # Select parts IDs of all track relations.
 relation_cursor.execute("SELECT t.osm_id, r.parts \

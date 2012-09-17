@@ -1,0 +1,1065 @@
+<FontSet name="line-fonts">
+ <Font face-name="Droid Sans Regular" />
+ <Font face-name="Droid Sans Japanese" />
+ <Font face-name="Droid Sans Fallback" />
+ <Font face-name="DejaVu Sans Book" />
+ <Font face-name="unifont Medium" />
+</FontSet>
+<FontSet name="addr-fonts">
+ <Font face-name="Droid Sans Bold" />
+ <Font face-name="DejaVu Sans Bold" />
+ <Font face-name="unifont Medium" />
+</FontSet>
+<FontSet name="area-fonts">
+ <Font face-name="Droid Sans Italic" />
+ <Font face-name="DejaVu Sans Oblique" />
+ <Font face-name="unifont Medium" />
+</FontSet>
+
+<Style name="tunnels-casing">
+ <Rule>
+  &maxscale_zoom5;
+  <Filter>[highway] = 'primary' or [highway] = 'primary_link' or
+          [highway] = 'trunk' or [highway] = 'trunk_link' or
+          [highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#ee5555</CssParameter>
+   <CssParameter name="stroke-width">15</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-dasharray">8,4</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom8;
+  <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#55ee55</CssParameter>
+   <CssParameter name="stroke-width">13</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-dasharray">8,4</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom11;
+  <Filter>[highway] = 'tertiary' or [highway] = 'tertiary_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#eeee55</CssParameter>
+   <CssParameter name="stroke-width">11</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-dasharray">8,4</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'residential' or [highway] = 'unclassified' or
+          [highway] = 'minor' or [highway] = 'road'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#ffffff</CssParameter>
+   <CssParameter name="stroke-width">8</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-dasharray">8,4</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[highway] = 'service' or [highway] = 'living_street'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#ffffff</CssParameter>
+   <CssParameter name="stroke-width">6</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-dasharray">8,4</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[highway] = 'pedestrian'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#cccccc</CssParameter>
+   <CssParameter name="stroke-width">8</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-dasharray">4,4</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'construction'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#ffffff</CssParameter>
+   <CssParameter name="stroke-width">9</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-dasharray">4,8</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[railway] &gt; ''</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#222222</CssParameter>
+   <CssParameter name="stroke-offset">2.5</CssParameter>
+   <CssParameter name="stroke-width">.3</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-dasharray">8,8</CssParameter>
+  </LineSymbolizer>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#222222</CssParameter>
+   <CssParameter name="stroke-offset">-2.5</CssParameter>
+   <CssParameter name="stroke-width">.3</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-dasharray">8,8</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+</Style>
+
+<Style name="tunnels-fill">
+ <Rule>
+  <Filter>[highway] != 'construction' and [fill] = 'area'</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">&bgcol;</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom5;
+  <Filter>[highway] = 'primary' or [highway] = 'primary_link' or
+          [highway] = 'trunk' or [highway] = 'trunk_link' or
+          [highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">&bgcol;</CssParameter>
+   <CssParameter name="stroke-width">12</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom8;
+  <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">&bgcol;</CssParameter>
+   <CssParameter name="stroke-width">10</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom11;
+  <Filter>[highway] = 'tertiary' or [highway] = 'tertiary_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">&bgcol;</CssParameter>
+   <CssParameter name="stroke-width">8</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'pedestrian'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">&bgcol;</CssParameter>
+   <CssParameter name="stroke-width">6</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[highway] = 'service' and [highway] = 'living_street'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">&bgcol;</CssParameter>
+   <CssParameter name="stroke-width">4</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'construction'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">&bgcol;</CssParameter>
+   <CssParameter name="stroke-width">4</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[railway] &gt; ''</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#222222</CssParameter>
+   <CssParameter name="stroke-offset">2.5</CssParameter>
+   <CssParameter name="stroke-width">.5</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-dasharray">8,8</CssParameter>
+  </LineSymbolizer>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#222222</CssParameter>
+   <CssParameter name="stroke-offset">-2.5</CssParameter>
+   <CssParameter name="stroke-width">.5</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-dasharray">8,8</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+</Style>
+
+<Style name="ways-casing">
+ <Rule>
+  &maxscale_zoom5;
+  <Filter>[highway] = 'primary' or [highway] = 'primary_link' or
+          [highway] = 'trunk' or [highway] = 'trunk_link' or
+          [highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#ee5555</CssParameter>
+   <CssParameter name="stroke-width">15</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom8;
+  <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#55ee55</CssParameter>
+   <CssParameter name="stroke-width">13</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom11;
+  <Filter>[highway] = 'tertiary' or [highway] = 'tertiary_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#eeee55</CssParameter>
+   <CssParameter name="stroke-width">11</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'steps' or [highway] = 'stairs'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#f07777</CssParameter>
+   <CssParameter name="stroke-width">6</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-linejoin">miter</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+</Style>
+<Style name="ways-fill">
+ <Rule>
+  &maxscale_zoom5;
+  <Filter>[highway] = 'primary' or [highway] = 'primary_link' or
+          [highway] = 'trunk' or [highway] = 'trunk_link' or
+          [highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#ffffff</CssParameter>
+   <CssParameter name="stroke-width">13</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom8;
+  <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#ffffff</CssParameter>
+   <CssParameter name="stroke-width">11</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom11;
+  <Filter>[highway] = 'tertiary' or [highway] = 'tertiary_link'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#ffffff</CssParameter>
+   <CssParameter name="stroke-width">9</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom11;
+  <Filter>[fill] = 'area' and (
+           [highway] = 'primary' or [highway] = 'primary_link' or
+           [highway] = 'trunk' or [highway] = 'trunk_link' or
+           [highway] = 'motorway' or [highway] = 'motorway_link' or
+           [highway] = 'secondary' or [highway] = 'secondary_link' or
+           [highway] = 'tertiary' or [highway] = 'tertiary_link')</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">#ffffff</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'residential' or [highway] = 'unclassified' or
+          [highway] = 'minor' or [highway] = 'road'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#f0f0f0</CssParameter>
+   <CssParameter name="stroke-width">8</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[highway] = 'service' or [highway] = 'living_street'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#f0f0f0</CssParameter>
+   <CssParameter name="stroke-width">6</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[fill] = 'area' and (
+           [highway] = 'residential' or [highway] = 'unclassified' or
+           [highway] = 'minor' or [highway] = 'road' or
+           [highway] = 'service' or [highway] = 'living_street')</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">#f0f0f0</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'pedestrian'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#cccccc</CssParameter>
+   <CssParameter name="stroke-width">7</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[highway] = 'footway'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#eeaaaa</CssParameter>
+   <CssParameter name="stroke-width">2</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[highway] = 'cycleway'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#aaaaee</CssParameter>
+   <CssParameter name="stroke-width">2</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[fill] = 'area' and ([highway] = 'pedestrian' or
+           [highway] = 'footway' or [highway] = 'cycleway')</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">#cccccc</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'construction'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#f0f0f0</CssParameter>
+   <CssParameter name="stroke-width">9</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-dasharray">8,8</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'steps' or [highway] = 'stairs'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#cccccc</CssParameter>
+   <CssParameter name="stroke-width">5</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+   <CssParameter name="stroke-linejoin">miter</CssParameter>
+   <CssParameter name="stroke-dasharray">.5,1</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+</Style>
+
+<Style name="railways">
+ <Rule>
+  &maxscale_zoom11;
+  <Filter>[railway] != 'tram'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#555555</CssParameter>
+   <CssParameter name="stroke-width">7</CssParameter>
+   <CssParameter name="stroke-opacity">.1</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-dasharray">3,2</CssParameter>
+  </LineSymbolizer>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#222222</CssParameter>
+   <CssParameter name="stroke-offset">3</CssParameter>
+   <CssParameter name="stroke-width">.5</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#222222</CssParameter>
+   <CssParameter name="stroke-offset">-3</CssParameter>
+   <CssParameter name="stroke-width">.5</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[railway] = 'tram'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#222222</CssParameter>
+   <CssParameter name="stroke-offset">2.5</CssParameter>
+   <CssParameter name="stroke-width">.4</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#222222</CssParameter>
+   <CssParameter name="stroke-offset">-2.5</CssParameter>
+   <CssParameter name="stroke-width">.4</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[bridge] = 'yeah'</Filter>
+  <LineSymbolizer>
+   <CssParameter name="stroke">&bgcol;</CssParameter>
+   <CssParameter name="stroke-width">4</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-linecap">butt</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+</Style>
+
+<Style name="addresses">
+ <Rule>
+  &maxscale_zoom17;
+  <TextSymbolizer name="addr:housenumber" fontset-name="addr-fonts"
+   size="10" fill="black" halo-fill= "white" halo-radius="1"
+   placement="point" allow-overlap="false" />
+ </Rule>
+</Style>
+
+<Style name="way-names">
+ <Rule>
+  &maxscale_zoom10;
+  <Filter>[highway] = 'primary' or [highway] = 'primary_link' or
+          [highway] = 'trunk' or [highway] = 'trunk_link' or
+          [highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+  <TextSymbolizer name="name" fontset-name="line-fonts"
+   size="18" fill="black" halo-fill= "white" halo-radius="1"
+   placement="line" allow-overlap="false" />
+ </Rule>
+ <Rule>
+  &maxscale_zoom12;
+  <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
+  <TextSymbolizer name="name" fontset-name="line-fonts"
+   size="15" fill="black" halo-fill= "white" halo-radius="1"
+   placement="line" allow-overlap="false" />
+ </Rule>
+ <Rule>
+  &maxscale_zoom14;
+  <Filter>[highway] = 'tertiary' or [highway] = 'tertiary_link'</Filter>
+  <TextSymbolizer name="name" fontset-name="line-fonts"
+   size="12" fill="black" halo-fill= "white" halo-radius="1"
+   placement="line" allow-overlap="false" />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[highway] != 'primary' and [highway] != 'primary_link' and
+          [highway] != 'trunk' and [highway] != 'trunk_link' and
+          [highway] != 'motandway' and [highway] != 'motandway_link' and
+          [highway] != 'secondary' and [highway] != 'secondary_link' and
+          [highway] != 'tertiary' and [highway] != 'tertiary_link' and
+          [waterway] = ''</Filter>
+  <TextSymbolizer name="name" fontset-name="line-fonts"
+   size="10" fill="black" halo-fill= "white" halo-radius="1"
+   placement="line" allow-overlap="false" />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[waterway] = 'river'</Filter>
+  <TextSymbolizer name="name" fontset-name="line-fonts"
+   size="16" fill="blue" halo-fill= "white" halo-radius="2"
+   placement="line" allow-overlap="false" />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[waterway] = 'stream' or [waterway] = 'canal'</Filter>
+  <TextSymbolizer name="name" fontset-name="line-fonts"
+   size="14" fill="blue" halo-fill= "white" halo-radius="2"
+   placement="line" allow-overlap="false" />
+ </Rule>
+ <Rule>
+  &maxscale_zoom16;
+  <Filter>[waterway] != 'stream' and [waterway] != 'canal' and
+          [waterway] != 'river' and [waterway] != ''</Filter>
+  <TextSymbolizer name="name" fontset-name="line-fonts"
+   size="12" fill="blue" halo-fill= "white" halo-radius="2"
+   placement="line" allow-overlap="false" />
+ </Rule>
+</Style>
+
+<Style name="area-names">
+    <Rule>
+      <Filter>[way_area] &gt;= 400000</Filter>
+      &maxscale_zoom13;
+      &minscale_zoom14;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="12" fill="#000033" halo-radius="1" />
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &gt;= 400000</Filter>
+      &maxscale_zoom14;
+      &minscale_zoom15;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="14" fill="#000033" halo-radius="1" />
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &gt;= 400000</Filter>
+      &maxscale_zoom15;
+      &minscale_zoom16;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="16" fill="#000033" halo-radius="1" />
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &gt;= 400000</Filter>
+      &maxscale_zoom16;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="18" fill="#000033" halo-radius="1" />
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &gt;= 150000 and [way_area] &lt; 400000</Filter>
+      &maxscale_zoom14;
+      &minscale_zoom15;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="12" fill="#000033" halo-radius="1" />
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &gt;= 150000 and [way_area] &lt; 400000</Filter>
+      &maxscale_zoom15;
+      &maxscale_zoom16;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="14" fill="#000033" halo-radius="1" />
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &gt;= 150000 and [way_area] &lt; 400000</Filter>
+      &maxscale_zoom16;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="16" fill="#000033" halo-radius="1" />
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &gt;= 80000 and [way_area] &lt; 150000</Filter>
+      &maxscale_zoom15;
+      &minscale_zoom16;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="12" fill="#000033" halo-radius="1" />
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &gt;= 80000 and [way_area] &lt; 150000</Filter>
+      &maxscale_zoom16;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="14" fill="#000033" halo-radius="1" />
+    </Rule>a
+    <Rule>
+      <Filter>[way_area] &gt;= 20000 and [way_area] &lt; 80000</Filter>
+      &maxscale_zoom16;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="12" fill="#000033" halo-radius="1" wrap-width="30"/>
+    </Rule>
+    <Rule>
+      <Filter>[way_area] &lt; 20000</Filter>
+      &maxscale_zoom17;
+      <TextSymbolizer name="name" fontset-name="area-fonts" size="10" fill="#000033" halo-radius="1" wrap-width="20"/>
+    </Rule>
+</Style>
+
+<Layer>
+ <StyleName>tunnels-casing</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, railway, construction, 'line' as fill
+from planet_osm_line
+where	(highway is not NULL or railway is not NULL) and
+	((tunnel is not NULL and tunnel != 'no') or
+	 (railway = 'subway'))
+union
+select	way, highway, railway, construction, 'area' as fill
+from planet_osm_polygon
+where	highway is not NULL and tunnel is not NULL and tunnel != 'no'
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>tunnels-fill</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, railway, 'line' as fill
+from planet_osm_line
+where	(highway is not NULL or railway is not NULL) and
+	((tunnel is not NULL and tunnel != 'no') or
+	 (railway = 'subway'))
+union
+select	way, highway, railway, 'area' as fill
+from planet_osm_polygon
+where	highway is not NULL and tunnel is not NULL and tunnel != 'no'
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>way-names</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, waterway, name
+from planet_osm_line
+where	((tunnel is not NULL and tunnel != 'no') or
+	 (railway = 'subway')) and
+	name is not NULL
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>ways-casing</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, construction, 'line' as fill, 'no' as bridge
+from planet_osm_line
+where	highway is not NULL and
+	(tunnel is NULL or tunnel = 'no') and
+	(bridge is NULL or bridge = 'no')
+union
+select	way, highway, construction, 'area' as fill, 'no' as bridge
+from planet_osm_polygon
+where	highway is not NULL and
+	(tunnel is NULL or tunnel = 'no') and
+	(bridge is NULL or bridge = 'no')
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>ways-fill</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, construction, 'line' as fill, 'no' as bridge
+from planet_osm_line
+where	highway is not NULL and
+	(tunnel is NULL or tunnel = 'no') and
+	(bridge is NULL or bridge = 'no')
+union
+select	way, highway, construction, 'area' as fill, 'no' as bridge
+from planet_osm_polygon
+where	highway is not NULL and
+	(tunnel is NULL or tunnel = 'no') and
+	(bridge is NULL or bridge = 'no')
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>railways</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, railway, 'no' as bridge
+from planet_osm_line
+where	railway is not NULL and railway != 'platform' and
+	(tunnel is NULL or tunnel = 'no') and
+	(bridge is NULL or bridge = 'no') and
+	railway != 'subway'
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>way-names</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, waterway, name
+from planet_osm_line
+where	(tunnel is NULL or tunnel = 'no') and
+	(bridge is NULL or bridge = 'no') and
+	railway != 'subway' and
+	name is not NULL
+union
+select	way, highway, waterway, name
+from planet_osm_point
+where	name is not NULL and place is NULL
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>ways-casing</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, construction, 'line' as fill, 'yeah' as bridge
+from planet_osm_line
+where	highway is not NULL and
+	bridge is not NULL and bridge != 'no'
+union
+select	way, highway, construction, 'area' as fill, 'yeah' as bridge
+from planet_osm_polygon
+where	highway is not NULL and
+	bridge is not NULL and bridge != 'no'
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>ways-fill</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, construction, 'line' as fill, 'yeah' as bridge
+from planet_osm_line
+where	highway is not NULL and
+	bridge is not NULL and bridge != 'no'
+union
+select	way, highway, construction, 'area' as fill, 'yeah' as bridge
+from planet_osm_polygon
+where	highway is not NULL and
+	bridge is not NULL and bridge != 'no'
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>railways</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, railway, 'yeah' as bridge
+from planet_osm_line
+where	railway is not NULL and railway != 'platform' and
+	bridge is not NULL and bridge != 'no'
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>way-names</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, highway, waterway, name
+from planet_osm_line
+where	bridge is not NULL and bridge != 'no' and
+	name is not NULL
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+
+<Style name="komzpa-buildings">
+ <!-- Edges -->
+ <Rule>
+  <Filter>([visible] = 'yes-v' and [diff] &gt; 0.4 and [diff] &lt;= 0.7) or [visible] = 'yes-h' or [visible] = 'border-yes-v'</Filter>
+  &maxscale_zoom15;
+  <LineSymbolizer>
+   <CssParameter name="stroke">#444444</CssParameter>
+   <CssParameter name="stroke-width">.3</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  <Filter>[visible] = 'yes-v' and [diff] &gt; 0.7</Filter>
+  &maxscale_zoom15;
+  <LineSymbolizer>
+   <CssParameter name="stroke">#444444</CssParameter>
+   <CssParameter name="stroke-width">.5</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  <Filter>[visible] = 'yes-v' and [diff] &gt; 0.3 and [diff] &lt;= 0.45</Filter>
+  &maxscale_zoom15;
+  <LineSymbolizer>
+   <CssParameter name="stroke">#444444</CssParameter>
+   <CssParameter name="stroke-width">.2</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  <Filter>[visible] = 'yes-v' and [diff] &gt; 0.15 and [diff] &lt;= 0.3</Filter>
+  &maxscale_zoom15;
+  <LineSymbolizer>
+   <CssParameter name="stroke">#444444</CssParameter>
+   <CssParameter name="stroke-width">.1</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  <Filter>[visible] = 'no-h'</Filter>
+  &maxscale_zoom15;
+  <LineSymbolizer>
+   <CssParameter name="stroke">#444444</CssParameter>
+   <CssParameter name="stroke-width">.2</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+ <Rule>
+  <Filter>([visible] = 'no-v' and [diff] &gt; 0.3) or [visible] = 'border-no-v'</Filter>
+  &maxscale_zoom15;
+  <LineSymbolizer>
+   <CssParameter name="stroke">#444444</CssParameter>
+   <CssParameter name="stroke-width">.3</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+   <CssParameter name="stroke-dasharray">3,3</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+
+ <!--Rule>
+  &maxscale_zoom15;
+  <Filter>[visible]='yes-v' or [visible]='no-v'</Filter>
+  <TextSymbolizer name="diff" face-name="DejaVu Sans Book" size="10" fill="black" halo-fill= "white" halo-radius="1" placement="point" allow-overlap="false"/>
+ </Rule-->
+
+ <!-- Planes -->
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[visible] = 'yes'</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.3</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 0.0 and [azim] &lt; 18.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.35</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 18.0 and [azim] &lt; 36.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.345105651629</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 36.0 and [azim] &lt; 54.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.33090169943</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 54.0 and [azim] &lt; 72.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.30877852523</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 72.0 and [azim] &lt; 90.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.2809016994</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 90.0 and [azim] &lt; 108.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.25</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 108.0 and [azim] &lt; 126.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.21909830056</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 126.0 and [azim] &lt; 144.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.191221474771</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 144.0 and [azim] &lt; 162.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.169098300562</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 162.0 and [azim] &lt; 180.0</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">0.15489434837</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+
+ <!-- Flat buildings? -->
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 2 and [visible] = 'yes-h'</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill">silver</CssParameter>
+   <CssParameter name="fill-opacity">.4</CssParameter>
+  </PolygonSymbolizer>
+ </Rule>
+
+ <Rule>
+  &maxscale_zoom15;
+  <Filter>[hv] = 3 and [visible] = 'yes'</Filter>
+  <PolygonSymbolizer>
+   <CssParameter name="fill-opacity">.4</CssParameter>
+  </PolygonSymbolizer>
+  <LineSymbolizer>
+   <CssParameter name="stroke">#444444</CssParameter>
+   <CssParameter name="stroke-width">.4</CssParameter>
+   <CssParameter name="stroke-linejoin">round</CssParameter>
+  </LineSymbolizer>
+ </Rule>
+</Style>
+
+<Layer>
+ <StyleName>komzpa-buildings</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">
+(
+select	way, 0 as lea, 3 as hv, 'yes' as visible, -500 as azim, 0 as minhei, 0 as hei, 'area' as fill, 1 as diff
+from planet_osm_polygon
+where	building is not NULL and
+	building not in ( 'garage', 'garages', 'service', 'transportation' ) and
+	"building:levels" is NULL and height is NULL
+union
+(
+with buildings as (select  way,
+                 (CASE WHEN z."height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."height" AS FLOAT) ELSE
+                      CASE WHEN z."building:levels" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:levels" AS FLOAT) * 3 ELSE 0 END END) * &tilt; as hei,
+                  (CASE WHEN z."min_height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."min_height" AS FLOAT) ELSE
+                      CASE WHEN z."building:min_level" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:min_level" AS FLOAT) * 3 ELSE 0 END END) * &tilt; as minhei
+
+                        from 
+(select way, "building:levels", "height", "building:min_level", "min_height" from
+
+planet_osm_polygon  where (building is not NULL or "man_made" in ('chimney', 'tower') or (area is not NULL and barrier in ('fence','wall') ) ) and (height is not NULL or "building:levels" is not NULL) and way &amp;&amp; expand(!bbox!,500)
+
+union
+
+select ST_Buffer(way,10), "building:levels", "height", "building:min_level", "min_height" from
+
+planet_osm_point  where (building is not NULL or "man_made" in ('chimney', 'tower') ) and (height is not NULL or "building:levels" is not NULL) and way &amp;&amp; expand(!bbox!,500)
+
+union 
+
+
+select ST_Buffer(way,0.1), "building:levels", case when "height" is not NULL then height else '1.5' end as height, "building:min_level", "min_height" from
+
+planet_osm_line  where (building is not NULL or "man_made" in ('chimney', 'tower')  or barrier in ('fence','wall')) and way &amp;&amp; expand(!bbox!,500)
+
+union
+select ST_Buffer(ST_Boundary(way),0.1), "building:levels", case when "height" is not NULL then height else '1.5' end as height, "building:min_level", "min_height" from
+
+planet_osm_polygon where ( barrier in ('fence','wall')) and "area" is NULL and way &amp;&amp; expand(!bbox!,500)
+
+) z
+
+union
+
+select b.way, 3*1 * &tilt; as hei, 0 as minhei from planet_osm_polygon b join planet_osm_polygon a on ( b.building is not NULL and b."building:levels" is  NULL and b.height is NULL and ST_DWithin(b.way, a.way, 0) and  a.landuse='garages' and b.way &amp;&amp; !bbox!)
+
+union
+
+select b.way, 3*1 * &tilt; as hei, 0 as minhei from planet_osm_polygon b WHERE b.building in ( 'garage', 'garages', 'service', 'transportation' ) and b."building:levels" is  NULL and b.height is NULL
+
+)  
+                     -- Walls fill
+select (ST_ConvexHull(ST_Collect(ST_MakeLine(ST_Translate(p2,0,minhei),ST_Translate(p1,0,minhei)), ST_MakeLine(ST_Translate(p2,0,hei),ST_Translate(p1,0,hei))))) as way, LEAST(ST_Y(p1),ST_Y(p2)) as lea, 1 as hv,
+case when ST_X(p1)&gt;ST_X(p2) then 'yes' else 'no' end as visible,
+ST_Azimuth(p2,p1)/3.14159265358*180 as azim, minhei, hei, 'area' as fill, 1 as diff
+
+from (
+   select (ST_PointN(way,generate_series(1, ST_NPoints(way)-1))) as p1, 
+          (ST_PointN(way,generate_series(2, ST_NPoints(way)))  ) as p2, hei*2 as hei, minhei*2 as minhei
+            from (select (ST_Dump(ST_Boundary(ST_ForceRHR(ST_SimplifyPreserveTopology(way,.4))))).geom as way,minhei, hei from buildings) p) a 
+
+                      -- Roofs
+union select ST_Translate(way,0,hei) as way, ST_YMin(way) as lea, 2 as hv, 'yes-h' as visible, -500 as azim, minhei, hei, 'area' as fill, 1 as diff
+                from (select case when o.way IS NOT NULL then ST_Difference(n.way,o.way) else n.way end as way, n.minhei *2 as minhei, n.hei*2 as hei  
+from buildings n LEFT OUTER JOIN (select ST_Union(way) as way, minhei from buildings group by minhei) o on (n.hei = o.minhei)  ) p
+
+
+                      -- Walls lines
+union
+
+select (ST_MakeLine(ST_Translate(p2, 0, minhei), ST_Translate(p2, 0, hei))) as way, LEAST(ST_Y(p1), ST_Y(p2)) as lea, 1 as hv,
+case when (ST_X(p3) - ST_X(p2)) * (ST_X(p2) - ST_X(p1)) &lt; 0 then case when (ST_X(p2) - ST_X(p1)) * (ST_Y(p3) - ST_Y(p2)) - (ST_X(p3) - ST_X(p2)) * (ST_Y(p2) - ST_Y(p1)) &lt; 0 then 'border-yes-v' else 'border-no-v' end when ST_X(p1) &gt; ST_X(p2) then 'yes-v' else 'no-v' end as visible, 
+ST_Azimuth(p2, p1) / 3.14159265358 * 180 as azim, minhei, hei, 'line' as fill, 1 - abs(abs(ST_Azimuth(p3, p2) - ST_Azimuth(p2, p1)) / 3.14159265358 - 1) as diff
+
+
+from (
+   select (ST_PointN(way, generate_series(1, ST_NPoints(way) - 1))) as p1,
+          (ST_PointN(way, generate_series(2, ST_NPoints(way)))) as p2,
+          (ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1)) as p3, hei * 2 as hei, minhei * 2 as minhei
+            from (select (ST_Dump(ST_Boundary(ST_ForceRHR(ST_SimplifyPreserveTopology(way, .4))))).geom as way, minhei, hei from buildings) p) a
+
+                      -- Roofs lines
+union select ST_Translate(way,0,hei) as way, ST_YMin(way) as lea, 2 as hv, 'no-h' as visible, -500 as azim, 0 as minhei, hei, 'line' as fill, 1 as diff
+                from (select case when o.way IS NOT NULL then ST_SymDifference(n.way,o.way) else n.way end as way, n.hei*2 as hei
+from (select ST_Union(way) as way, hei from buildings group by  hei) n LEFT OUTER JOIN (select ST_Union(way) as way, minhei from buildings group by minhei) o on (n.hei = o.minhei)  ) p
+  
+
+                      -- Bottom lines
+union
+select way, ST_YMin(way) as lea, 2 as hv, 'no-h' as visible, -500 as azim, minhei, hei, 'line' as fill, 1 as diff
+                from (select  n.way as way, n.minhei * 2 as minhei, n.hei * 2 as hei
+from buildings n where n.minhei=0 ) p
+
+
+order by minhei, lea DESC, fill, hv, hei
+)) as text
+  </Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+  <Parameter name="geometry_table">planet_osm_point</Parameter>
+ </Datasource>
+</Layer>
+
+
+<Layer>
+ <StyleName>addresses</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, "addr:housenumber"
+from planet_osm_point
+where	"addr:housenumber" is not NULL and name is NULL
+union
+select	way, "addr:housenumber"
+from planet_osm_line
+where	"addr:housenumber" is not NULL and name is NULL
+union
+select	way, "addr:housenumber"
+from planet_osm_polygon
+where	"addr:housenumber" is not NULL and name is NULL
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+<Layer>
+ <StyleName>area-names</StyleName>
+ <Datasource>
+  &datasource-settings;
+  <Parameter name="table">(
+select	way, way_area, leisure, name
+from planet_osm_polygon
+where	name is not NULL
+) as ways</Parameter>
+  <Parameter name="geometry_field">way</Parameter>
+ </Datasource>
+</Layer>
+

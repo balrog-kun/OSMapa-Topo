@@ -1,0 +1,130 @@
+  <Style name="minor-rivers">
+    <Rule name="minor-rivers 5m">
+      <MinScaleDenominator>100000</MinScaleDenominator>
+      <MaxScaleDenominator>5000000</MaxScaleDenominator>
+      <LineSymbolizer stroke="#1569C7" stroke-width="0.45"/>
+    </Rule>
+    <Rule name="minor-rivers 10m">
+      <MinScaleDenominator>5000000</MinScaleDenominator>
+      <MaxScaleDenominator>10000000</MaxScaleDenominator>
+      <LineSymbolizer stroke="#1569C7" stroke-width="0.35"/>
+    </Rule>
+  </Style>
+  <Style name="major-rivers">
+    <Rule name="major-rivers 5m">
+      <MinScaleDenominator>100000</MinScaleDenominator>
+      <MaxScaleDenominator>5000000</MaxScaleDenominator>
+      <LineSymbolizer stroke="#1569C7" stroke-width="1"/>
+    </Rule>
+    <Rule name="major-rivers 20m">
+      <MinScaleDenominator>5000000</MinScaleDenominator>
+      <MaxScaleDenominator>20000000</MaxScaleDenominator>
+      <LineSymbolizer stroke="#1569C7" stroke-width="0.55"/>
+    </Rule>
+    <Rule name="major-rivers 50m">
+      <MinScaleDenominator>20000000</MinScaleDenominator>
+      <MaxScaleDenominator>50000000</MaxScaleDenominator>
+      <LineSymbolizer stroke="#1569C7" stroke-width="0.35"/>
+    </Rule>
+  </Style>
+  <Style name="lakes">
+    <Rule name="lakes">
+      <MaxScaleDenominator>50000000</MaxScaleDenominator>
+      <MinScaleDenominator>500000</MinScaleDenominator>
+      <PolygonSymbolizer fill="#88bdea"/>
+      <LineSymbolizer stroke="#1569C7" stroke-width="0.1"/>
+    </Rule>
+  </Style>
+  <Style name="ice">
+    <Rule name="ice">
+      <PolygonSymbolizer fill="#ffffff"/>
+      <LineSymbolizer stroke="#ffffff" stroke-width="0.1"/>
+    </Rule>
+  </Style>
+  <Style name="elev-hillshade">
+    <Rule name="elev-hillshade">
+      <MinScaleDenominator>2000000</MinScaleDenominator>
+      <RasterSymbolizer opacity="0.5" scaling="bilinear"/>
+    </Rule>
+  </Style>
+  <Style name="slope-hillshade">
+    <Rule name="slope-hillshade">
+      <MinScaleDenominator>2000000</MinScaleDenominator>
+      <RasterSymbolizer opacity="0.4" scaling="bilinear" mode="multiply"/>
+    </Rule>
+  </Style>
+  <Style name="color-relief">
+    <Rule name="color-relief">
+      <MinScaleDenominator>2000000</MinScaleDenominator>
+      <RasterSymbolizer opacity="1" scaling="bilinear"/>
+    </Rule>
+  </Style>
+  <Style name="ocean">
+    <Rule name="ocean">
+      <MinScaleDenominator>2000000</MinScaleDenominator>
+      <RasterSymbolizer opacity="1" scaling="bilinear"/>
+    </Rule>
+  </Style>
+  <Layer name="ocean">
+    <StyleName>ocean</StyleName>
+    <Datasource>
+      <Parameter name="type">gdal</Parameter>
+      <Parameter name="file">/home/osm/cache/OB_LR/ocean.tif</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="color-relief">
+    <StyleName>color-relief</StyleName>
+    <Datasource>
+      <Parameter name="type">gdal</Parameter>
+      <Parameter name="file">/home/osm/cache/masked/color-relief.tif</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="elev-hillshade">
+    <StyleName>elev-hillshade</StyleName>
+    <Datasource>
+      <Parameter name="type">gdal</Parameter>
+      <Parameter name="file">/home/osm/cache/masked/shaded-relief.tif</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="ice" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
+    <StyleName>ice</StyleName>
+    <Datasource>
+      <Parameter name="type">shape</Parameter>
+      <Parameter name="file">/home/osm/10m_physical/ne_10m_glaciated_areas.shp</Parameter>
+    </Datasource>
+  </Layer>
+  <!-- <Layer name="slope-hillshade">
+        <StyleName>slope-hillshade</StyleName>
+        <Datasource>
+            <Parameter name="type">gdal</Parameter>
+            <Parameter name="file">/home/osm/cache/original/slope-shade.tif</Parameter>
+        </Datasource>
+    </Layer> -->
+  <Layer name="major-rivers" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
+    <StyleName>major-rivers</StyleName>
+    <Datasource>
+      <Parameter name="type">shape</Parameter>
+      <Parameter name="file">/home/osm/10m_physical/ne_10m_rivers_lake_centerlines.shp</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="minor-rivers-eu" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
+    <StyleName>minor-rivers</StyleName>
+    <Datasource>
+      <Parameter name="type">shape</Parameter>
+      <Parameter name="file">/home/osm/10m_physical/ne_10m_rivers_europe.shp</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="minor-rivers-america" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
+    <StyleName>minor-rivers</StyleName>
+    <Datasource>
+      <Parameter name="type">shape</Parameter>
+      <Parameter name="file">/home/osm/10m_physical/ne_10m_rivers_north_america.shp</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="lakes" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
+    <StyleName>lakes</StyleName>
+    <Datasource>
+      <Parameter name="type">shape</Parameter>
+      <Parameter name="file">/home/osm/10m_physical/ne_10m_lakes.shp</Parameter>
+    </Datasource>
+  </Layer>

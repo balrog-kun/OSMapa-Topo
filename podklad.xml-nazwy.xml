@@ -1,0 +1,64 @@
+<Layer name="punkty">
+    <StyleName>punkty</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">planet_osm_point</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer> 
+  
+  <Layer name="punkty_na_poligonach">
+    <StyleName>punkty_na_poligonach</StyleName>
+        <Datasource>
+      &datasource-settings;
+<Parameter name="table">planet_osm_polygon</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
+
+<Layer name="nazwy_poligonow_lores">
+    <StyleName>nazwy_poligonow_lores</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">countries</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer> 
+ 
+<Layer name="nazwy_poligonow">
+    <StyleName>nazwy_poligonow</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">planet_osm_polygon</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer> 
+
+<Layer name="nazwy_drog">
+    <StyleName>nazwy_drog</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">(select way, highway, oneway, waterway, name, ref, char_length(ref) as length FROM planet_osm_line WHERE highway is not null OR waterway is not null) as "nazwy_drog"</Parameter> 
+<Parameter name="geometry_field">way</Parameter>
+</Datasource>
+</Layer>
+
+<Layer name="nazwy_miast"  clear-label-cache="on">
+    <StyleName>nazwy_miast</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">(select way, name, population, place, capital, admin_level from planet_osm_point where place ='city' order by population desc) as "miejsca"</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer> 
+
+<Layer name="nazwy_miejsc"  clear-label-cache="on">
+    <StyleName>nazwy_miejsc</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">(select way, name, population, place, capital, admin_level from planet_osm_point where place is not null order by population desc) as "miejsca"</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer> 
+
+
