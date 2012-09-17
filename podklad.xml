@@ -3468,7 +3468,7 @@
     <StyleName>drogi_glowne_lores</StyleName>
     <Datasource>
       &datasource-settings;
-      <Parameter name="table">(SELECT way, highway FROM planet_osm_lores_line WHERE highway IN ('primary', 'motorway', 'trunk')) AS "drogi_glowne"</Parameter>
+      <Parameter name="table">(SELECT way, highway FROM planet_osm_line_simpl WHERE highway IN ('primary', 'motorway', 'trunk')) AS "drogi_glowne"</Parameter>
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
