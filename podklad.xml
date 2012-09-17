@@ -1426,27 +1426,28 @@
       <MarkersSymbolizer/>
     </Rule>
   </Style>
-  <Style name="pokrycie_terenu_dol">
-    <!-- lasy, zabudowa, tereny przemysłowe, wojskowe i kolejowe, pola uprawne, łąki, zarośla -->
+  <!-- lasy, zabudowa, tereny przemysłowe, wojskowe i kolejowe, pola uprawne, łąki, zarośla -->
+  <Style name="pokrycie_terenu_dol_lasy_dol">
     <Rule>
 <MaxScaleDenominator>2000000</MaxScaleDenominator>
  <MinScaleDenominator>1000000</MinScaleDenominator>
-<Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 5000000</Filter>
+<Filter>[way_area] &gt;= 5000000</Filter>
 <PolygonSymbolizer fill="#93e577" fill-opacity="0.6" />
     </Rule>
  <Rule>
  <MaxScaleDenominator>1000000</MaxScaleDenominator>
  <MinScaleDenominator>500000</MinScaleDenominator>
-<Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 2500000</Filter>
+<Filter>[way_area] &gt;= 2500000</Filter>
       <PolygonSymbolizer fill="#93e577" fill-opacity="0.6" />
     </Rule>
     <Rule>
       <MaxScaleDenominator>500000</MaxScaleDenominator>
       <MinScaleDenominator>100000</MinScaleDenominator>
-      <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 250000</Filter>
       <PolygonSymbolizer fill-opacity="0.6" fill="#93e577"/>
       <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
     </Rule>
+  </Style>
+  <Style name="pokrycie_terenu_dol">
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <MinScaleDenominator>50000</MinScaleDenominator>
@@ -3367,6 +3368,15 @@
 <Parameter name="table">planet_osm_polygon</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
+  <Layer name="pokrycie_terenu_dol_lasy_dol">
+    <StyleName>pokrycie_terenu_dol_lasy_dol</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">planet_osm_polygon</Parameter>
+<!-- TODO: simplify geometries on the fly -->
+<Parameter name="table">(SELECT way, way_area FROM planet_osm_polygon WHERE (landuse = 'forest' OR natural = 'wood' OR landuse = 'wood') AND way_area >= 250000</Filter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
   </Layer>
   <Layer name="pokrycie_terenu_gora">
     <StyleName>pokrycie_terenu_gora</StyleName>
@@ -3380,7 +3390,7 @@
     <StyleName>cieki</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(select * from planet_osm_line WHERE waterway is not null) as "cieki"</Parameter>
+<Parameter name="table">(SELECT * FROM planet_osm_line WHERE waterway IS NOT NULL) as "cieki"</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
@@ -3396,7 +3406,7 @@
     <StyleName>budynki</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(select * from planet_osm_polygon where building is not null) as budynki</Parameter>
+<Parameter name="table">(select * from planet_osm_polygon WHERE building is not null) as budynki</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
