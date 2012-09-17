@@ -50,7 +50,7 @@
   <Style name="slope-hillshade">
     <Rule name="slope-hillshade">
       <MinScaleDenominator>2000000</MinScaleDenominator>
-      <RasterSymbolizer opacity="0.4" scaling="bilinear" mode="multiply"/>
+      <RasterSymbolizer opacity="0.4" scaling="bilinear" comp-op="multiply"/>
     </Rule>
   </Style>
   <Style name="color-relief">
