@@ -1429,7 +1429,8 @@
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
       <Filter>[oneway]='yes' or [oneway]='1' or [oneway]='true'</Filter>
-      <MarkersSymbolizer/>
+      <!--MarkersSymbolizer/-->
+      <LinePatternSymbolizer file="hike_n_bike/img/oneway-arrow.png" />
     </Rule>
   </Style>
   <!-- lasy, zabudowa, tereny przemysłowe, wojskowe i kolejowe, pola uprawne, łąki, zarośla -->
