@@ -43,7 +43,7 @@
 </Datasource>
 </Layer>
 
-<Layer name="nazwy_miast"  clear-label-cache="on">
+<Layer name="nazwy_miast" clear-label-cache="on">
     <StyleName>nazwy_miast</StyleName>
     <Datasource>
       &datasource-settings;
