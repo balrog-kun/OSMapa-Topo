@@ -192,25 +192,25 @@ with buildings as (select  way,
                         from 
 (select way, "building:levels", "height", "building:min_level", "min_height" from
 
-planet_osm_polygon  where (building is not NULL or "man_made" in ('chimney', 'tower') or (area is not NULL and barrier in ('fence','wall') ) ) and (building is not NULL or height is not NULL or "building:levels" is not NULL) and way &amp;&amp; expand(!bbox!,500)
+planet_osm_polygon  where (building is not NULL or "man_made" in ('chimney', 'tower') or (area is not NULL and barrier in ('fence','wall') ) ) and (building is not NULL or height is not NULL or "building:levels" is not NULL) and way &amp;&amp; ST_Expand(!bbox!,500)
 
 union
 
 select ST_Buffer(way,7), "building:levels", "height", "building:min_level", "min_height" from
 
-planet_osm_point  where (building is not NULL or "man_made" in ('chimney', 'tower') ) and (height is not NULL or "building:levels" is not NULL) and way &amp;&amp; expand(!bbox!,500)
+planet_osm_point  where (building is not NULL or "man_made" in ('chimney', 'tower') ) and (height is not NULL or "building:levels" is not NULL) and way &amp;&amp; ST_Expand(!bbox!,500)
 
 union 
 
 
 select ST_Buffer(way,0.1), "building:levels", case when "height" is not NULL then height else '1.5' end as height, "building:min_level", "min_height" from
 
-planet_osm_line  where (building is not NULL or "man_made" in ('chimney', 'tower')  or barrier in ('fence','wall')) and way &amp;&amp; expand(!bbox!,500)
+planet_osm_line  where (building is not NULL or "man_made" in ('chimney', 'tower')  or barrier in ('fence','wall')) and way &amp;&amp; ST_Expand(!bbox!,500)
 
 union
 select ST_Buffer(ST_Boundary(way),0.1), "building:levels", case when "height" is not NULL then height else '1.5' end as height, "building:min_level", "min_height" from
 
-planet_osm_polygon where ( barrier in ('fence','wall')) and "area" is NULL and way &amp;&amp; expand(!bbox!,500)
+planet_osm_polygon where ( barrier in ('fence','wall')) and "area" is NULL and way &amp;&amp; ST_Expand(!bbox!,500)
 
 ) z
 )  
@@ -275,7 +275,7 @@ FROM
 		ST_PointN(way, generate_series(2, ST_NPoints(way))) as p2,
 		minhei
 	FROM
-		(SELECT (ST_Dump(ST_Boundary(ForceRHR(CASE
+		(SELECT (ST_Dump(ST_Boundary(ST_ForceRHR(CASE
 				WHEN o.way IS NOT NULL THEN
 					ST_Difference(n.way, o.way)
 				ELSE n.way END)))).geom AS way,
