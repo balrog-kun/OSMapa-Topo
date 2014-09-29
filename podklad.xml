@@ -672,34 +672,34 @@
   </Style>
   <Style name="koleje">
     <Rule>
-      <MinScaleDenominator>500000</MinScaleDenominator>
       <MaxScaleDenominator>2000000</MaxScaleDenominator>
-      <Filter>[railway] = 'rail' and not([service]='yard' or [service]='siding' or [service]='spur')</Filter>
+      <MinScaleDenominator>500000</MinScaleDenominator>
+      <Filter>[railway] = 'rail' and not [service] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="1.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>500000</MaxScaleDenominator>
       <MinScaleDenominator>200000</MinScaleDenominator>
-      <Filter>[railway] = 'rail' and not([service]='yard' or [service]='siding' or [service]='spur')</Filter>
+      <Filter>[railway] = 'rail' and not [service] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="1"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="3" stroke-dasharray="1,10"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>200000</MaxScaleDenominator>
       <MinScaleDenominator>100000</MinScaleDenominator>
-      <Filter>[railway] = 'rail'  and not [tunnel]&gt;='' and not([service]='yard' or [service]='siding' or [service]='spur')</Filter>
+      <Filter>[railway] = 'rail' and not [tunnel] &gt;= '' and not [service] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="3"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#ffffff" stroke-width="2" stroke-dasharray="15,15,15"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
-      <Filter>[railway] = 'rail'  and not [tunnel]&gt;='' and not([service]='yard' or [service]='siding' or [service]='spur')</Filter>
+      <Filter>[railway] = 'rail' and not [tunnel] &gt;= '' and not [service] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="4"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#ffffff" stroke-width="3" stroke-dasharray="15,15,15"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
-      <Filter>[railway] = 'rail'  and not [tunnel]&gt;='' and ([service]='yard' or [service]='siding' or [service]='spur')</Filter>
+      <Filter>[railway] = 'rail' and not [tunnel] &gt;= '' and [service] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#222222" stroke-width="1"/>
     </Rule>
     <Rule>
