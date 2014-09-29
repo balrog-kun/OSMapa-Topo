@@ -1762,13 +1762,13 @@
     &maxscale_zoom13;
     &minscale_zoom13;
     <Filter>[building] &gt; ''</Filter>
-    <PointSymbolizer file="symbol/budynek100.png"/>
+    <PointSymbolizer allow-overlap="true" ignore-placement="true" file="symbol/budynek100.png"/>
     </Rule>
     <Rule>
     &maxscale_zoom14;
     &minscale_zoom14;
     <Filter>[building] &gt; '' and [way_area] &lt;= 600</Filter>
-    <PointSymbolizer file="symbol/budynek50.png"/>
+    <PointSymbolizer allow-overlap="true" ignore-placement="true" file="symbol/budynek50.png"/>
     </Rule>
     <Rule>
     &maxscale_zoom14;
@@ -1779,7 +1779,7 @@
     &maxscale_zoom15;
     &minscale_zoom15;
     <Filter>[building] &gt; '' and [way_area] &lt;= 400</Filter>
-  <PointSymbolizer file="symbol/budynek50.png"/>
+  <PointSymbolizer  allow-overlap="true" ignore-placement="true" file="symbol/budynek50.png"/>
     </Rule>
     <Rule>
     &maxscale_zoom15;
@@ -3529,6 +3529,14 @@
     <Datasource>
       &datasource-settings;
 <Parameter name="table">planet_osm_polygon</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="budynki">
+    <StyleName>budynki</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">(select * from planet_osm_polygon WHERE building is not null) as budynki</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
