@@ -602,7 +602,7 @@
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[natural]='cliff' or [man_made]='embankment'</Filter>
       <LineSymbolizer stroke="#ab6307" stroke-width="1"/>
-      <LineSymbolizer stroke="#ab6307" stroke-width="4" stroke-dasharray="1 5" offset="1"/>
+      <LineSymbolizer stroke="#ab6307" stroke-width="4" stroke-dasharray="1 5" offset="-4"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
@@ -619,7 +619,7 @@
       <MaxScaleDenominator>10000</MaxScaleDenominator>
       <Filter>[barrier]='wall' or [barrier]='city_wall' or [barrier]='retaining_wall'</Filter>
       <LineSymbolizer stroke="#222222" stroke-width="2"/>
-      <LineSymbolizer stroke="#222222" stroke-width="4" stroke-dasharray="2 8" offset="2"/>
+      <LineSymbolizer stroke="#222222" stroke-width="4" stroke-dasharray="2 8" offset="-4"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
