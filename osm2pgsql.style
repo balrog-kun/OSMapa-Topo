@@ -66,7 +66,6 @@ node,way   route        text         linear
 node,way   shop         text         polygon
 node,way   sport        text         polygon
 node,way	surface	text	linear
-node,way	smoothness	text	linear
 node,way   tourism      text         polygon
 way        tracktype    text         linear
 node,way   tunnel       text         linear
@@ -76,6 +75,7 @@ node,way	wetland	text	polygon
 node,way   wood         text         linear
 node,way   z_order      int4         linear # This is calculated during import
 way        way_area     real                # This is calculated during import
+node,way   service      text         linear
 
 # Czech style hiking tracks.
 way kct_yellow text linear
@@ -95,62 +95,19 @@ way marked_trail_blue   text linear
 way marked_trail_black	text	linear
 way colour              text linear
 
-# German style kiking tracks.
+# German style hiking tracks.
 way osmc:symbol text linear
 
 # International hiking tracks.
-way network text linear 
-way iwn     text linear
+way network text linear
 
-
-
-# Added for hike&bike map support
-node,way   access       text         linear
-node,way   addr:flats   text         polygon
-node,way   addr:interpolation  text  linear 
-node,way   cutting      text         linear
-node,way   embankment   text         linear
-node,way   foot         text         linear
-node,way   horse        text         linear
-node,way   junction     text         linear
-node,way   layer        text         linear
-node,way   learning     text         linear
-node,way   lock         text         linear
-node,way   motorcar     text         linear
-node       poi          text
-node,way   power_source text         linear
-node,way   residence    text         linear
-node,way   service      text         linear
-node,way   width        text         linear
-
-way       lcn_ref      text     linear
-way       rcn_ref      text     linear
-way       ncn_ref      text     linear
-way       lcn          text     linear
-way       rcn          text     linear
-way       ncn          text     linear
-way       lwn_ref      text     linear
-way       rwn_ref      text     linear
-way       nwn_ref          text     linear
-way       lwn              text     linear
-way       rwn              text     linear
-way       nwn              text     linear
-way       route_pref_color text     linear
 way       route_name       text     linear
-way       symbol	   text     linear
 
-# Dodane przy przerobce hikebike.mss na brak hstore
-way		lanes		text	linear
-way,node	fee		text	linear
-way,node	intermittent	text	linear
-way,node	importance	text	linear
-
-# Favourites or future use
+# 3D buildings
 way,node	building:levels		text	linear
 way,node	building:min_level	text	linear
-way		building:ground_level	text	linear
+#way		building:ground_level	text	linear
 way,node	height			text	linear
 way,node	min_height		text	linear
 node,way        building:part           text    polygon
 
-way,node	operator		text	linear
