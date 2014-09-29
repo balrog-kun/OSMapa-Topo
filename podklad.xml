@@ -1391,34 +1391,47 @@
     </Rule>
     <Rule>
       <MaxScaleDenominator>500000</MaxScaleDenominator>
-      <MinScaleDenominator>100000</MinScaleDenominator>
+      <MinScaleDenominator>250000</MinScaleDenominator>
       <PolygonSymbolizer fill-opacity="0.6" fill="#93e577"/>
       <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
     </Rule>
   </Style>
   <Style name="pokrycie_terenu_dol">
     <Rule>
-      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <MaxScaleDenominator>250000</MaxScaleDenominator>
       <MinScaleDenominator>50000</MinScaleDenominator>
-      <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 10000</Filter>
-      <PolygonSymbolizer fill-opacity="0.6" fill="#93e577"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
+      <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 10000 and [wood]='deciduous'</Filter>
+		<PolygonPatternSymbolizer file="symbol/las-lisciasty.png" />
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
-      <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>[landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood'</Filter>
-      <PolygonSymbolizer fill-opacity="0.6" fill="#93e577"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
-    </Rule>
-    <Rule>
-      <MaxScaleDenominator>25000</MaxScaleDenominator>
-      <Filter>[landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood'</Filter>
-      <PolygonSymbolizer fill-opacity="0.6" fill="#93e577"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
+      <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [wood]='deciduous'</Filter>
+		<PolygonPatternSymbolizer file="symbol/las-lisciasty.png" />
     </Rule>
     <Rule>
       <MaxScaleDenominator>250000</MaxScaleDenominator>
+      <MinScaleDenominator>50000</MinScaleDenominator>
+      <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 10000 and [wood]='mixed'</Filter>
+		<PolygonPatternSymbolizer file="symbol/las-mieszany.png" />
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [wood]='mixed'</Filter>
+		<PolygonPatternSymbolizer file="symbol/las-mieszany.png" />
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>250000</MaxScaleDenominator>
+      <MinScaleDenominator>50000</MinScaleDenominator>
+      <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 10000 and not ([wood]='deciduous' or [wood]='mixed')</Filter>
+		<PolygonPatternSymbolizer file="symbol/las-iglasty.png" />
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and not ([wood]='deciduous' or [wood]='mixed')</Filter>
+		<PolygonPatternSymbolizer file="symbol/las-iglasty.png" />
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>500000</MaxScaleDenominator>
       <MinScaleDenominator>50000</MinScaleDenominator>
       <Filter>[landuse] = 'residential' or [landuse] = 'retail' or [landuse] = 'commercial'</Filter>
       <PolygonSymbolizer fill-opacity="0.8" fill="#f0cf81"/>
@@ -1763,18 +1776,18 @@
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <MinScaleDenominator>50000</MinScaleDenominator>
       <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 500000</Filter>
-      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#348017" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>([landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood') and [way_area] &gt;= 100000</Filter>
-      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#348017" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <Filter>[landuse] = 'forest' or [natural] = 'wood' or [landuse] = 'wood'</Filter>
-      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#348017" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>200000</MaxScaleDenominator>
@@ -1818,7 +1831,7 @@
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
       <Filter>[leisure]='park' or [landuse]='village_green' or [landuse]='recreation_ground'</Filter>
-      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#348017" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
@@ -2621,38 +2634,45 @@
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>[natural]='stone'</Filter>
+      <Filter>[natural] = 'stone'</Filter>
       <PointSymbolizer file="symbol/skalka12.png"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>[natural]='stone'</Filter>
+      <Filter>[natural] = 'stone'</Filter>
       <PointSymbolizer file="symbol/skalka16.png"/>
       <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#000000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
-      <MaxScaleDenominator>25000</MaxScaleDenominator>
-      <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>[natural]='tree' and not [type]='conifer'</Filter>
-      <PointSymbolizer file="symbol/lisciaste.png"/>
-    </Rule>
-    <Rule>
-      <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>[natural]='tree' and not [type]='conifer'</Filter>
+      &maxscale_zoom15;
+      &minscale_zoom16;
+      <Filter>[natural] = 'tree' and [name] &gt; ''</Filter>
       <PointSymbolizer file="symbol/lisciaste.png"/>
       <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
-      <MaxScaleDenominator>50000</MaxScaleDenominator>
-      <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>[natural]='tree' and [type]='conifer'</Filter>
+      &maxscale_zoom17;
+      &minscale_zoom17;
+      <Filter>[natural] = 'tree' and not [type] = 'conifer'</Filter>
+      <PointSymbolizer file="symbol/lisciaste.png"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom18;
+      <Filter>[natural] = 'tree' and not [type] = 'conifer'</Filter>
+      <PointSymbolizer file="symbol/lisciaste.png"/>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      &maxscale_zoom17;
+      &minscale_zoom17;
+      <Filter>[natural] = 'tree' and [type] = 'conifer'</Filter>
       <PointSymbolizer file="symbol/iglaste.png"/>
     </Rule>
     <Rule>
-      <MaxScaleDenominator>25000</MaxScaleDenominator>
-      <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>[natural]='tree' and [type]='conifer'</Filter>
+      &maxscale_zoom18;
+      <Filter>[natural] = 'tree' and [type] = 'conifer'</Filter>
       <PointSymbolizer file="symbol/iglaste.png"/>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
