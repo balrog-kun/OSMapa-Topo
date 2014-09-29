@@ -1,32 +1,32 @@
-﻿<Style name="contours10">
+<Style name="contours10" opacity="0.5">
         <Rule>
                 <MaxScaleDenominator>25000</MaxScaleDenominator>
                 <MinScaleDenominator>5000</MinScaleDenominator>
                 <LineSymbolizer
-                        stroke="#b58000"
+                        stroke="#995353"
                         stroke-width="0.5"
                 />
         </Rule>
 </Style>
 
-<Style name="contours20">
+<Style name="contours20" opacity="0.5">
         <Rule>
                 <MaxScaleDenominator>50000</MaxScaleDenominator>
                 <MinScaleDenominator>25000</MinScaleDenominator>
                 <LineSymbolizer
-                        stroke="#b58000"
+                        stroke="#995353"
                         stroke-width="0.5"
                         stroke-linejoin="round"
                 />
         </Rule>
 </Style>
 
-<Style name="contours50">
+<Style name="contours50" opacity="0.5">
         <Rule>
                 <MaxScaleDenominator>200000</MaxScaleDenominator>
                 <MinScaleDenominator>50000</MinScaleDenominator>
                 <LineSymbolizer
-                        stroke="#b58000"
+                        stroke="#995353"
                         stroke-width="0.6"
                         stroke-linejoin="round"
                 />
@@ -35,33 +35,33 @@
                 <MaxScaleDenominator>25000</MaxScaleDenominator>
                 <MinScaleDenominator>5000</MinScaleDenominator>
                 <LineSymbolizer
-                        stroke="#b58000"
+                        stroke="#995353"
                         stroke-width="0.6"
                         stroke-linejoin="round"
                 />
-                <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#b58000" halo-radius="1" placement="line" max-char-angle-delta="40">[elev]</TextSymbolizer>
+                <TextSymbolizer face-name="DejaVu Sans Book" size="11" fill="#995353" halo-radius="1" placement="line" max-char-angle-delta="40">[elev2]</TextSymbolizer>
         </Rule>
 </Style>
-<Style name="contours100">
+<Style name="contours100" opacity="0.5">
         <Rule>
                 <MaxScaleDenominator>200000</MaxScaleDenominator>
                 <MinScaleDenominator>50000</MinScaleDenominator>
                 <LineSymbolizer
-                        stroke="#b58000"
+                        stroke="#995353"
                         stroke-width="1"
                         stroke-linejoin="round"
                 />
-                <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#b58000" halo-radius="1" placement="line" max-char-angle-delta="40">[elev]</TextSymbolizer>
+                <TextSymbolizer face-name="DejaVu Sans Book" size="11" fill="#995353" halo-radius="1" placement="line" max-char-angle-delta="40">[elev2]</TextSymbolizer>
         </Rule>
         <Rule>
                 <MaxScaleDenominator>50000</MaxScaleDenominator>
                 <MinScaleDenominator>5000</MinScaleDenominator>
                 <LineSymbolizer
-                        stroke="#b58000"
+                        stroke="#995353"
                         stroke-width="1.2"
                         stroke-linejoin="round"
                 />
-                <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#b58000" halo-radius="1" placement="line" max-char-angle-delta="40">[elev]</TextSymbolizer>
+                <TextSymbolizer face-name="DejaVu Sans Book" size="11" fill="#995353" halo-radius="1" placement="line" max-char-angle-delta="40">[elev2]</TextSymbolizer>
         </Rule>
 </Style>
 
