@@ -1434,17 +1434,24 @@
       <MaxScaleDenominator>500000</MaxScaleDenominator>
       <MinScaleDenominator>50000</MinScaleDenominator>
       <Filter>[landuse] = 'residential' or [landuse] = 'retail' or [landuse] = 'commercial'</Filter>
-      <PolygonSymbolizer fill-opacity="0.8" fill="#f0cf81"/>
+      <PolygonSymbolizer fill-opacity="0.8" fill="#ecd173"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[landuse] = 'residential' or [landuse] = 'retail' or [landuse] = 'commercial'</Filter>
-      <PolygonSymbolizer fill-opacity="0.8" fill="#f0cf81"/>
+      <PolygonSymbolizer fill-opacity="0.8" fill="#ecd173"/>
+      <LineSymbolizer stroke="#000000" stroke-width="0.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>250000</MaxScaleDenominator>
       <Filter>[landuse] = 'industrial' or [landuse] = 'railway'</Filter>
-      <PolygonSymbolizer fill-opacity="0.8" fill="#E7CEFC"/>
+      <PolygonSymbolizer fill-opacity="0.8" fill="#bb8ab8"/>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[landuse] = 'farm' or [landuse]='farmland'</Filter>
+      <PolygonSymbolizer fill-opacity="0.5" fill="#ac784e"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
@@ -1467,62 +1474,189 @@
       <PolygonPatternSymbolizer file="symbol/kamienie.png" />
     </Rule>
   </Style>
+  <Style name="pokrycie_terenu_gora_obwodki">
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard' and not [religion]&gt;'') or (([landuse]='cemetery' or [amenity]='grave_yard') and [religion]='christian')</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard') and ([religion]&gt;'' and not [religion]='christian')</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'pitch' and not [sport]='tennis'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'sports_centre' and not [sport]='tennis'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'stadium' and not [sport]='tennis'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'track'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'golf_course'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>([leisure] = 'pitch' or [leisure] = 'sports_centre' or [leisure] = 'stadium') and [sport]='tennis'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>([leisure] = 'pitch' or [leisure] = 'sports_centre' or [leisure] = 'golf_course' or [leisure] = 'track' or [leisure] = 'stadium') and [sport]='tennis'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'court'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'park' or [landuse]='village_green' or [landuse]='recreation_ground'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>[leisure]='nature_reserve' or [boundary]='protected_area'</Filter>
+      <LineSymbolizer stroke="#007f00" stroke-width="2" stroke-opacity="0.5"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[landuse] = 'orchard' or [landuse] = 'plant_nursery' or [leisure] = 'garden'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[landuse] = 'allotments'</Filter>
+      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <MinScaleDenominator>25000</MinScaleDenominator>
+      <Filter>[landuse]='quarry'</Filter>
+      <LineSymbolizer stroke="#333333" stroke-width="2"/>
+      <LineSymbolizer stroke="#333333" stroke-width="3" stroke-dasharray="1 5" offset="-1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>25000</MaxScaleDenominator>
+      <Filter>[landuse]='quarry'</Filter>
+      <LineSymbolizer stroke="#333333" stroke-width="2"/>
+      <LineSymbolizer stroke="#333333" stroke-width="5" stroke-dasharray="1 4" offset="-2"/>
+    </Rule>
+  </Style>
+  <Style name="pokrycie_terenu_drogi_dol">
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>[highway]='motorway' or [highway]='motorway_link'</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>[highway]='primary' or [highway]='trunk' or [highway]='primary_link' or [highway]='trunk_link'</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>[highway]='secondary' or [highway]='secondary_link'</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>[highway]='tertiary'</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>[highway]='residential' or [highway]='unclassified' or [highway]='minor' or [highway]='road' or [highway]='service' or [highway]='track' or [highway]='path' or [highway]='cycleway' or [highway]='bridleway'</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <Filter>[highway]='living_street' or [highway]='pedestrian' or [highway]='footway'</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="1"/>
+    </Rule>
+  </Style>
   <Style name="pokrycie_terenu_gora">
     <!--cmentarze, parki, kamieniołomy, obiekty sportowe, ogródki działkowe, śmietniska, bagna +place i drogi reprezentowane powierzchniowo -->
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard' and not [religion]&gt;'') or (([landuse]='cemetery' or [amenity]='grave_yard') and [religion]='christian')</Filter>
       <PolygonPatternSymbolizer  file="symbol/cm.png"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard') and ([religion]&gt;'' and not [religion]='christian')</Filter>
       <PolygonPatternSymbolizer  file="symbol/cm_nch.png"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
-      <Filter>([leisure] = 'pitch' or [leisure] = 'sports_centre' or [leisure] = 'golf_course' or [leisure] = 'track' or [leisure] = 'stadium') and not [sport]='tennis'</Filter>
+      <Filter>[leisure] = 'pitch' and not [sport]='tennis'</Filter>
       <PolygonSymbolizer fill-opacity="0.8" fill="#8DFF80"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'sports_centre' and not [sport]='tennis'</Filter>
+      <PolygonSymbolizer fill-opacity="0.8" fill="#8Ddd80"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'stadium' and not [sport]='tennis'</Filter>
+      <PolygonSymbolizer fill-opacity="0.8" fill="#90FF70"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'track'</Filter>
+      <PolygonSymbolizer fill-opacity="0.8" fill="#bbccaa"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>[leisure] = 'golf_course'</Filter>
+      <PolygonSymbolizer fill-opacity="0.8" fill="#6def60"/>
+    </Rule>
+    <Rule>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <Filter>([leisure] = 'pitch' or [leisure] = 'sports_centre' or [leisure] = 'stadium') and [sport]='tennis'</Filter>
+      <PolygonSymbolizer fill-opacity="0.8" fill="#eb9454"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <Filter>([leisure] = 'pitch' or [leisure] = 'sports_centre' or [leisure] = 'golf_course' or [leisure] = 'track' or [leisure] = 'stadium') and [sport]='tennis'</Filter>
       <PolygonSymbolizer fill-opacity="0.8" fill="#eb9454"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <Filter>[leisure] = 'court'</Filter>
       <PolygonSymbolizer fill-opacity="0.8" fill="#eb9454"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <Filter>[leisure] = 'park' or [landuse]='village_green' or [landuse]='recreation_ground'</Filter>
       <PolygonSymbolizer fill-opacity="0.7" fill="#93e577"/>
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
-    </Rule>
-    <Rule>
-      <MaxScaleDenominator>50000</MaxScaleDenominator>
-      <Filter>[leisure]='nature_reserve'</Filter>
-      <LineSymbolizer stroke="#007f00" stroke-width="2" stroke-opacity="0.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <Filter>[landuse] = 'orchard' or [landuse] = 'plant_nursery' or [leisure] = 'garden'</Filter>
-      <PolygonSymbolizer fill-opacity="0.7" fill="#93e577"/>
-      <PolygonPatternSymbolizer file="symbol/krzaki.png" />
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
+      <PolygonPatternSymbolizer file="symbol/sad.png"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <Filter>[landuse] = 'allotments'</Filter>
-      <PolygonSymbolizer fill-opacity="0.7" fill="#93e577"/>
-      <PolygonPatternSymbolizer file="symbol/krzaki.png" />
-      <LineSymbolizer stroke="#FFFFFF" stroke-width="0.1"/>
+      <PolygonPatternSymbolizer file="symbol/ogrdzialk.png"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>250000</MaxScaleDenominator>
@@ -1544,59 +1678,51 @@
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>[landuse]='quarry'</Filter>
-      <LineSymbolizer stroke="#333333" stroke-width="1"/>
-      <LineSymbolizer stroke="#333333" stroke-width="3" stroke-dasharray="1 5" offset="-1"/>
       <PointSymbolizer file="symbol/klm13.png"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <Filter>[landuse]='quarry'</Filter>
-      <LineSymbolizer stroke="#333333" stroke-width="1"/>
-      <LineSymbolizer stroke="#333333" stroke-width="5" stroke-dasharray="1 4" offset="-2"/>
       <PointSymbolizer file="symbol/klm18.png"/>
       <TextSymbolizer face-name="DejaVu Sans Book" size="9" fill="#000000" halo-radius="1" placement="point" dy="12">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[natural] = 'scrub'</Filter>
-      <PolygonSymbolizer fill="#caffb9"/>
-     <!--  -->
+      <PolygonSymbolizer fill="#93e577"/>
+      <PolygonPatternSymbolizer file="symbol/krzaki.png" />
     </Rule>
+  </Style>
+  <Style name="pokrycie_terenu_drogi_gora">
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[highway]='motorway' or [highway]='motorway_link'</Filter>
       <PolygonSymbolizer fill="#809bc0"/>
-      <LineSymbolizer stroke="#000000" stroke-width="0.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[highway]='primary' or [highway]='trunk' or [highway]='primary_link' or [highway]='trunk_link'</Filter>
       <PolygonSymbolizer fill="#f38730"/>
-      <LineSymbolizer stroke="#000000" stroke-width="0.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[highway]='secondary' or [highway]='secondary_link'</Filter>
       <PolygonSymbolizer fill="#f3ba30"/>
-      <LineSymbolizer stroke="#000000" stroke-width="0.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[highway]='tertiary'</Filter>
       <PolygonSymbolizer fill="#FDFD83"/>
-      <LineSymbolizer stroke="#000000" stroke-width="0.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[highway]='residential' or [highway]='unclassified' or [highway]='minor' or [highway]='road' or [highway]='service' or [highway]='track' or [highway]='path' or [highway]='cycleway' or [highway]='bridleway'</Filter>
       <PolygonSymbolizer fill="#FFFFFF"/>
-      <LineSymbolizer stroke="#000000" stroke-width="0.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <Filter>[highway]='living_street' or [highway]='pedestrian' or [highway]='footway'</Filter>
       <PolygonSymbolizer fill="#ddd"/>
-      <LineSymbolizer stroke="#000000" stroke-width="0.5"/>
     </Rule>
   </Style>
   <Style name="zbiorniki_wodne">
@@ -3342,8 +3468,24 @@
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
+  <Layer name="pokrycie_terenu_gora_obwodki">
+    <StyleName>pokrycie_terenu_gora_obwodki</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">planet_osm_polygon</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
   <Layer name="pokrycie_terenu_gora">
     <StyleName>pokrycie_terenu_gora</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">planet_osm_polygon</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="pokrycie_terenu_drogi_dol">
+    <StyleName>pokrycie_terenu_drogi_dol</StyleName>
     <Datasource>
       &datasource-settings;
 <Parameter name="table">planet_osm_polygon</Parameter>
@@ -3379,6 +3521,14 @@
     <Datasource>
       &datasource-settings;
 <Parameter name="table">planet_osm_line</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="pokrycie_terenu_drogi_gora">
+    <StyleName>pokrycie_terenu_drogi_gora</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">planet_osm_polygon</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
