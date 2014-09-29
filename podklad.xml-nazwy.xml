@@ -56,6 +56,14 @@
   </Datasource>
 </Layer>
 
+<Layer name="oneway_drog">
+  <StyleName>oneway_drog</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">(SELECT way FROM planet_osm_line WHERE oneway IN ('1', 'yes', 'true') AND highway IS NOT NULL) AS "oneway_drog"</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
 
 <Layer name="nazwy_miast" clear-label-cache="on">
   <StyleName>nazwy_miast</StyleName>

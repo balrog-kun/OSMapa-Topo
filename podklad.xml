@@ -1474,11 +1474,10 @@
       <Filter>[waterway] = 'river' or [waterway] = 'canal'</Filter>
       <TextSymbolizer spacing="1000" face-name="DejaVu Sans Oblique" size="10" fill="#0000FF" halo-radius="1" placement="line" dx="7" dy="7" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
-    <!-- TODO: do przeniesienia na oddzielny layer -->
+  </Style>
+  <Style name="oneway_drog">
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>[oneway]='yes' or [oneway]='1' or [oneway]='true'</Filter>
-      <!--MarkersSymbolizer/-->
       <LinePatternSymbolizer file="hike_n_bike/img/oneway-arrow.png" />
     </Rule>
   </Style>
