@@ -268,13 +268,13 @@
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not [surface]='unpaved'</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="3"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and  [surface]='unpaved'</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and  ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="3" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
@@ -287,13 +287,13 @@
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not [surface]='unpaved'</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and [surface]='unpaved'</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="5.5" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
@@ -305,12 +305,12 @@
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not [surface]='unpaved'</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="6"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and [surface]='unpaved'</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="6.5" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
@@ -334,23 +334,23 @@
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>([highway] = 'service'  and not [surface]='unpaved') and not [tunnel]&gt;='' </Filter>
+      <Filter>([highway] = 'service'  and not ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay')) and not [tunnel]&gt;='' </Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="3"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>([highway] = 'service' and [surface]='unpaved' or [tracktype]='grade1') and not [tunnel]&gt;='' </Filter>
+      <Filter>([highway] = 'service' and ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay') or [tracktype]='grade1') and not [tunnel]&gt;='' </Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="3.5" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>([highway] = 'service' and not [surface]='unpaved')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'service' and not ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay'))  and not [tunnel]&gt;=''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="4.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>([highway] = 'service'   and [surface]='unpaved' or [tracktype]='grade1') and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'service' and ([surface]='unpaved' or [surface]='artificial_turf' or [surface]='compacted' or [surface]='concrete:lanes' or [surface]='dirt earth' or [surface]='fine_gravel' or [surface]='grass' or [surface]='grass_paver' or [surface]='gravel' or [surface]='ground' or [surface]='mud' or [surface]='pebblestone' or [surface]='sand' or [surface]='wood' or [surface]='clay') or [tracktype]='grade1') and not [tunnel]&gt;=''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="5" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
