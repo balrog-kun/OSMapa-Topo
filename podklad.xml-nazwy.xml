@@ -1,38 +1,38 @@
 <Layer name="punkty">
-    <StyleName>punkty</StyleName>
-    <Datasource>
-      &datasource-settings;
-<Parameter name="table">planet_osm_point</Parameter>
-<Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer> 
-  
-  <Layer name="punkty_na_poligonach">
-    <StyleName>punkty_na_poligonach</StyleName>
-        <Datasource>
-      &datasource-settings;
-<Parameter name="table">planet_osm_polygon</Parameter>
-<Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer>
+  <StyleName>punkty</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">planet_osm_point</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="punkty_na_poligonach">
+  <StyleName>punkty_na_poligonach</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">planet_osm_polygon</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
 
 <Layer name="nazwy_poligonow_lores">
-    <StyleName>nazwy_poligonow_lores</StyleName>
-    <Datasource>
-      &datasource-settings;
-<Parameter name="table">countries</Parameter>
-<Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer> 
- 
+  <StyleName>nazwy_poligonow_lores</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">(SELECT way, name FROM countries WHERE way &amp;&amp; !bbox! ORDER BY population DESC NULLS LAST) AS "miejsca"</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
+
 <Layer name="nazwy_poligonow">
-    <StyleName>nazwy_poligonow</StyleName>
-    <Datasource>
-      &datasource-settings;
-<Parameter name="table">planet_osm_polygon</Parameter>
-<Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer> 
+  <StyleName>nazwy_poligonow</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">planet_osm_polygon</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
 
 </Layer>
 
