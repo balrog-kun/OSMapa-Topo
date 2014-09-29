@@ -109,5 +109,8 @@ way,node	building:min_level	text	linear
 #way		building:ground_level	text	linear
 way,node	height			text	linear
 way,node	min_height		text	linear
-node,way        building:part           text    polygon
+node,way	building:part		text	polygon
 
+# Automated name abbreviation
+way,node	short_name		text	linear
+way,node	shortest_name		text	linear

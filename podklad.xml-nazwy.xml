@@ -34,31 +34,43 @@
     </Datasource>
   </Layer> 
 
-<Layer name="nazwy_drog">
-    <StyleName>nazwy_drog</StyleName>
-    <Datasource>
-      &datasource-settings;
-<Parameter name="table">(select way, highway, oneway, waterway, name, ref, char_length(ref) as length FROM planet_osm_line WHERE highway is not null OR waterway is not null) as "nazwy_drog"</Parameter> 
-<Parameter name="geometry_field">way</Parameter>
-</Datasource>
 </Layer>
 
+<Layer name="nazwy_drog">
+  <StyleName>nazwy_drog</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">
+(SELECT ST_LineMerge(ST_Collect(way)) AS way, highway, waterway, name,
+   min(short_name) AS short_name, min(shortest_name), ref, char_length(ref) AS length AS shortest_name
+ FROM planet_osm_line
+ WHERE name IS NOT NULL AND
+   (highway IS NOT NULL OR waterway IS NOT NULL) AND
+    way &amp;&amp; ST_Expand(!bbox!, 500)
+  GROUP BY name, highway, waterway, ref
+  ORDER BY highway NOT IN ('trunk', 'motorway', 'primary'),
+    highway &lt;&gt; 'secondary', highway &lt;&gt; 'tertiary'
+ ) AS "nazwy_drog"</Parameter>
+    <!-- TODO: ORDER BY ST_Length(output.way) too -->
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
+
+
 <Layer name="nazwy_miast" clear-label-cache="on">
-    <StyleName>nazwy_miast</StyleName>
-    <Datasource>
-      &datasource-settings;
-<Parameter name="table">(select way, name, population, place, capital, admin_level from planet_osm_point where place ='city' order by population desc) as "miejsca"</Parameter>
-<Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer> 
+  <StyleName>nazwy_miast</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital, admin_level FROM planet_osm_point WHERE way &amp;&amp; !bbox! AND (place = 'city' OR place = 'town') ORDER BY place ASC, population DESC NULLS LAST) AS "miejsca"</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
 
-<Layer name="nazwy_miejsc"  clear-label-cache="on">
-    <StyleName>nazwy_miejsc</StyleName>
-    <Datasource>
-      &datasource-settings;
-<Parameter name="table">(select way, name, population, place, capital, admin_level from planet_osm_point where place is not null order by population desc) as "miejsca"</Parameter>
-<Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer> 
-
-
+<Layer name="nazwy_miejsc" clear-label-cache="on">
+  <StyleName>nazwy_miejsc</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital, admin_level FROM planet_osm_point WHERE way &amp;&amp; !bbox! AND place IS NOT NULL ORDER BY place &lt;&gt; 'city' ASC, place &lt;&gt; 'town' ASC, place &lt;&gt; 'suburb' ASC, place &lt;&gt; 'village' ASC, population DESC NULLS LAST) as "miejsca"</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>

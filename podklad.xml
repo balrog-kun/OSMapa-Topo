@@ -1222,10 +1222,6 @@
       <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="3"/>
     </Rule>
     <Rule>
-      <MaxScaleDenominator>100000</MaxScaleDenominator>
-      <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>[highway]='motorway'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
       <Filter>[highway] = 'living_street' or [highway]='pedestrian' or (([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett'))</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="5"/>
@@ -1312,35 +1308,45 @@
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [length] &gt; 7</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk3.png"  minimum-distance="30" spacing="750">[ref]</ShieldSymbolizer>
+      <Filter>[highway]='motorway'</Filter>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>[highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <Filter>[highway]='motorway'</Filter>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
       <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and not [length] &gt; 3 and [length] &gt; 0</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk.png"  minimum-distance="30" spacing="750">[ref]</ShieldSymbolizer>
+      <MaxScaleDenominator>10000</MaxScaleDenominator>
+      <Filter>[highway] = 'motorway'</Filter>
+      <TextSymbolizer  spacing="1000" face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
       <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [length] &gt; 3 and not [length] &gt;7</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk2.png"  minimum-distance="30" spacing="750">[ref]</ShieldSymbolizer>
+      <MaxScaleDenominator>100000</MaxScaleDenominator>
+      <MinScaleDenominator>25000</MinScaleDenominator>
+      <Filter>[highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link'</Filter>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
       <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [length] &gt; 7</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk3.png"  minimum-distance="30" spacing="750">[ref]</ShieldSymbolizer>
+      <Filter>[highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link'</Filter>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
       <Filter>[highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link'</Filter>
-      <TextSymbolizer spacing="800" face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MinScaleDenominator>200000</MinScaleDenominator>
@@ -1359,12 +1365,12 @@
       <MaxScaleDenominator>500000</MaxScaleDenominator>
       <Filter>([highway] = 'secondary' or [highway] = 'secondary_link') and [length] &gt; 7</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#000000" placement="line" file="symbol/dw3.png"  minimum-distance="50" spacing="900">[ref]</ShieldSymbolizer>
+      <TextSymbolizer spacing="800" face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="50">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
@@ -1383,12 +1389,12 @@
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>([highway] = 'secondary' or [highway] = 'secondary_link') and [length] &gt; 7</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#000000" placement="line" file="symbol/dw3.png"  minimum-distance="30" spacing="750">[ref]</ShieldSymbolizer>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="50" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
       <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="11" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
@@ -1407,65 +1413,66 @@
       <MinScaleDenominator>10000</MinScaleDenominator>
       <Filter>([highway] = 'secondary' or [highway] = 'secondary_link') and [length] &gt; 7</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#000000" placement="line" file="symbol/dw3.png"  minimum-distance="30">[ref]</ShieldSymbolizer>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="11" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
       <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
-      <TextSymbolizer spacing="800" face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="800" face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>[highway] = 'tertiary' or [highway] = 'tertiary_link'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
       <Filter>[highway] = 'tertiary' or [highway] = 'tertiary_link'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
       <Filter>[highway] = 'tertiary' or [highway] = 'tertiary_link' or [highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
       <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road'</Filter>
-      <TextSymbolizer spacing="400" face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="400" face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <Filter>[highway] = 'service' or [highway] = 'living_street'</Filter>
-      <TextSymbolizer spacing="500" face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="500" face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <Filter>[highway] = 'track' or [highway]='path'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Oblique" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Oblique" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <Filter>[highway] = 'construction'</Filter>
-      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>[waterway] = 'stream' or [waterway] = 'drain' or [waterway] = 'ditch'</Filter>
-      <TextSymbolizer spacing="500" face-name="DejaVu Sans Oblique" size="9" fill="#0000FF" halo-radius="1" placement="line" dx="6" dy="6" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="500" face-name="DejaVu Sans Oblique" size="9" fill="#0000FF" halo-radius="1" placement="line" dx="6" dy="6" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <Filter>[waterway] = 'stream' or [waterway] = 'drain' or [waterway] = 'ditch'</Filter>
-      <TextSymbolizer spacing="1000" face-name="DejaVu Sans Oblique" size="10" fill="#0000FF" halo-radius="1" placement="line" dx="7" dy="7" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="1000" face-name="DejaVu Sans Oblique" size="10" fill="#0000FF" halo-radius="1" placement="line" dx="7" dy="7" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom12;
       <Filter>[waterway] = 'river' or [waterway] = 'canal'</Filter>
-      <TextSymbolizer spacing="1000" face-name="DejaVu Sans Oblique" size="10" fill="#0000FF" halo-radius="1" placement="line" dx="7" dy="7" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <TextSymbolizer spacing="1000" face-name="DejaVu Sans Oblique" size="10" fill="#0000FF" halo-radius="1" placement="line" dx="7" dy="7" max-char-angle-delta="30" placement-type="list">[name]<Placement>[short_name]</Placement><Placement>[shortest_name]</Placement></TextSymbolizer>
     </Rule>
     <!-- TODO: do przeniesienia na oddzielny layer -->
     <Rule>
