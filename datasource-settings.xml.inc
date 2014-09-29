@@ -1,6 +1,8 @@
 <Parameter name="type">postgis</Parameter>
 <Parameter name="dbname">osm</Parameter>
-<Parameter name="user">osm</Parameter>
+<!--Parameter name="simplify_geometries">true</Parameter--><!-- only with a mod -->
+<!--Parameter name="asynchronous_request">true</Parameter - mapnik3 -->
+<!--Parameter name="max_async_connection">4</Parameter - mapnik3 -->
 <Parameter name="estimate_extent">false</Parameter>
 <!--Parameter name="extent">1558472,6257910,2693932,7400780</Parameter-->
 <Parameter name="extent">-3330000,4160000,4460000,20037508.34</Parameter>
