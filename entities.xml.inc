@@ -6,6 +6,7 @@
 
 <!ENTITY ground SYSTEM "ground.xml">
 <!ENTITY podklad SYSTEM "podklad.xml">
+<!ENTITY podklad-konkurs SYSTEM "podklad-konkurs.xml">
 <!ENTITY podklad-nazwy SYSTEM "podklad.xml-nazwy.xml">
 <!ENTITY poziomice SYSTEM "poziomice.xml">
 <!ENTITY szlaki SYSTEM "szlaki.xml">
