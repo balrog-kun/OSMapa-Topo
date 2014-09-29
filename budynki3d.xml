@@ -183,40 +183,96 @@
   <Parameter name="table">
 (
 (
-WITH buildings AS
+WITH
+
+buildingparts AS
+  (SELECT ST_Buffer(way, 0) AS way, "building:levels", height,
+     "building:min_level", min_height
+   FROM planet_osm_polygon
+   WHERE "building:part" IS NOT NULL AND
+     (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
+     way &amp;&amp; ST_Expand(!bbox!, 500)),
+
+buildingswhole AS
+  (SELECT ST_Buffer(way, 0) AS way, "building:levels", height,
+     "building:min_level", "min_height"
+   FROM planet_osm_polygon AS a
+   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) AND
+     (building IS NOT NULL OR height IS NOT NULL OR
+      "building:levels" IS NOT NULL) AND
+     way &amp;&amp; ST_Expand(!bbox!, 500)),
+
+rawbuildings AS (
+  SELECT * FROM buildingparts
+
+  UNION
+
+  SELECT *
+  FROM buildingswhole AS a
+  WHERE NOT EXISTS (
+    SELECT 1
+    FROM buildingparts AS b
+    WHERE ST_Intersects(a.way, b.way)) -- could also just use &amp;&amp;
+    -- perhaps should only check for interior intersection, not walls
+
+  UNION
+
+  SELECT ST_Buffer(way,7) AS way, "building:levels", height,
+    "building:min_level", min_height
+  FROM planet_osm_point
+  WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) and
+    (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
+    way &amp;&amp; ST_Expand(!bbox!, 500)
+
+  UNION
+
+  SELECT ST_Buffer(way, 0.1, 1) AS way, "building:levels",
+     CASE WHEN height IS NOT NULL THEN height ELSE '1.0' END AS height,
+     "building:min_level", min_height
+  FROM planet_osm_line
+  WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower') OR
+     barrier IN ('fence','wall')) AND
+    way &amp;&amp; ST_Expand(!bbox!, 500)
+
+  UNION
+
+  SELECT ST_Buffer(ST_Boundary(way), 0.1, 1) AS way, "building:levels",
+    CASE WHEN "height" IS NOT NULL THEN height ELSE '1.0' END AS height,
+    "building:min_level", "min_height"
+  FROM planet_osm_polygon
+  WHERE barrier IN ('fence','wall') AND way &amp;&amp; ST_Expand(!bbox!, 500)
+), -- end of "rawbuildings AS"
+
+buildings AS
       (SELECT * FROM
            (SELECT ST_ForceRHR(ST_SimplifyPreserveTopology(way, .4)) AS way,
                  (CASE WHEN z."height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."height" AS FLOAT) ELSE
                       CASE WHEN z."building:levels" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:levels" AS FLOAT) * 3 ELSE 6 END END) * &tilt; as hei,
                   (CASE WHEN z."min_height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."min_height" AS FLOAT) ELSE
-                      CASE WHEN z."building:min_level" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:min_level" AS FLOAT) * 3 ELSE 0 END END) * &tilt; as minhei
-
-                        FROM 
-(select ST_Buffer(way, 0) AS way, "building:levels", "height", "building:min_level", "min_height" from
-
-planet_osm_polygon  where (building is not NULL or "man_made" in ('chimney', 'tower') or (area is not NULL and barrier in ('fence','wall') ) ) and (building is not NULL or height is not NULL or "building:levels" is not NULL) AND way &amp;&amp; ST_Expand(!bbox!, 500)
-
-UNION
-
-select ST_Buffer(way,7) AS way, "building:levels", "height", "building:min_level", "min_height" from
-
-planet_osm_point  where (building is not NULL or "man_made" in ('chimney', 'tower') ) and (height is not NULL or "building:levels" is not NULL) AND way &amp;&amp; ST_Expand(!bbox!, 500)
-
-UNION 
-
-
-select ST_Buffer(way,0.1,1) AS way, "building:levels", case when "height" is not NULL then height else '1.5' end as height, "building:min_level", "min_height" from
-
-planet_osm_line  where (building is not NULL or "man_made" in ('chimney', 'tower')  or barrier in ('fence','wall')) AND way &amp;&amp; ST_Expand(!bbox!, 500)
-
-UNION
-select ST_Buffer(ST_Boundary(way),0.1,1) AS way, "building:levels", case when "height" is not NULL then height else '1.5' end as height, "building:min_level", "min_height" from
-
-planet_osm_polygon WHERE ( barrier IN ('fence','wall')) AND "area" IS NULL AND way &amp;&amp; ST_Expand(!bbox!, 500)
-
-) z
+                      CASE WHEN z."building:min_level" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:min_level" AS FLOAT) * 3 ELSE 0 END END) * &tilt; AS minhei
+                   FROM rawbuildings AS z
 ) zz -- WHERE GeometryType(way) = 'POLYGON' for some reason doing this here is slower than repeating it &gt; 1 times belowe
-)
+), -- END OF "buildings AS"
+
+byhei AS
+  (SELECT hei, ST_Buffer(ST_Collect(way), 0) AS way
+   FROM buildings GROUP BY hei),
+
+byminhei AS
+  (SELECT minhei, ST_Buffer(ST_Collect(way), 0) AS way
+   FROM buildings GROUP BY minhei),
+
+joined AS
+   (SELECT CASE WHEN n.hei IS NOT NULL THEN n.hei ELSE o.minhei END AS hei,
+        --n.way AS maxway, o.way AS minway,
+        CASE WHEN n.way IS NOT NULL THEN CASE WHEN o.way IS NOT NULL THEN
+	    ST_Difference(n.way, o.way) ELSE n.way END ELSE NULL END AS maxmin,
+        CASE WHEN o.way IS NOT NULL THEN CASE WHEN n.way IS NOT NULL THEN
+	    ST_Difference(o.way, n.way) ELSE o.way END ELSE NULL END AS minmax
+    FROM byhei AS n FULL OUTER JOIN byminhei AS o ON n.hei = o.minhei)
+
+-------------- End of WITH definitions, the query starts here ---------------
+
                      -- Walls fill
 SELECT ST_MakePolygon(ST_MakeLine(ARRAY[ST_Translate(p2,0,minhei),ST_Translate(p1,0,minhei),ST_Translate(p1,0,hei),ST_Translate(p2,0,hei),ST_Translate(p2,0,minhei)])) AS way, LEAST(ST_Y(p1),ST_Y(p2)) AS lea, 1 AS hv,
 CASE WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes' ELSE 'no' END AS visible,
@@ -230,19 +286,16 @@ FROM (
                       -- Roof fills
 UNION
 
-SELECT ST_Translate(way,0,hei) AS way, ST_YMin(way) AS lea, 2 AS hv, 'yes-h' AS visible, -500 AS azim, minhei, hei, 'area' AS fill, 1 AS diff
-                FROM (SELECT CASE WHEN o.way IS NOT NULL THEN ST_Difference(n.way,o.way) ELSE n.way END AS way, n.minhei*2 AS minhei, n.hei*2 AS hei  
-FROM buildings n LEFT OUTER JOIN buildings o ON (n.hei = o.minhei)  ) p
-
--- Both of the "optimisations" below end up being slower (ST_Union comes out even slower)
---FROM buildings n LEFT OUTER JOIN (SELECT ST_Buffer(ST_Collect(way), 0) AS way, minhei FROM buildings GROUP BY minhei) o ON (n.hei = o.minhei)  ) p
---FROM (SELECT ST_Buffer(ST_Collect(way), 0) AS way, 0 AS minhei, hei FROM buildings GROUP BY hei) n LEFT OUTER JOIN (SELECT ST_Buffer(ST_Collect(way), 0) AS way, minhei FROM buildings GROUP BY minhei) o ON (n.hei = o.minhei)  ) p
+SELECT ST_Translate(way, 0, hei) AS way, ST_YMin(way) AS lea, 2 AS hv, 'yes-h' AS visible, -500 AS azim, hei AS minhei, hei, 'area' AS fill, 1 AS diff
+FROM
+	(SELECT maxmin AS way, hei * 2 AS hei
+	FROM joined WHERE maxmin IS NOT NULL) p
 
                       -- Wall vertical lines
 UNION
 
 SELECT (ST_MakeLine(ST_Translate(p2, 0, minhei), ST_Translate(p2, 0, hei))) AS way, LEAST(ST_Y(p1), ST_Y(p2)) AS lea, 1 AS hv,
-CASE WHEN (ST_X(p3) - ST_X(p2)) * (ST_X(p2) - ST_X(p1)) &lt; 0 THEN CASE WHEN (ST_X(p2) - ST_X(p1)) * (ST_Y(p3) - ST_Y(p2)) - (ST_X(p3) - ST_X(p2)) * (ST_Y(p2) - ST_Y(p1)) &lt; 0 THEN 'border-yes-v' ELSE 'border-no-v' END WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes-v' ELSE 'no-v' END AS visible, 
+CASE WHEN (ST_X(p3) - ST_X(p2)) * (ST_X(p2) - ST_X(p1)) &lt; 0 THEN CASE WHEN (ST_X(p2) - ST_X(p1)) * (ST_Y(p3) - ST_Y(p2)) - (ST_X(p3) - ST_X(p2)) * (ST_Y(p2) - ST_Y(p1)) &lt; 0 THEN 'border-yes-v' ELSE 'border-no-v' END WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes-v' ELSE 'no-v' END AS visible,
 ST_Azimuth(p2, p1) / 3.14159265358 * 180 AS azim, minhei, hei, 'line' AS fill, 1 - abs(abs(ST_Azimuth(p3, p2) - ST_Azimuth(p2, p1)) / 3.14159265358 - 1) AS diff
 
 
@@ -259,11 +312,9 @@ SELECT ST_Translate(way, 0, hei) AS way, ST_YMin(way) AS lea, 2 AS hv,
 	'no-h' AS visible, -500 AS azim, hei AS minhei, hei,
 	'line' AS fill, 1 AS diff
 FROM
-	(SELECT CASE
-		WHEN o.way IS NOT NULL THEN ST_Difference(n.way, o.way)
-		ELSE n.way END AS way, n.hei * 2 AS hei
-	FROM buildings n LEFT OUTER JOIN buildings o ON (n.hei = o.minhei)) p
-  
+	(SELECT maxmin AS way, hei * 2 AS hei
+	FROM joined WHERE maxmin IS NOT NULL) p
+
                       -- Bottom lines
 UNION
 
@@ -277,17 +328,17 @@ FROM
 		ST_PointN(way, generate_series(2, ST_NPoints(way))) as p2,
 		minhei
 	FROM
-		(SELECT (ST_Dump(ST_Boundary(ST_ForceRHR(CASE
-				WHEN o.way IS NOT NULL THEN
-					ST_Difference(n.way, o.way)
-				ELSE n.way END)))).geom AS way,
-			n.minhei * 2 AS minhei
-		FROM (SELECT ST_Buffer(ST_Collect(way), 0) AS way, minhei
-				FROM buildings GROUP BY minhei) n
-			LEFT OUTER JOIN (SELECT ST_Buffer(ST_Collect(way), 0) AS way, hei
-				FROM buildings GROUP BY hei) o
-			ON (n.minhei = o.hei) WHERE (o.way IS NULL OR NOT ST_IsEmpty(ST_Difference(n.way, o.way))) AND GeometryType(ST_Multi(CASE WHEN o.way IS NOT NULL THEN ST_Difference(n.way, o.way) ELSE n.way END)) = 'MULTIPOLYGON') p) r
- 
+		(SELECT (ST_Dump(ST_Boundary(ST_ForceRHR(way)))).geom AS way,
+			minhei * 2 AS minhei
+		FROM
+			(SELECT minmax AS way, hei AS minhei
+			FROM joined WHERE minmax IS NOT NULL) a
+		WHERE way IS NOT NULL AND NOT ST_IsEmpty(way)) b) c
+--                        WHERE
+--                            (o.way IS NULL OR
+--                             NOT ST_IsEmpty(ST_Difference(n.way, o.way)))
+--                            AND GeometryType(ST_Multi(CASE WHEN o.way IS NOT NULL THEN ST_Difference(n.way, o.way) ELSE n.way END)) = 'MULTIPOLYGON') p) r
+
 ) order by minhei, lea DESC, fill, hv, hei
 ) as text
   </Parameter>
