@@ -64,37 +64,37 @@
 
 
 <Layer name="contours_10">
-    <StyleName>contours10</StyleName>
-    <Datasource>
-      &datasource-settings-contour;
-<Parameter name="table">(select the_geom,elev from contour WHERE elev::integer % 10 = 0 AND ((elev::integer % 50 != 0 AND elev::integer % 100 != 0) OR elev::integer = 0)) as "contours-10"</Parameter>
-<Parameter name="geometry_field">the_geom</Parameter>
-    </Datasource>
-  </Layer>   
-  
-  <Layer name="contours_20">
-    <StyleName>contours20</StyleName>
-    <Datasource>
-      &datasource-settings-contour;
-<Parameter name="table">(select the_geom,elev from contour WHERE elev::integer % 20 = 0 AND elev::integer % 100 != 0) as "contours-20"</Parameter>
-<Parameter name="geometry_field">the_geom</Parameter>
-    </Datasource>
-  </Layer>   
-  
+  <StyleName>contours10</StyleName>
+  <Datasource>
+    &datasource-settings-contour;
+    <Parameter name="table">(select the_geom,elev2 from poziomice_10 WHERE elev2::integer % 10 = 0 AND ((elev2::integer % 50 != 0 AND elev2::integer % 100 != 0) OR elev2::integer = 0)) as "contours-10"</Parameter>
+    <Parameter name="geometry_field">the_geom</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="contours_20">
+  <StyleName>contours20</StyleName>
+  <Datasource>
+    &datasource-settings-contour;
+    <Parameter name="table">(select the_geom,elev2 from poziomice_10 WHERE elev2::integer % 20 = 0 AND elev2::integer % 100 != 0) as "contours-20"</Parameter>
+    <Parameter name="geometry_field">the_geom</Parameter>
+  </Datasource>
+</Layer>
+
 <Layer name="contours_50">
-    <StyleName>contours50</StyleName>
-    <Datasource>
-      &datasource-settings-contour;
-<Parameter name="table">(select the_geom,elev from contour WHERE elev::integer % 50 = 0 AND elev::integer % 100 != 0) as "contours-50"</Parameter>
-<Parameter name="geometry_field">the_geom</Parameter>
-    </Datasource>
-  </Layer>   
-  
-  <Layer name="contours_100">
-    <StyleName>contours100</StyleName>
-    <Datasource>
-      &datasource-settings-contour;
-<Parameter name="table">(select the_geom,elev from contour WHERE elev::integer % 100 = 0 AND elev::integer != 0) as "contours-100"</Parameter>
-<Parameter name="geometry_field">the_geom</Parameter>
-    </Datasource>
-  </Layer>
+  <StyleName>contours50</StyleName>
+  <Datasource>
+    &datasource-settings-contour;
+    <Parameter name="table">(select the_geom,elev2 from poziomice_50 WHERE elev2::integer % 50 = 0 AND elev2::integer % 100 != 0) as "contours-50"</Parameter>
+    <Parameter name="geometry_field">the_geom</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="contours_100">
+  <StyleName>contours100</StyleName>
+  <Datasource>
+    &datasource-settings-contour;
+    <Parameter name="table">(select the_geom,elev2 from poziomice_50 WHERE elev2::integer % 100 = 0 AND elev2::integer != 0) as "contours-100"</Parameter>
+    <Parameter name="geometry_field">the_geom</Parameter>
+  </Datasource>
+</Layer>
