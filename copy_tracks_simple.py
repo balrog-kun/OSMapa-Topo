@@ -7,16 +7,15 @@
 from getopt import *
 from sys import exit, argv
 from psycopg2 import *
-from progressbar import *
 
 def usage():
-    print "copy_tracks.py [-n <db_name>]"
+    print("copy_tracks.py [-n <db_name>]")
 
 # Parse script arguments.
 try:
     opts, args = getopt(argv[1:], "n:", ["db-name"])
-except GetoptError, error:
-    print str(error)
+except GetoptError as error:
+    print(str(error))
     usage()
     exit(2)
 
@@ -203,6 +202,9 @@ cursor.execute("INSERT INTO geometry_columns (f_table_catalog, f_table_schema, \
   f_table_catalog, f_table_schema, 'planet_osm_track', f_geometry_column, \
   coord_dimension, srid, type FROM geometry_columns WHERE f_table_name = \
   'planet_osm_line'")
+
+print("Analyzing planet_osm_line")
+cursor.execute("ANALYZE planet_osm_line")
 
 print("Adding geometries to ways")
 # TODO: add the potential routes tagged as ways here? RIGHT OUTER JOIN(?)
