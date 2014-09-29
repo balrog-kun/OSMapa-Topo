@@ -3574,7 +3574,7 @@
     <StyleName>zjazdy</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(select way,highway,name,ref,oneway,bridge,tunnel,surface,tracktype from planet_osm_line WHERE highway is not null) as "zjazdy"</Parameter>
+<Parameter name="table">(select way,highway,oneway,bridge,tunnel,surface,tracktype from planet_osm_line WHERE highway is not null) as "zjazdy"</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
@@ -3582,7 +3582,7 @@
     <StyleName>drogi_lokalne</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(select way,highway,name,ref,oneway,bridge,tunnel,surface,tracktype from planet_osm_line WHERE highway is not null) as "drogi_lokalne"</Parameter>
+<Parameter name="table">(select way,highway,oneway,bridge,tunnel,surface,tracktype from planet_osm_line WHERE highway is not null) as "drogi_lokalne"</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
@@ -3590,7 +3590,7 @@
     <StyleName>drogi_powiatowe</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(select way,highway,name,ref,oneway,bridge,tunnel,surface from planet_osm_line WHERE highway='tertiary' OR highway='tertiary_link') as "drogi_powiatowe"</Parameter>
+<Parameter name="table">(select way,highway,oneway,bridge,tunnel,surface from planet_osm_line WHERE highway='tertiary' OR highway='tertiary_link') as "drogi_powiatowe"</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
@@ -3598,7 +3598,7 @@
     <StyleName>drogi_wojewodzkie</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(select way,highway,name,ref,oneway,bridge,tunnel,surface from planet_osm_line WHERE highway ='secondary' OR highway='secondary_link') as "drogi_wojewodzkie"</Parameter>
+<Parameter name="table">(select way,highway,oneway,bridge,tunnel,surface from planet_osm_line WHERE highway ='secondary' OR highway='secondary_link') as "drogi_wojewodzkie"</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
@@ -3614,7 +3614,7 @@
     <StyleName>drogi_glowne</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(select way,highway,name,ref,oneway,bridge,tunnel,surface from planet_osm_line WHERE highway is not null) as "drogi_glowne"</Parameter>
+<Parameter name="table">(select way,highway,oneway,bridge,tunnel,surface from planet_osm_line WHERE highway is not null) as "drogi_glowne"</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
@@ -3622,7 +3622,7 @@
     <StyleName>transport_publiczny</StyleName>
     <Datasource>
       &datasource-settings;
-<Parameter name="table">(select way,highway,railway,ref,oneway,route,type from planet_osm_line WHERE route is not null OR railway='tram') as "transport_publiczny"</Parameter>
+<Parameter name="table">(select way,highway,railway,oneway,route,type from planet_osm_line WHERE route is not null OR railway='tram') as "transport_publiczny"</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
