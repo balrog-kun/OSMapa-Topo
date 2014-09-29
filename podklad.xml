@@ -1011,25 +1011,25 @@
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
-      <Filter>([highway] = 'track' or [highway]='footway' or [highway]='path') and [bridge] &gt; ''</Filter>
+      <Filter>([highway] = 'track' or [highway]='footway' or [highway]='path' or [highway]='bridleway') and [bridge] &gt; ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#000000" stroke-width="1"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#302226" stroke-width="2"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>[highway] = 'path' or [highway] = 'footway' or [highway]='steps'</Filter>
+      <Filter>[highway] = 'path' or [highway] = 'footway' or [highway]='steps' or [highway]='bridleway'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#302226" stroke-width="0.5" stroke-dasharray="4,2"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>[highway] = 'path' or [highway] = 'footway' or [highway]='steps'</Filter>
+      <Filter>[highway] = 'path' or [highway] = 'footway' or [highway]='steps' or [highway]='bridleway'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#302226" stroke-width="1" stroke-dasharray="4,2"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>[highway] = 'path' or [highway] = 'footway'</Filter>
+      <Filter>[highway] = 'path' or [highway] = 'footway' or [highway]='bridleway'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#302226" stroke-width="1" stroke-dasharray="4,2"/>
     </Rule>
     <Rule>
@@ -1138,53 +1138,53 @@
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and not [tunnel] &gt;= ''</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and not [tunnel] &gt;= '' and not ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="butt"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and not [tunnel] &gt;= ''</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and not [tunnel] &gt;= '' and not ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="4" stroke-linecap="butt"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' ) and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' ) and not [tunnel]&gt;='' and not ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="5" stroke-linecap="butt"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>[highway] = 'service'  and not [tunnel]&gt;=''</Filter>
+      <Filter>[highway] = 'service' and not [tunnel]&gt;='' and not ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="1"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>([highway] = 'service' or [tracktype]='grade1')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'service' or [tracktype]='grade1') and not [tunnel]&gt;='' and not ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="2.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>([highway] = 'service' or [tracktype]='grade1')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'service' or [tracktype]='grade1') and not [tunnel]&gt;='' and not ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="4"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
-      <Filter>[highway] = 'living_street' or [highway]='pedestrian'</Filter>
+      <Filter>[highway] = 'service' and not [tunnel]&gt;='' and ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="1"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>25000</MaxScaleDenominator>
       <MinScaleDenominator>10000</MinScaleDenominator>
-      <Filter>[highway] = 'living_street' or [highway]='pedestrian'</Filter>
-      <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="3"/>
+      <Filter>([highway] = 'service' or [tracktype]='grade1') and not [tunnel]&gt;='' and ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="2.5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>10000</MaxScaleDenominator>
-      <Filter>[highway] = 'living_street' or [highway]='pedestrian'</Filter>
-      <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="5"/>
+      <Filter>([highway] = 'service' or [tracktype]='grade1')  and not [tunnel]&gt;='' and ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett')</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="4"/>
     </Rule>
   </Style>
   <Style name="nazwy_drog">
@@ -1206,18 +1206,29 @@
       <MaxScaleDenominator>500000</MaxScaleDenominator>
       <Filter>[highway]='motorway' and [length] &gt; 7</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#ffffff" placement="line" file="symbol/dk3.png"  minimum-distance="75" spacing="1000">[ref]</ShieldSymbolizer>
+      <MaxScaleDenominator>50000</MaxScaleDenominator>
+      <MinScaleDenominator>25000</MinScaleDenominator>
+      <Filter>[highway] = 'living_street' or [highway]='pedestrian' or (([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett'))</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="1"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>[highway]='motorway' and not [length] &gt; 3 and [length] &gt; 0</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#ffffff" placement="line" file="symbol/dk.png"  minimum-distance="30" spacing="750">[ref]</ShieldSymbolizer>
+      <MaxScaleDenominator>25000</MaxScaleDenominator>
+      <MinScaleDenominator>10000</MinScaleDenominator>
+      <Filter>[highway] = 'living_street' or [highway]='pedestrian' or (([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett'))</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="3"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
       <MinScaleDenominator>25000</MinScaleDenominator>
       <Filter>[highway]='motorway'</Filter>
       <TextSymbolizer spacing="600" face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" placement="line" max-char-angle-delta="30">[name]</TextSymbolizer>
+      <MaxScaleDenominator>10000</MaxScaleDenominator>
+      <Filter>[highway] = 'living_street' or [highway]='pedestrian' or (([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and ([surface]='paving_stones' or [surface]='cobblestone' or [surface]='sett'))</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="5"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
@@ -1664,7 +1675,7 @@
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
-      <Filter>[highway]='residential' or [highway]='unclassified' or [highway]='minor' or [highway]='road' or [highway]='service' or [highway]='track' or [highway]='path' or [highway]='cycleway'</Filter>
+      <Filter>[highway]='residential' or [highway]='unclassified' or [highway]='minor' or [highway]='road' or [highway]='service' or [highway]='track' or [highway]='path' or [highway]='cycleway' or [highway]='bridleway'</Filter>
       <PolygonSymbolizer fill="#FFFFFF"/>
       <LineSymbolizer stroke="#000000" stroke-width="0.5"/>
     </Rule>
@@ -1896,7 +1907,7 @@
     </Rule>
     <Rule>
       <MaxScaleDenominator>50000</MaxScaleDenominator>
-      <Filter>[leisure]='nature_reserve'</Filter>
+      <Filter>[leisure]='nature_reserve' or [boundary]='protected_area'</Filter>
       <TextSymbolizer face-name="DejaVu Sans Bold" size="12" fill="#348017" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
