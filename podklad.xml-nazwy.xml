@@ -34,6 +34,28 @@
   </Datasource>
 </Layer>
 
+<Layer name="refy_drog">
+  <StyleName>refy_drog</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">
+(SELECT way, highway,
+   (SELECT MAX(CASE WHEN char_length(r) > 7 THEN 3 ELSE
+      CASE WHEN char_length(r) > 3 THEN 2 ELSE 1 END END)
+    FROM unnest(refs) AS r) AS width,
+   LEAST(array_length(refs, 1), 3) AS height,
+   array_to_string(refs, E'\n') AS refs -- TODO: sort
+ FROM
+   (SELECT ST_LineMerge(ST_Collect(way)) AS way, highway,
+      string_to_array(replace(ref, ' ', ''), ';') AS refs
+    FROM planet_osm_line
+    WHERE ref IS NOT NULL AND highway IS NOT NULL AND
+      way &amp;&amp; !bbox! -- ST_Expand(!bbox!, 500)
+    GROUP BY highway, ref
+    ORDER BY highway NOT IN ('trunk', 'motorway', 'primary')
+   ) AS z) AS "refy_drog"</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
 </Layer>
 
 <Layer name="nazwy_drog">
@@ -42,12 +64,12 @@
     &datasource-settings;
     <Parameter name="table">
 (SELECT ST_LineMerge(ST_Collect(way)) AS way, highway, waterway, name,
-   min(short_name) AS short_name, min(shortest_name), ref, char_length(ref) AS length AS shortest_name
+   min(short_name) AS short_name, min(shortest_name) AS shortest_name
  FROM planet_osm_line
  WHERE name IS NOT NULL AND
    (highway IS NOT NULL OR waterway IS NOT NULL) AND
     way &amp;&amp; ST_Expand(!bbox!, 500)
-  GROUP BY name, highway, waterway, ref
+  GROUP BY name, highway, waterway
   ORDER BY highway NOT IN ('trunk', 'motorway', 'primary'),
     highway &lt;&gt; 'secondary', highway &lt;&gt; 'tertiary'
  ) AS "nazwy_drog"</Parameter>
