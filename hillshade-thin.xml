@@ -1,6 +1,6 @@
   <Style name="minor-rivers">
     <Rule name="minor-rivers 5m">
-      <MinScaleDenominator>100000</MinScaleDenominator>
+      &minscale_zoom9;
       <MaxScaleDenominator>5000000</MaxScaleDenominator>
       <LineSymbolizer stroke="#1569C7" stroke-width="0.45"/>
     </Rule>
@@ -12,7 +12,7 @@
   </Style>
   <Style name="major-rivers">
     <Rule name="major-rivers 5m">
-      <MinScaleDenominator>100000</MinScaleDenominator>
+      &minscale_zoom9;
       <MaxScaleDenominator>5000000</MaxScaleDenominator>
       <LineSymbolizer stroke="#1569C7" stroke-width="1"/>
     </Rule>
@@ -69,62 +69,62 @@
     <StyleName>ocean</StyleName>
     <Datasource>
       <Parameter name="type">gdal</Parameter>
-      <Parameter name="file">/home/osm/cache/OB_LR/ocean.tif</Parameter>
+      <Parameter name="file">hillshade/ocean.tif</Parameter>
     </Datasource>
   </Layer>
   <Layer name="color-relief">
     <StyleName>color-relief</StyleName>
     <Datasource>
       <Parameter name="type">gdal</Parameter>
-      <Parameter name="file">/home/osm/cache/masked/color-relief.tif</Parameter>
+      <Parameter name="file">hillshade/color-relief.tif</Parameter>
     </Datasource>
   </Layer>
   <Layer name="elev-hillshade">
     <StyleName>elev-hillshade</StyleName>
     <Datasource>
       <Parameter name="type">gdal</Parameter>
-      <Parameter name="file">/home/osm/cache/masked/shaded-relief.tif</Parameter>
+      <Parameter name="file">hillshade/shaded-relief.tif</Parameter>
     </Datasource>
   </Layer>
   <Layer name="ice" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
     <StyleName>ice</StyleName>
     <Datasource>
       <Parameter name="type">shape</Parameter>
-      <Parameter name="file">/home/osm/10m_physical/ne_10m_glaciated_areas.shp</Parameter>
+      <Parameter name="file">hillshade/ne_10m_glaciated_areas.shp</Parameter>
     </Datasource>
   </Layer>
   <!-- <Layer name="slope-hillshade">
         <StyleName>slope-hillshade</StyleName>
         <Datasource>
             <Parameter name="type">gdal</Parameter>
-            <Parameter name="file">/home/osm/cache/original/slope-shade.tif</Parameter>
+            <Parameter name="file">hillshade/slope-shade.tif</Parameter>
         </Datasource>
     </Layer> -->
   <Layer name="major-rivers" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
     <StyleName>major-rivers</StyleName>
     <Datasource>
       <Parameter name="type">shape</Parameter>
-      <Parameter name="file">/home/osm/10m_physical/ne_10m_rivers_lake_centerlines.shp</Parameter>
+      <Parameter name="file">hillshade/ne_10m_rivers_lake_centerlines.shp</Parameter>
     </Datasource>
   </Layer>
   <Layer name="minor-rivers-eu" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
     <StyleName>minor-rivers</StyleName>
     <Datasource>
       <Parameter name="type">shape</Parameter>
-      <Parameter name="file">/home/osm/10m_physical/ne_10m_rivers_europe.shp</Parameter>
+      <Parameter name="file">hillshade/ne_10m_rivers_europe.shp</Parameter>
     </Datasource>
   </Layer>
   <Layer name="minor-rivers-america" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
     <StyleName>minor-rivers</StyleName>
     <Datasource>
       <Parameter name="type">shape</Parameter>
-      <Parameter name="file">/home/osm/10m_physical/ne_10m_rivers_north_america.shp</Parameter>
+      <Parameter name="file">hillshade/ne_10m_rivers_north_america.shp</Parameter>
     </Datasource>
   </Layer>
   <Layer name="lakes" srs="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs">
     <StyleName>lakes</StyleName>
     <Datasource>
       <Parameter name="type">shape</Parameter>
-      <Parameter name="file">/home/osm/10m_physical/ne_10m_lakes.shp</Parameter>
+      <Parameter name="file">hillshade/ne_10m_lakes.shp</Parameter>
     </Datasource>
   </Layer>

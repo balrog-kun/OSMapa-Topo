@@ -1,8 +1,8 @@
 <!ENTITY datasource-settings SYSTEM "datasource-settings.xml.inc">
 <!ENTITY datasource-settings-contour SYSTEM "datasource-settings.xml.inc">
 <!ENTITY srsgoog "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs">
-<!ENTITY coastlines "/home/osm/coastlines/processed_p.shp">
-<!ENTITY coastlines_simple "/home/osm/coastlines/10m_land_r.shp">
+<!ENTITY coastlines "coastlines/processed_p.shp">
+<!ENTITY coastlines_simple "coastlines/10m_land_r.shp">
 
 <!ENTITY ground SYSTEM "ground.xml">
 <!ENTITY podklad SYSTEM "podklad.xml">
