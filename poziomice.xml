@@ -1,7 +1,6 @@
 <Style name="contours10" opacity="0.5">
         <Rule>
                 <MaxScaleDenominator>25000</MaxScaleDenominator>
-                <MinScaleDenominator>5000</MinScaleDenominator>
                 <LineSymbolizer
                         stroke="#995353"
                         stroke-width="0.5"
@@ -33,7 +32,6 @@
         </Rule>
         <Rule>
                 <MaxScaleDenominator>25000</MaxScaleDenominator>
-                <MinScaleDenominator>5000</MinScaleDenominator>
                 <LineSymbolizer
                         stroke="#995353"
                         stroke-width="0.6"
@@ -55,7 +53,6 @@
         </Rule>
         <Rule>
                 <MaxScaleDenominator>50000</MaxScaleDenominator>
-                <MinScaleDenominator>5000</MinScaleDenominator>
                 <LineSymbolizer
                         stroke="#995353"
                         stroke-width="1.2"
