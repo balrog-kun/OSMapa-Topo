@@ -729,10 +729,18 @@
       <LineSymbolizer stroke="#222222" stroke-width="3" stroke-dasharray="1,10"/>
     </Rule>
   </Style>
+  <Style name="cieki11i12">
+    <Rule>
+      &maxscale_zoom10;
+      &minscale_zoom11;
+      <Filter>[waterway] = 'river' or [waterway] = 'canal'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#1569C7" stroke-width="1"/>
+    </Rule>
+  </Style>
   <Style name="cieki">
     <!--wszystko, co płynie -->
     <Rule>
-      <MaxScaleDenominator>250000</MaxScaleDenominator>
+      &maxscale_zoom12;
       <MinScaleDenominator>100000</MinScaleDenominator>
       <Filter>([waterway] = 'stream' or [waterway] = 'drain' or [waterway] = 'ditch')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#1569C7" stroke-width="0.5"/>
@@ -759,6 +767,12 @@
       <MaxScaleDenominator>10000</MaxScaleDenominator>
       <Filter>[waterway] = 'stream' or [waterway] = 'drain' or [waterway] = 'ditch'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#1569C7" stroke-width="2"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom12;
+      <MinScaleDenominator>100000</MinScaleDenominator>
+      <Filter>[waterway] = 'river' or [waterway] = 'canal'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#1569C7" stroke-width="1"/>
     </Rule>
     <Rule>
       <MaxScaleDenominator>100000</MaxScaleDenominator>
@@ -1684,7 +1698,7 @@
       <LineSymbolizer stroke="#1569C7" stroke-width="1"/>
     </Rule>
     <Rule>
-      <MaxScaleDenominator>250000</MaxScaleDenominator>
+      <MaxScaleDenominator>1000000</MaxScaleDenominator>
       <Filter>[waterway]='riverbank'</Filter>
       <PolygonSymbolizer fill="#88bdea"/>
     </Rule>
@@ -1798,7 +1812,7 @@
 		    <!-- nazwy krajów, lasów, zbiorników wodnych, zakładów przemysłowych, cmentarzy, terenów chronionych -->
     <Rule>
       <MinScaleDenominator>100000</MinScaleDenominator>
-      <MaxScaleDenominator>500000</MaxScaleDenominator>
+      <MaxScaleDenominator>2500000</MaxScaleDenominator>
       <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;=2500000</Filter>
       <TextSymbolizer face-name="DejaVu Sans Oblique" size="9" fill="#0000FF" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
@@ -3413,19 +3427,19 @@
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
+  <Layer name="cieki11i12">
+    <StyleName>cieki11i12</StyleName>
+    <Datasource>
+      &datasource-settings;
+<Parameter name="table">(SELECT * FROM planet_osm_line WHERE waterway = 'river' OR waterway = 'canal') as "cieki11i12"</Parameter>
+<Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
   <Layer name="zbiorniki_wodne">
     <StyleName>zbiorniki_wodne</StyleName>
     <Datasource>
       &datasource-settings;
 <Parameter name="table">planet_osm_polygon</Parameter>
-<Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer>
-  <Layer name="budynki">
-    <StyleName>budynki</StyleName>
-    <Datasource>
-      &datasource-settings;
-<Parameter name="table">(select * from planet_osm_polygon WHERE building is not null) as budynki</Parameter>
 <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
