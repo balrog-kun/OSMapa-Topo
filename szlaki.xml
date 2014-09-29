@@ -2506,21 +2506,19 @@ stroke-linejoin="round"
         stroke-dasharray="2,2"
 offset="-8"
 stroke-linejoin="round"
-      />  
-    </Rule>     
+      />
+    </Rule>
     <Rule>
       &maxscale_szlaki;
-      <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#000" halo-fill="#d0ffd0" halo-radius="1"  placement="line" max-char-angle-delta="50" dy="7" spacing="700" minimum-distance="700" avoid-edges="true" opacity="0.8" minimum-path-length="500">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#000" halo-fill="#d0ffd0" halo-radius="1"  placement="line" max-char-angle-delta="50" dy="7" spacing="700" minimum-distance="700" avoid-edges="true" opacity="0.8" minimum-path-length="250">[name]</TextSymbolizer>
     </Rule>
-
-    
 </Style>
 
-    <Layer name="szlaki">
-    <StyleName>szlaki</StyleName>
-    <Datasource>
-      &datasource-settings;
-<Parameter name="table">planet_osm_track</Parameter>
-<Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer> 
+<Layer name="szlaki">
+  <StyleName>szlaki</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">planet_osm_track</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
