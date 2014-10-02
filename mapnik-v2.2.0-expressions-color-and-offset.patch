@@ -1,0 +1,802 @@
+From 890d34c31efc116e47787d953f002dc362283724 Mon Sep 17 00:00:00 2001
+From: Andrzej Zaborowski <andrew.zaborowski@intel.com>
+Date: Thu, 2 Oct 2014 16:56:56 +0200
+Subject: [PATCH] Expression support for stroke color and offset
+ (LineSymbolizer).
+
+This shouldn't break any existing style.  It does break the python
+bindings though, you need to disable building them or the build will
+fail.  This is probably simple to fix.
+---
+ bindings/python/mapnik_line_symbolizer.cpp      |  4 ++--
+ bindings/python/mapnik_stroke.cpp               |  4 ++--
+ include/mapnik/attribute_collector.hpp          | 10 +++++++++
+ include/mapnik/line_symbolizer.hpp              | 30 +++++++++++++++++--------
+ include/mapnik/marker_helpers.hpp               |  4 ++--
+ include/mapnik/stroke.hpp                       | 11 ++++++---
+ include/mapnik/symbolizer_hash.hpp              |  3 ++-
+ include/mapnik/vertex_converters.hpp            | 11 +++++----
+ src/agg/process_line_pattern_symbolizer.cpp     |  2 +-
+ src/agg/process_line_symbolizer.cpp             | 14 ++++++------
+ src/agg/process_markers_symbolizer.cpp          | 10 ++++-----
+ src/agg/process_polygon_pattern_symbolizer.cpp  |  2 +-
+ src/agg/process_polygon_symbolizer.cpp          |  2 +-
+ src/cairo_renderer.cpp                          | 24 ++++++++++----------
+ src/grid/process_line_symbolizer.cpp            |  8 +++----
+ src/grid/process_markers_symbolizer.cpp         | 10 ++++-----
+ src/grid/process_polygon_pattern_symbolizer.cpp |  2 +-
+ src/grid/process_polygon_symbolizer.cpp         |  2 +-
+ src/load_map.cpp                                |  8 +++----
+ src/save_map.cpp                                |  8 +++----
+ src/stroke.cpp                                  | 25 ++++++++++++++++-----
+ tests/cpp_tests/geometry_converters_test.cpp    |  8 +++++--
+ 22 files changed, 126 insertions(+), 76 deletions(-)
+
+diff --git a/bindings/python/mapnik_line_symbolizer.cpp b/bindings/python/mapnik_line_symbolizer.cpp
+index eeca7ec..f1d203b 100644
+--- a/bindings/python/mapnik_line_symbolizer.cpp
++++ b/bindings/python/mapnik_line_symbolizer.cpp
+@@ -60,8 +60,8 @@ void export_line_symbolizer()
+                       &line_symbolizer::set_simplify_tolerance,
+                       "simplification tolerance measure")
+         .add_property("offset",
+-                      &line_symbolizer::offset,
+-                      &line_symbolizer::set_offset,
++                      &line_symbolizer::get_offset_expr,
++                      &line_symbolizer::set_offset_expr,
+                       "offset value")
+         .add_property("comp_op",
+                       &line_symbolizer::comp_op,
+diff --git a/bindings/python/mapnik_stroke.cpp b/bindings/python/mapnik_stroke.cpp
+index 104bb7b..efe47ad 100644
+--- a/bindings/python/mapnik_stroke.cpp
++++ b/bindings/python/mapnik_stroke.cpp
+@@ -89,8 +89,8 @@ void export_stroke ()
+                  "Creates a new stroke object with a specified color and width.\n")
+             )
+         .add_property("color",make_function
+-                      (&stroke::get_color,return_value_policy<copy_const_reference>()),
+-                      &stroke::set_color,
++                      (&stroke::get_color_expr,return_value_policy<copy_const_reference>()),
++                      &stroke::set_color_expr,
+                       "Gets or sets the stroke color.\n"
+                       "Returns a new Color object on retrieval.\n")
+         .add_property("width",
+diff --git a/include/mapnik/attribute_collector.hpp b/include/mapnik/attribute_collector.hpp
+index f97e5d2..db91aff 100644
+--- a/include/mapnik/attribute_collector.hpp
++++ b/include/mapnik/attribute_collector.hpp
+@@ -138,6 +138,16 @@ struct symbolizer_attributes : public boost::static_visitor<>
+ 
+     void operator () (line_symbolizer const& sym)
+     {
++        expression_ptr const& offset_expr = sym.get_offset_expr();
++        if (offset_expr)
++        {
++            boost::apply_visitor(f_attr,*offset_expr);
++        }
++        path_expression_ptr const& color_expr = sym.get_stroke().get_color_expr();
++        if (color_expr)
++        {
++            path_processor_type::collect_attributes(*color_expr,names_);
++        }
+         collect_transform(sym.get_transform());
+     }
+ 
+diff --git a/include/mapnik/line_symbolizer.hpp b/include/mapnik/line_symbolizer.hpp
+index 753b54e..2bca605 100644
+--- a/include/mapnik/line_symbolizer.hpp
++++ b/include/mapnik/line_symbolizer.hpp
+@@ -29,6 +29,8 @@
+ #include <mapnik/stroke.hpp>
+ #include <mapnik/symbolizer.hpp>
+ #include <mapnik/enumeration.hpp>
++#include <mapnik/expression.hpp>
++#include <mapnik/expression_evaluator.hpp>
+ 
+ namespace mapnik
+ {
+@@ -47,21 +49,21 @@ struct MAPNIK_DECL line_symbolizer : public symbolizer_base
+     explicit line_symbolizer()
+         : symbolizer_base(),
+         stroke_(),
+-        offset_(0.0),
++        offset_(),
+         rasterizer_p_(RASTERIZER_FULL)
+         {}
+     
+     line_symbolizer(stroke const& stroke)
+         : symbolizer_base(),
+         stroke_(stroke),
+-        offset_(0.0),
++        offset_(),
+         rasterizer_p_(RASTERIZER_FULL)
+         {}
+ 
+     line_symbolizer(color const& pen,float width=1.0)
+         : symbolizer_base(),
+         stroke_(pen,width),
+-        offset_(0.0),
++        offset_(),
+         rasterizer_p_(RASTERIZER_FULL)
+         {}
+ 
+@@ -74,17 +76,27 @@ struct MAPNIK_DECL line_symbolizer : public symbolizer_base
+     {
+         stroke_ = stk;
+     }
+-    
+-    void set_offset(double val)
++
++    void set_offset_expr(expression_ptr const& offset)
+     {
+-        offset_ = val;
++        offset_ = offset;
+     }
+-    
+-    double offset() const
++
++    expression_ptr const& get_offset_expr() const
+     {
+         return offset_;
+     }
+ 
++    double get_offset(mapnik::feature_impl & feature) const
++    {
++        double val = 0;
++        if (offset_)
++        {
++            val = boost::apply_visitor(evaluate<feature_impl, value_type>(feature), *offset_).to_double();
++        }
++        return val;
++    }
++
+     void set_rasterizer(line_rasterizer_e rasterizer_p)
+     {
+         rasterizer_p_ = rasterizer_p;
+@@ -97,7 +109,7 @@ struct MAPNIK_DECL line_symbolizer : public symbolizer_base
+ 
+ private:
+     stroke stroke_;
+-    double offset_;
++    expression_ptr offset_;
+     line_rasterizer_e rasterizer_p_;
+ };
+ }
+diff --git a/include/mapnik/marker_helpers.hpp b/include/mapnik/marker_helpers.hpp
+index 41431a1..6769912 100644
+--- a/include/mapnik/marker_helpers.hpp
++++ b/include/mapnik/marker_helpers.hpp
+@@ -372,7 +372,7 @@ void build_ellipse(T const& sym, mapnik::feature_impl const& feature, svg_storag
+ }
+ 
+ template <typename Attr>
+-bool push_explicit_style(Attr const& src, Attr & dst, markers_symbolizer const& sym)
++bool push_explicit_style(Attr const& src, Attr & dst, markers_symbolizer const& sym, mapnik::feature_impl & feature)
+ {
+     boost::optional<stroke> const& strk = sym.get_stroke();
+     boost::optional<color> const& fill = sym.get_fill();
+@@ -392,7 +392,7 @@ bool push_explicit_style(Attr const& src, Attr & dst, markers_symbolizer const&
+                 if (strk)
+                 {
+                     attr.stroke_width = strk->get_width();
+-                    color const& s_color = strk->get_color();
++                    color s_color = strk->get_color(feature);
+                     attr.stroke_color = agg::rgba(s_color.red()/255.0,
+                                                   s_color.green()/255.0,
+                                                   s_color.blue()/255.0,
+diff --git a/include/mapnik/stroke.hpp b/include/mapnik/stroke.hpp
+index 31c4ab2..6d1a0f4 100644
+--- a/include/mapnik/stroke.hpp
++++ b/include/mapnik/stroke.hpp
+@@ -28,6 +28,8 @@
+ #include <mapnik/color.hpp>
+ #include <mapnik/gamma_method.hpp>
+ #include <mapnik/enumeration.hpp>
++#include <mapnik/feature.hpp>
++#include <mapnik/path_expression.hpp>
+ 
+ // stl
+ #include <vector>
+@@ -63,7 +65,8 @@ DEFINE_ENUM( line_join_e, line_join_enum );
+ 
+ class MAPNIK_DECL stroke
+ {
+-    color c_;
++    path_expression_ptr c_;
++    color c_resolved;
+     double width_;
+     double opacity_; // 0.0 - 1.0
+     line_cap_e  line_cap_;
+@@ -79,8 +82,10 @@ public:
+     stroke(stroke const& other);
+     stroke& operator=(const stroke& rhs);
+ 
+-    void set_color(const color& c);
+-    color const& get_color() const;
++    color get_color(mapnik::feature_impl & feature) const;
++
++    void set_color_expr(path_expression_ptr const& c);
++    path_expression_ptr const& get_color_expr() const;
+ 
+     double get_width() const;
+     void set_width(double w);
+diff --git a/include/mapnik/symbolizer_hash.hpp b/include/mapnik/symbolizer_hash.hpp
+index 7957434..b1501c5 100644
+--- a/include/mapnik/symbolizer_hash.hpp
++++ b/include/mapnik/symbolizer_hash.hpp
+@@ -25,6 +25,7 @@
+ 
+ #include <mapnik/map.hpp>
+ #include <mapnik/feature_type_style.hpp>
++#include <mapnik/expression_string.hpp>
+ 
+ #include <boost/functional/hash.hpp>
+ #include <boost/variant/static_visitor.hpp>
+@@ -52,7 +53,7 @@ struct symbolizer_hash
+     static std::size_t value(line_symbolizer const& sym)
+     {
+         std::size_t seed = LineString;
+-        boost::hash_combine(seed, sym.get_stroke().get_color().rgba());
++        boost::hash_combine(seed, to_expression_string(*sym.get_stroke().get_color_expr()));
+         boost::hash_combine(seed, sym.get_stroke().get_width());
+         boost::hash_combine(seed, sym.get_stroke().get_opacity());
+         boost::hash_combine(seed, static_cast<int>(sym.get_stroke().get_line_cap()));
+diff --git a/include/mapnik/vertex_converters.hpp b/include/mapnik/vertex_converters.hpp
+index 6167415..6d0f7e5 100644
+--- a/include/mapnik/vertex_converters.hpp
++++ b/include/mapnik/vertex_converters.hpp
+@@ -52,6 +52,7 @@
+ #include <mapnik/offset_converter.hpp>
+ #include <mapnik/simplify_converter.hpp>
+ #include <mapnik/noncopyable.hpp>
++#include <mapnik/feature.hpp>
+ 
+ // agg
+ #include "agg_conv_clip_polygon.h"
+@@ -268,7 +269,8 @@ struct converter_traits<T,mapnik::offset_transform_tag>
+     {
+         typename boost::mpl::at<Args,boost::mpl::int_<2> >::type sym = boost::fusion::at_c<2>(args);
+         double scale_factor = boost::fusion::at_c<6>(args);
+-        geom.set_offset(sym.offset()*scale_factor);
++        typename boost::mpl::at<Args,boost::mpl::int_<7> >::type feature = boost::fusion::at_c<7>(args);
++        geom.set_offset(sym.get_offset(feature)*scale_factor);
+     }
+ };
+ 
+@@ -370,19 +372,20 @@ struct vertex_converter : private mapnik::noncopyable
+     trans_type const&,
+     proj_trans_type const&,
+     affine_trans_type const&,
+-    double //scale-factor
++    double, //scale-factor
++    mapnik::feature_impl&
+     > args_type;
+ 
+     vertex_converter(bbox_type const& b, rasterizer_type & ras,
+                      symbolizer_type const& sym, trans_type & tr,
+                      proj_trans_type const& prj_trans,
+                      affine_trans_type const& affine_trans,
+-                     double scale_factor)
++                     double scale_factor, mapnik::feature_impl & feature)
+         : disp_(args_type(boost::cref(b), boost::ref(ras),
+                           boost::cref(sym), boost::cref(tr),
+                           boost::cref(prj_trans),
+                           boost::cref(affine_trans),
+-                          scale_factor)) {}
++                          scale_factor, boost::ref(feature))) {}
+ 
+     template <typename Geometry>
+     void apply(Geometry & geom)
+diff --git a/src/agg/process_line_pattern_symbolizer.cpp b/src/agg/process_line_pattern_symbolizer.cpp
+index 1f9f679..2696f49 100644
+--- a/src/agg/process_line_pattern_symbolizer.cpp
++++ b/src/agg/process_line_pattern_symbolizer.cpp
+@@ -143,7 +143,7 @@ void  agg_renderer<T>::process(line_pattern_symbolizer const& sym,
+     typedef boost::mpl::vector<clip_line_tag,transform_tag,simplify_tag,smooth_tag> conv_types;
+     vertex_converter<box2d<double>, rasterizer_type, line_pattern_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(clipping_extent,ras,sym,t_,prj_trans,tr,scale_factor_);
++        converter(clipping_extent,ras,sym,t_,prj_trans,tr,scale_factor_,feature);
+ 
+     if (sym.clip()) converter.set<clip_line_tag>(); //optional clip (default: true)
+     converter.set<transform_tag>(); //always transform
+diff --git a/src/agg/process_line_symbolizer.cpp b/src/agg/process_line_symbolizer.cpp
+index e32b9b2..5481322 100644
+--- a/src/agg/process_line_symbolizer.cpp
++++ b/src/agg/process_line_symbolizer.cpp
+@@ -59,7 +59,7 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
+ 
+ {
+     stroke const& stroke_ = sym.get_stroke();
+-    color const& col = stroke_.get_color();
++    color const& col = stroke_.get_color(feature);
+     unsigned r=col.red();
+     unsigned g=col.green();
+     unsigned b=col.blue();
+@@ -99,8 +99,8 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
+         double half_stroke = stroke_.get_width()/2.0;
+         if (half_stroke > 1)
+             padding *= half_stroke;
+-        if (std::fabs(sym.offset()) > 0)
+-            padding *= std::fabs(sym.offset()) * 1.2;
++        if (std::fabs(sym.get_offset(feature)) > 0)
++            padding *= std::fabs(sym.get_offset(feature)) * 1.2;
+         padding *= scale_factor_;
+         clipping_extent.pad(padding);
+         // debugging
+@@ -121,10 +121,10 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
+ 
+         vertex_converter<box2d<double>, rasterizer_type, line_symbolizer,
+                          CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-            converter(clipping_extent,ras,sym,t_,prj_trans,tr,scale_factor_);
++            converter(clipping_extent,ras,sym,t_,prj_trans,tr,scale_factor_,feature);
+         if (sym.clip()) converter.set<clip_line_tag>(); // optional clip (default: true)
+         converter.set<transform_tag>(); // always transform
+-        if (std::fabs(sym.offset()) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
++        if (std::fabs(sym.get_offset(feature)) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
+         converter.set<affine_transform_tag>(); // optional affine transform
+         if (sym.simplify_tolerance() > 0.0) converter.set<simplify_tag>(); // optional simplify converter
+         if (sym.smooth() > 0.0) converter.set<smooth_tag>(); // optional smooth converter
+@@ -141,11 +141,11 @@ void agg_renderer<T>::process(line_symbolizer const& sym,
+     {
+         vertex_converter<box2d<double>, rasterizer, line_symbolizer,
+                          CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-            converter(clipping_extent,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_);
++            converter(clipping_extent,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_,feature);
+ 
+         if (sym.clip()) converter.set<clip_line_tag>(); // optional clip (default: true)
+         converter.set<transform_tag>(); // always transform
+-        if (std::fabs(sym.offset()) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
++        if (std::fabs(sym.get_offset(feature)) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
+         converter.set<affine_transform_tag>(); // optional affine transform
+         if (sym.simplify_tolerance() > 0.0) converter.set<simplify_tag>(); // optional simplify converter
+         if (sym.smooth() > 0.0) converter.set<smooth_tag>(); // optional smooth converter
+diff --git a/src/agg/process_markers_symbolizer.cpp b/src/agg/process_markers_symbolizer.cpp
+index 66913a1..caeff2f 100644
+--- a/src/agg/process_markers_symbolizer.cpp
++++ b/src/agg/process_markers_symbolizer.cpp
+@@ -120,7 +120,7 @@ void agg_renderer<T>::process(markers_symbolizer const& sym,
+                     svg_path_adapter svg_path(stl_storage);
+                     build_ellipse(sym, feature, marker_ellipse, svg_path);
+                     svg_attribute_type attributes;
+-                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym);
++                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym, feature);
+                     svg_renderer_type svg_renderer(svg_path, result ? attributes : (*stock_vector_marker)->attributes());
+                     evaluate_transform(tr, feature, sym.get_image_transform());
+                     box2d<double> bbox = marker_ellipse.bounding_box();
+@@ -139,7 +139,7 @@ void agg_renderer<T>::process(markers_symbolizer const& sym,
+                                                       snap_pixels);
+                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
++                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
+                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                     {
+                         eGeomType type = feature.paths()[0].type();
+@@ -165,7 +165,7 @@ void agg_renderer<T>::process(markers_symbolizer const& sym,
+                     vertex_stl_adapter<svg_path_storage> stl_storage((*stock_vector_marker)->source());
+                     svg_path_adapter svg_path(stl_storage);
+                     svg_attribute_type attributes;
+-                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym);
++                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym, feature);
+                     svg_renderer_type svg_renderer(svg_path, result ? attributes : (*stock_vector_marker)->attributes());
+                     buf_type render_buffer(current_buffer_->raw_data(), width_, height_, width_ * 4);
+                     dispatch_type rasterizer_dispatch(render_buffer,
+@@ -179,7 +179,7 @@ void agg_renderer<T>::process(markers_symbolizer const& sym,
+                                                       snap_pixels);
+                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
++                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
+                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                     {
+                         eGeomType type = feature.paths()[0].type();
+@@ -216,7 +216,7 @@ void agg_renderer<T>::process(markers_symbolizer const& sym,
+                                                   true /*snap rasters no matter what*/);
+                 vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                  CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                    converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
++                    converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
+ 
+                 if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                 {
+diff --git a/src/agg/process_polygon_pattern_symbolizer.cpp b/src/agg/process_polygon_pattern_symbolizer.cpp
+index da43f91..88b2fe8 100644
+--- a/src/agg/process_polygon_pattern_symbolizer.cpp
++++ b/src/agg/process_polygon_pattern_symbolizer.cpp
+@@ -150,7 +150,7 @@ void agg_renderer<T>::process(polygon_pattern_symbolizer const& sym,
+     typedef boost::mpl::vector<clip_poly_tag,transform_tag,simplify_tag,smooth_tag> conv_types;
+     vertex_converter<box2d<double>, rasterizer, polygon_pattern_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(query_extent_,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_);
++        converter(query_extent_,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_,feature);
+ 
+     if (prj_trans.equal() && sym.clip()) converter.set<clip_poly_tag>(); //optional clip (default: true)
+     converter.set<transform_tag>(); //always transform
+diff --git a/src/agg/process_polygon_symbolizer.cpp b/src/agg/process_polygon_symbolizer.cpp
+index febd2a5..e070f0f 100644
+--- a/src/agg/process_polygon_symbolizer.cpp
++++ b/src/agg/process_polygon_symbolizer.cpp
+@@ -60,7 +60,7 @@ void agg_renderer<T>::process(polygon_symbolizer const& sym,
+     typedef boost::mpl::vector<clip_poly_tag,transform_tag,affine_transform_tag,simplify_tag,smooth_tag> conv_types;
+     vertex_converter<box2d<double>, rasterizer, polygon_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(query_extent_,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_);
++        converter(query_extent_,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_,feature);
+ 
+     if (prj_trans.equal() && sym.clip()) converter.set<clip_poly_tag>(); //optional clip (default: true)
+     converter.set<transform_tag>(); //always transform
+diff --git a/src/cairo_renderer.cpp b/src/cairo_renderer.cpp
+index d0305b5..a146e27 100644
+--- a/src/cairo_renderer.cpp
++++ b/src/cairo_renderer.cpp
+@@ -319,7 +319,7 @@ void cairo_renderer_base::process(polygon_symbolizer const& sym,
+     typedef boost::mpl::vector<clip_poly_tag,transform_tag,affine_transform_tag,simplify_tag,smooth_tag> conv_types;
+     vertex_converter<box2d<double>, cairo_context, polygon_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(query_extent_,context_,sym,t_,prj_trans,tr,1.0);
++        converter(query_extent_,context_,sym,t_,prj_trans,tr,1.0,feature);
+ 
+     if (prj_trans.equal() && sym.clip()) converter.set<clip_poly_tag>(); //optional clip (default: true)
+     converter.set<transform_tag>(); //always transform
+@@ -454,7 +454,7 @@ void cairo_renderer_base::process(line_symbolizer const& sym,
+     cairo_save_restore guard(context_);
+     mapnik::stroke const& stroke_ = sym.get_stroke();
+     context_.set_operator(sym.comp_op());
+-    context_.set_color(stroke_.get_color(), stroke_.get_opacity());
++    context_.set_color(stroke_.get_color(feature), stroke_.get_opacity());
+     context_.set_line_join(stroke_.get_line_join());
+     context_.set_line_cap(stroke_.get_line_cap());
+     context_.set_miter_limit(stroke_.get_miterlimit());
+@@ -474,18 +474,18 @@ void cairo_renderer_base::process(line_symbolizer const& sym,
+         double half_stroke = stroke_.get_width()/2.0;
+         if (half_stroke > 1)
+             padding *= half_stroke;
+-        if (std::fabs(sym.offset()) > 0)
+-            padding *= std::fabs(sym.offset()) * 1.2;
++        if (std::fabs(sym.get_offset(feature)) > 0)
++            padding *= std::fabs(sym.get_offset(feature)) * 1.2;
+         padding *= scale_factor_;
+         clipping_extent.pad(padding);
+     }
+     vertex_converter<box2d<double>, cairo_context, line_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(clipping_extent,context_,sym,t_,prj_trans,tr,scale_factor_);
++        converter(clipping_extent,context_,sym,t_,prj_trans,tr,scale_factor_,feature);
+ 
+     if (sym.clip()) converter.set<clip_line_tag>(); // optional clip (default: true)
+     converter.set<transform_tag>(); // always transform
+-    if (std::fabs(sym.offset()) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
++    if (std::fabs(sym.get_offset(feature)) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
+     converter.set<affine_transform_tag>(); // optional affine transform
+     if (sym.simplify_tolerance() > 0.0) converter.set<simplify_tag>(); // optional simplify converter
+     if (sym.smooth() > 0.0) converter.set<smooth_tag>(); // optional smooth converter
+@@ -857,7 +857,7 @@ void cairo_renderer_base::process(polygon_pattern_symbolizer const& sym,
+     typedef boost::mpl::vector<clip_poly_tag,transform_tag,affine_transform_tag,simplify_tag,smooth_tag> conv_types;
+     vertex_converter<box2d<double>, cairo_context, polygon_pattern_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(query_extent_,context_,sym,t_,prj_trans,tr, scale_factor_);
++        converter(query_extent_,context_,sym,t_,prj_trans,tr, scale_factor_, feature);
+ 
+     if (prj_trans.equal() && sym.clip()) converter.set<clip_poly_tag>(); //optional clip (default: true)
+     converter.set<transform_tag>(); //always transform
+@@ -1187,7 +1187,7 @@ void cairo_renderer_base::process(markers_symbolizer const& sym,
+                     svg_path_adapter svg_path(stl_storage);
+                     build_ellipse(sym, feature, marker_ellipse, svg_path);
+                     svg_attributes_type attributes;
+-                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym);
++                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym, feature);
+                     agg::trans_affine marker_tr = agg::trans_affine_scaling(scale_factor_);
+                     evaluate_transform(marker_tr, feature, sym.get_image_transform());
+                     box2d<double> new_bbox = marker_ellipse.bounding_box();
+@@ -1196,7 +1196,7 @@ void cairo_renderer_base::process(markers_symbolizer const& sym,
+                                            *detector_, sym, new_bbox, marker_tr, scale_factor_);
+                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                        converter(query_extent_, dispatch, sym, t_, prj_trans, marker_tr, scale_factor_);
++                        converter(query_extent_, dispatch, sym, t_, prj_trans, marker_tr, scale_factor_, feature);
+ 
+                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                     {
+@@ -1215,13 +1215,13 @@ void cairo_renderer_base::process(markers_symbolizer const& sym,
+                 else
+                 {
+                     svg_attributes_type attributes;
+-                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym);
++                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym, feature);
+ 
+                     dispatch_type dispatch(context_, **stock_vector_marker, result?attributes:(*stock_vector_marker)->attributes(),
+                                            *detector_, sym, bbox, tr, scale_factor_);
+                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                        converter(query_extent_, dispatch, sym, t_, prj_trans, tr, scale_factor_);
++                        converter(query_extent_, dispatch, sym, t_, prj_trans, tr, scale_factor_, feature);
+ 
+                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                     {
+@@ -1251,7 +1251,7 @@ void cairo_renderer_base::process(markers_symbolizer const& sym,
+ 
+                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                        converter(query_extent_, dispatch, sym, t_, prj_trans, tr, scale_factor_);
++                        converter(query_extent_, dispatch, sym, t_, prj_trans, tr, scale_factor_, feature);
+ 
+                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                     {
+diff --git a/src/grid/process_line_symbolizer.cpp b/src/grid/process_line_symbolizer.cpp
+index c188b64..9cbec5f 100644
+--- a/src/grid/process_line_symbolizer.cpp
++++ b/src/grid/process_line_symbolizer.cpp
+@@ -78,18 +78,18 @@ void grid_renderer<T>::process(line_symbolizer const& sym,
+         double half_stroke = stroke_.get_width()/2.0;
+         if (half_stroke > 1)
+             padding *= half_stroke;
+-        if (std::fabs(sym.offset()) > 0)
+-            padding *= std::fabs(sym.offset()) * 1.2;
++        if (std::fabs(sym.get_offset(feature)) > 0)
++            padding *= std::fabs(sym.get_offset(feature)) * 1.2;
+         padding *= scale_factor_;
+         clipping_extent.pad(padding);
+     }
+ 
+     vertex_converter<box2d<double>, grid_rasterizer, line_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(clipping_extent,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_);
++        converter(clipping_extent,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_,feature);
+     if (sym.clip()) converter.set<clip_line_tag>(); // optional clip (default: true)
+     converter.set<transform_tag>(); // always transform
+-    if (std::fabs(sym.offset()) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
++    if (std::fabs(sym.get_offset(feature)) > 0.0) converter.set<offset_transform_tag>(); // parallel offset
+     converter.set<affine_transform_tag>(); // optional affine transform
+     if (sym.simplify_tolerance() > 0.0) converter.set<simplify_tag>(); // optional simplify converter
+     if (sym.smooth() > 0.0) converter.set<smooth_tag>(); // optional smooth converter
+diff --git a/src/grid/process_markers_symbolizer.cpp b/src/grid/process_markers_symbolizer.cpp
+index 94cd4cc..83d6538 100644
+--- a/src/grid/process_markers_symbolizer.cpp
++++ b/src/grid/process_markers_symbolizer.cpp
+@@ -129,7 +129,7 @@ void grid_renderer<T>::process(markers_symbolizer const& sym,
+                     // TODO - clamping to >= 4 pixels
+                     build_ellipse(sym, feature, marker_ellipse, svg_path);
+                     svg_attribute_type attributes;
+-                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym);
++                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym, feature);
+                     svg_renderer_type svg_renderer(svg_path, result ? attributes : (*stock_vector_marker)->attributes());
+                     evaluate_transform(tr, feature, sym.get_image_transform());
+                     box2d<double> bbox = marker_ellipse.bounding_box();
+@@ -149,7 +149,7 @@ void grid_renderer<T>::process(markers_symbolizer const& sym,
+                                                       pixmap_);
+                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
++                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
+                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                     {
+                         eGeomType type = feature.paths()[0].type();
+@@ -176,7 +176,7 @@ void grid_renderer<T>::process(markers_symbolizer const& sym,
+                     vertex_stl_adapter<svg_path_storage> stl_storage((*stock_vector_marker)->source());
+                     svg_path_adapter svg_path(stl_storage);
+                     svg_attribute_type attributes;
+-                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym);
++                    bool result = push_explicit_style( (*stock_vector_marker)->attributes(), attributes, sym, feature);
+                     svg_renderer_type svg_renderer(svg_path, result ? attributes : (*stock_vector_marker)->attributes());
+                     buf_type render_buf(pixmap_.raw_data(), width_, height_, width_);
+                     dispatch_type rasterizer_dispatch(render_buf,
+@@ -191,7 +191,7 @@ void grid_renderer<T>::process(markers_symbolizer const& sym,
+                                                       pixmap_);
+                     vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
++                        converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
+                     if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                     {
+                         eGeomType type = feature.paths()[0].type();
+@@ -236,7 +236,7 @@ void grid_renderer<T>::process(markers_symbolizer const& sym,
+                                                   pixmap_);
+                 vertex_converter<box2d<double>, dispatch_type, markers_symbolizer,
+                                  CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-                    converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_);
++                    converter(query_extent_, rasterizer_dispatch, sym,t_,prj_trans,tr,scale_factor_,feature);
+                 if (sym.clip() && feature.paths().size() > 0) // optional clip (default: true)
+                 {
+                     eGeomType type = feature.paths()[0].type();
+diff --git a/src/grid/process_polygon_pattern_symbolizer.cpp b/src/grid/process_polygon_pattern_symbolizer.cpp
+index 3814585..7392b07 100644
+--- a/src/grid/process_polygon_pattern_symbolizer.cpp
++++ b/src/grid/process_polygon_pattern_symbolizer.cpp
+@@ -56,7 +56,7 @@ void grid_renderer<T>::process(polygon_pattern_symbolizer const& sym,
+     typedef boost::mpl::vector<clip_poly_tag,transform_tag,affine_transform_tag,smooth_tag> conv_types;
+     vertex_converter<box2d<double>, grid_rasterizer, polygon_pattern_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(query_extent_,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_);
++        converter(query_extent_,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_,feature);
+ 
+     if (prj_trans.equal() && sym.clip()) converter.set<clip_poly_tag>(); //optional clip (default: true)
+     converter.set<transform_tag>(); //always transform
+diff --git a/src/grid/process_polygon_symbolizer.cpp b/src/grid/process_polygon_symbolizer.cpp
+index 5195760..59be4fb 100644
+--- a/src/grid/process_polygon_symbolizer.cpp
++++ b/src/grid/process_polygon_symbolizer.cpp
+@@ -60,7 +60,7 @@ void grid_renderer<T>::process(polygon_symbolizer const& sym,
+     typedef boost::mpl::vector<clip_poly_tag,transform_tag,affine_transform_tag,simplify_tag,smooth_tag> conv_types;
+     vertex_converter<box2d<double>, grid_rasterizer, polygon_symbolizer,
+                      CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(query_extent_,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_);
++        converter(query_extent_,*ras_ptr,sym,t_,prj_trans,tr,scale_factor_,feature);
+ 
+     if (prj_trans.equal() && sym.clip()) converter.set<clip_poly_tag>(); //optional clip (default: true)
+     converter.set<transform_tag>(); //always transform
+diff --git a/src/load_map.cpp b/src/load_map.cpp
+index 1de047f..647c708 100644
+--- a/src/load_map.cpp
++++ b/src/load_map.cpp
+@@ -1294,11 +1294,11 @@ bool map_parser::parse_stroke(stroke & strk, xml_node const & sym)
+     bool result = false;
+ 
+     // stroke color
+-    optional<color> c = sym.get_opt_attr<color>("stroke");
++    optional<std::string> c = sym.get_opt_attr<std::string>("stroke");
+     if (c)
+     {
+         result = true;
+-        strk.set_color(*c);
++        strk.set_color_expr(parse_path(*c, sym.get_tree().path_expr_grammar));
+     }
+ 
+     // stroke-width
+@@ -1382,8 +1382,8 @@ void map_parser::parse_line_symbolizer(rule & rule, xml_node const & sym)
+         line_symbolizer symbol = line_symbolizer(strk);
+ 
+         // offset value
+-        optional<double> offset = sym.get_opt_attr<double>("offset");
+-        if (offset) symbol.set_offset(*offset);
++        optional<expression_ptr> offset = sym.get_opt_attr<expression_ptr>("offset");
++        if (offset) symbol.set_offset_expr(*offset);
+ 
+         line_rasterizer_e rasterizer = sym.get_attr<line_rasterizer_e>("rasterizer", RASTERIZER_FULL);
+         symbol.set_rasterizer(rasterizer);
+diff --git a/src/save_map.cpp b/src/save_map.cpp
+index edfa029..299b142 100644
+--- a/src/save_map.cpp
++++ b/src/save_map.cpp
+@@ -102,9 +102,9 @@ public:
+         {
+             set_attr( sym_node, "rasterizer", sym.get_rasterizer() );
+         }
+-        if ( sym.offset() != dfl.offset() || explicit_defaults_ )
++        if (sym.get_offset_expr() != dfl.get_offset_expr() || explicit_defaults_)
+         {
+-            set_attr( sym_node, "offset", sym.offset() );
++            set_attr( sym_node, "offset", to_expression_string(*sym.get_offset_expr()) );
+         }
+         serialize_symbolizer_base(sym_node, sym);
+     }
+@@ -463,9 +463,9 @@ private:
+ 
+         stroke dfl = stroke();
+ 
+-        if ( strk.get_color() != dfl.get_color() || explicit_defaults_ )
++        if ( strk.get_color_expr() != dfl.get_color_expr() || explicit_defaults_ )
+         {
+-            set_attr( node, "stroke", strk.get_color() );
++            set_attr( node, "stroke", path_processor_type::to_string(*strk.get_color_expr()));
+         }
+         if ( strk.get_width() != dfl.get_width() || explicit_defaults_ )
+         {
+diff --git a/src/stroke.cpp b/src/stroke.cpp
+index deb4ce6..21302be 100644
+--- a/src/stroke.cpp
++++ b/src/stroke.cpp
+@@ -22,6 +22,9 @@
+ 
+ #include <mapnik/stroke.hpp>
+ #include <mapnik/enumeration.hpp>
++#include <mapnik/expression_evaluator.hpp>
++#include <mapnik/color_factory.hpp>
++#include <mapnik/parse_path.hpp>
+ 
+ namespace mapnik
+ {
+@@ -48,7 +51,8 @@ static const char * line_join_strings[] = {
+ IMPLEMENT_ENUM( line_join_e, line_join_strings )
+ 
+ stroke::stroke()
+-: c_(0,0,0),
++: c_(),
++    c_resolved(0, 0, 0),
+     width_(1.0),
+     opacity_(1.0),
+     line_cap_(BUTT_CAP),
+@@ -60,7 +64,8 @@ stroke::stroke()
+     miterlimit_(4.0) {}
+ 
+ stroke::stroke(color const& c, double width)
+-    : c_(c),
++    : c_(),
++      c_resolved(c),
+       width_(width),
+       opacity_(1.0),
+       line_cap_(BUTT_CAP),
+@@ -73,6 +78,7 @@ stroke::stroke(color const& c, double width)
+ 
+ stroke::stroke(stroke const& other)
+     : c_(other.c_),
++      c_resolved(other.c_resolved),
+       width_(other.width_),
+       opacity_(other.opacity_),
+       line_cap_(other.line_cap_),
+@@ -90,12 +96,21 @@ stroke & stroke::operator=(const stroke& rhs)
+     return *this;
+ }
+ 
+-void stroke::set_color(const color& c)
++color stroke::get_color(mapnik::feature_impl & feature) const
+ {
+-    c_=c;
++    if (c_)
++    {
++        return mapnik::parse_color(path_processor_type::evaluate(*c_, feature));
++    }
++    return c_resolved;
+ }
+ 
+-color const& stroke::get_color() const
++void stroke::set_color_expr(path_expression_ptr const& c)
++{
++    c_ = c;
++}
++
++path_expression_ptr const& stroke::get_color_expr() const
+ {
+     return c_;
+ }
+diff --git a/tests/cpp_tests/geometry_converters_test.cpp b/tests/cpp_tests/geometry_converters_test.cpp
+index 2444371..ecccdbc 100644
+--- a/tests/cpp_tests/geometry_converters_test.cpp
++++ b/tests/cpp_tests/geometry_converters_test.cpp
+@@ -1,5 +1,6 @@
+ #include <boost/version.hpp>
+ #include <boost/detail/lightweight_test.hpp>
++#include <boost/make_shared.hpp>
+ #include <iostream>
+ #include <vector>
+ #include <algorithm>
+@@ -17,6 +18,7 @@
+ #include <mapnik/util/geometry_to_wkb.hpp>
+ #include <mapnik/util/geometry_to_wkt.hpp>
+ #include <mapnik/util/geometry_to_svg.hpp>
++#include <mapnik/feature.hpp>
+ 
+ // stl
+ #include <stdexcept>
+@@ -57,11 +59,12 @@ boost::optional<std::string> linestring_bbox_clipping(mapnik::box2d<double> bbox
+     CoordTransform t(bbox.width(),bbox.height(), bbox);
+     boost::ptr_vector<mapnik::geometry_type> output_paths;
+     output_geometry_backend backend(output_paths, mapnik::LineString);
++    feature_impl feature(boost::make_shared<mapnik::context_type>(), 1);
+ 
+     typedef boost::mpl::vector<clip_line_tag> conv_types;
+     vertex_converter<box2d<double>, output_geometry_backend, line_symbolizer,
+         CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(bbox, backend, sym, t, prj_trans, tr, 1.0);
++        converter(bbox, backend, sym, t, prj_trans, tr, 1.0, feature);
+ 
+     converter.set<clip_line_tag>();
+ 
+@@ -97,11 +100,12 @@ boost::optional<std::string> polygon_bbox_clipping(mapnik::box2d<double> bbox,
+     CoordTransform t(bbox.width(),bbox.height(), bbox);
+     boost::ptr_vector<mapnik::geometry_type> output_paths;
+     output_geometry_backend backend(output_paths, mapnik::Polygon);
++    feature_impl feature(boost::make_shared<mapnik::context_type>(), 1);
+ 
+     typedef boost::mpl::vector<clip_poly_tag> conv_types;
+     vertex_converter<box2d<double>, output_geometry_backend, polygon_symbolizer,
+         CoordTransform, proj_transform, agg::trans_affine, conv_types>
+-        converter(bbox, backend, sym, t, prj_trans, tr, 1.0);
++        converter(bbox, backend, sym, t, prj_trans, tr, 1.0, feature);
+ 
+     converter.set<clip_poly_tag>();
+ 
+-- 
+2.0.4
+
