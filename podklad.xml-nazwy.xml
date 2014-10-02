@@ -49,13 +49,13 @@
    (SELECT ST_LineMerge(ST_Collect(way)) AS way, highway,
       (SELECT array_agg(r)
        FROM unnest(string_to_array(replace(ref, ' ', ''), ';')) AS r
-       WHERE char_length(r) &lt;= 3) AS refs
+       WHERE char_length(r) &lt;= 4) AS refs
        -- Interesting highway refs in Poland &amp; Slovakia are 2 or 3 char
        -- long anything else is most likely error or a local road reference
        -- number which is not generally useful.  Unfortunately this check will
        -- break shield rendering in some other countries, we should probably
        -- use the "network" tag or some other tag here to determine this is
-       -- part of the local road network.
+       -- part of the local road network.  Use 4 as a tradeoff here.
     FROM planet_osm_line
     WHERE ref IS NOT NULL AND highway IS NOT NULL AND
       way &amp;&amp; !bbox! -- ST_Expand(!bbox!, 500)
