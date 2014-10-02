@@ -53,6 +53,7 @@
 
 <Style name="xxline style 2">
   <Rule>
+    &maxscale_zoom9;
     &minscale_zoom10;
     <LineSymbolizer stroke="#a1cbea" stroke-linejoin="round" stroke-width="9.0" />
   </Rule>
@@ -61,12 +62,13 @@
   <StyleName>xxline style 2</StyleName>
   <Datasource>
     <Parameter name="type">shape</Parameter>
-    <Parameter name="file">&coastlines_simple;</Parameter>
+    <Parameter name="file">&coastlines;</Parameter>
   </Datasource>
 </Layer>
 
 <Style name="xxline style 6">
   <Rule>
+    &maxscale_zoom9;
     &minscale_zoom10;
     <LineSymbolizer stroke="#7eaac1" stroke-linejoin="round" stroke-width="3.0" />
   </Rule>
@@ -75,12 +77,13 @@
   <StyleName>xxline style 6</StyleName>
   <Datasource>
     <Parameter name="type">shape</Parameter>
-    <Parameter name="file">&coastlines_simple;</Parameter>
+    <Parameter name="file">&coastlines;</Parameter>
   </Datasource>
 </Layer>
 
 <Style name="xxpolygon style 9">
   <Rule>
+    &maxscale_zoom9;
     &minscale_zoom10;
     <PolygonSymbolizer fill="&bgcol;" />
   </Rule>
@@ -89,6 +92,6 @@
   <StyleName>xxpolygon style 9</StyleName>
   <Datasource>
     <Parameter name="type">shape</Parameter>
-    <Parameter name="file">&coastlines_simple;</Parameter>
+    <Parameter name="file">&coastlines;</Parameter>
   </Datasource>
 </Layer>
