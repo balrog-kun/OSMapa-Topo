@@ -1,63 +1,94 @@
-    <Style name="xline style 2">
-        <Rule><MaxScaleDenominator>99999</MaxScaleDenominator><LineSymbolizer stroke="#a1cbea" stroke-linejoin="round" stroke-width="13.0" /></Rule>
-        <Rule><MinScaleDenominator>100000</MinScaleDenominator>&maxscale_zoom11;<LineSymbolizer stroke="#a1cbea" stroke-linejoin="round" stroke-width="9.0" /></Rule>
-        </Style>
-    <Layer name="xlayer 4" status="on">
-        <StyleName>xline style 2</StyleName>
-        <Datasource>
-            <Parameter name="type">shape</Parameter>
-            <Parameter name="file">&coastlines;</Parameter>
-        </Datasource>
-    </Layer>
-    <Style name="xline style 6">
-        <Rule><MaxScaleDenominator>99999</MaxScaleDenominator><LineSymbolizer stroke="#7eaac1" stroke-linejoin="round" stroke-width="5.0" /></Rule>
-        <Rule>&maxscale_zoom11;<MinScaleDenominator>100000</MinScaleDenominator><LineSymbolizer stroke="#7eaac1" stroke-linejoin="round" stroke-width="3.0" /></Rule>
-        </Style>
-    <Layer name="xlayer 8" status="on">
-        <StyleName>xline style 6</StyleName>
-        <Datasource>
-            <Parameter name="type">shape</Parameter>
-            <Parameter name="file">&coastlines;</Parameter>
-        </Datasource>
-    </Layer>
-    <Style name="xpolygon style 9">
-        <Rule>&maxscale_zoom11;<PolygonSymbolizer fill="&bgcol;" /><LineSymbolizer stroke="&bgcol;" stroke-width="1.0" /></Rule>
-        </Style>
-    <Layer name="xlayer 12" status="on">
-        <StyleName>xpolygon style 9</StyleName>
-        <Datasource>
-            <Parameter name="type">shape</Parameter>
-            <Parameter name="file">&coastlines;</Parameter>
-        </Datasource>
-    </Layer>
+<Style name="xline style 2">
+  <Rule>
+    &maxscale_zoom13;
+    <LineSymbolizer stroke="#a1cbea" stroke-linejoin="round" stroke-width="13.0" />
+  </Rule>
+  <Rule>
+    &minscale_zoom12;
+    &maxscale_zoom11;
+    <LineSymbolizer stroke="#a1cbea" stroke-linejoin="round" stroke-width="9.0" />
+  </Rule>
+</Style>
+<Layer name="xlayer 4" status="on">
+  <StyleName>xline style 2</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">&coastlines;</Parameter>
+  </Datasource>
+</Layer>
 
-    <Style name="xxline style 2">
-        <Rule>&minscale_zoom10;<LineSymbolizer stroke="#a1cbea" stroke-linejoin="round" stroke-width="9.0" /></Rule>
-        </Style>
-    <Layer name="xxlayer 4" status="on">
-        <StyleName>xxline style 2</StyleName>
-        <Datasource>
-            <Parameter name="type">shape</Parameter>
-            <Parameter name="file">&coastlines_simple;</Parameter>
-        </Datasource>
-    </Layer>
-    <Style name="xxline style 6">
-        <Rule>&minscale_zoom10;<LineSymbolizer stroke="#7eaac1" stroke-linejoin="round" stroke-width="3.0" /></Rule>
-        </Style>
-    <Layer name="xxlayer 8" status="on">
-        <StyleName>xxline style 6</StyleName>
-        <Datasource>
-            <Parameter name="type">shape</Parameter>
-            <Parameter name="file">&coastlines_simple;</Parameter>
-        </Datasource>
-    </Layer>
-    <Style name="xxpolygon style 9">
-        <Rule>&minscale_zoom10;<PolygonSymbolizer fill="&bgcol;" /></Rule>
-        </Style>
-    <Layer name="xxlayer 12" status="on">
-        <StyleName>xxpolygon style 9</StyleName>
-        <Datasource>
-            <Parameter name="type">shape</Parameter>
-            <Parameter name="file">&coastlines_simple;</Parameter>
-        </Datasource>
-    </Layer>
+<Style name="xline style 6">
+  <Rule>
+    &maxscale_zoom13;
+    <LineSymbolizer stroke="#7eaac1" stroke-linejoin="round" stroke-width="5.0" />
+  </Rule>
+  <Rule>
+    &minscale_zoom12;
+    &maxscale_zoom11;
+    <LineSymbolizer stroke="#7eaac1" stroke-linejoin="round" stroke-width="3.0" />
+  </Rule>
+</Style>
+<Layer name="xlayer 8" status="on">
+  <StyleName>xline style 6</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">&coastlines;</Parameter>
+  </Datasource>
+</Layer>
+
+<Style name="xpolygon style 9">
+  <Rule>
+    &maxscale_zoom11;
+    <PolygonSymbolizer fill="&bgcol;" />
+    <LineSymbolizer stroke="&bgcol;" stroke-width="1.0" />
+  </Rule>
+</Style>
+<Layer name="xlayer 12" status="on">
+  <StyleName>xpolygon style 9</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">&coastlines;</Parameter>
+  </Datasource>
+</Layer>
+
+<Style name="xxline style 2">
+  <Rule>
+    &minscale_zoom10;
+    <LineSymbolizer stroke="#a1cbea" stroke-linejoin="round" stroke-width="9.0" />
+  </Rule>
+</Style>
+<Layer name="xxlayer 4" status="on">
+  <StyleName>xxline style 2</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">&coastlines_simple;</Parameter>
+  </Datasource>
+</Layer>
+
+<Style name="xxline style 6">
+  <Rule>
+    &minscale_zoom10;
+    <LineSymbolizer stroke="#7eaac1" stroke-linejoin="round" stroke-width="3.0" />
+  </Rule>
+</Style>
+<Layer name="xxlayer 8" status="on">
+  <StyleName>xxline style 6</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">&coastlines_simple;</Parameter>
+  </Datasource>
+</Layer>
+
+<Style name="xxpolygon style 9">
+  <Rule>
+    &minscale_zoom10;
+    <PolygonSymbolizer fill="&bgcol;" />
+  </Rule>
+</Style>
+<Layer name="xxlayer 12" status="on">
+  <StyleName>xxpolygon style 9</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">&coastlines_simple;</Parameter>
+  </Datasource>
+</Layer>
