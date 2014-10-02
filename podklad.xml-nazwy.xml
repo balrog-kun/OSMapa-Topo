@@ -40,8 +40,8 @@
     &datasource-settings;
     <Parameter name="table">
 (SELECT way, highway,
-   (SELECT MAX(CASE WHEN char_length(r) > 7 THEN 3 ELSE
-      CASE WHEN char_length(r) > 3 THEN 2 ELSE 1 END END)
+   (SELECT MAX(CASE WHEN char_length(r) &gt; 7 THEN 3 ELSE
+      CASE WHEN char_length(r) &gt; 3 THEN 2 ELSE 1 END END)
     FROM unnest(refs) AS r) AS width,
    LEAST(array_length(refs, 1), 3) AS height,
    array_to_string(refs, E'\n') AS refs -- TODO: sort
@@ -50,9 +50,9 @@
       (SELECT array_agg(r)
        FROM unnest(string_to_array(replace(ref, ' ', ''), ';')) AS r
        WHERE char_length(r) &lt;= 3) AS refs
-       -- Interesting highway refs in Poland & Slovakia are 2 or 3 char long,
-       -- anything else is most likely error or a local road reference number
-       -- which is not generally useful.  Unfortunately this check will
+       -- Interesting highway refs in Poland &amp; Slovakia are 2 or 3 char
+       -- long anything else is most likely error or a local road reference
+       -- number which is not generally useful.  Unfortunately this check will
        -- break shield rendering in some other countries, we should probably
        -- use the "network" tag or some other tag here to determine this is
        -- part of the local road network.
