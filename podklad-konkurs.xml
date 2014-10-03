@@ -527,14 +527,14 @@
       <LineSymbolizer stroke="white" stroke-width="5" stroke-dasharray="8,8"/>
     </Rule>
     <Rule>
-      &minscale_zoom11;
       &maxscale_zoom10;
+      &minscale_zoom11;
       <Filter>[boundary] = 'administrative' and [admin_level] = '2'</Filter>
-      <LineSymbolizer stroke="#333333" stroke-width="2" stroke-dasharray="4 4 2 4"/>
+      <LineSymbolizer stroke="#333333" stroke-width="2.5" stroke-dasharray="4 4 2 4"/>
     </Rule>
     <Rule>
-      &minscale_zoom13;
       &maxscale_zoom12;
+      &minscale_zoom13;
       <Filter>[boundary] = 'administrative' and [admin_level] = '2'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#000000" stroke-width="2" stroke-dasharray="4 4 2 4"/>
       <LineSymbolizer stroke="#df6e7b" stroke-width="6" stroke-opacity="0.5"/>
@@ -554,17 +554,11 @@
     </Rule>
     <Rule>
       &maxscale_zoom14;
-      <Filter>[boundary] = 'administrative' and [admin_level] &gt;=2</Filter>
+      <Filter>[boundary] = 'administrative' and [admin_level] &gt;= 2</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="2" stroke-dasharray="4 4 2 4"/>
     </Rule>
     <Rule>
-      &minscale_zoom10;
       &maxscale_zoom10;
-      <Filter>[boundary] = 'administrative' and [admin_level] = '4'</Filter>
-      <LineSymbolizer stroke="#444444" stroke-width="0.5" stroke-dasharray="4 4 2 4"/>
-    </Rule>
-    <Rule>
-      &maxscale_zoom11;
       &minscale_zoom11;
       <Filter>[boundary] = 'administrative' and [admin_level] = '4'</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1.5" stroke-dasharray="4 4 2 4"/>
@@ -2020,42 +2014,81 @@
       &minscale_zoom7;
       <TextSymbolizer face-name="DejaVu Sans Book" size="13" fill="#555" dy="0" halo-radius="1" wrap-width="0" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W" text-transform="uppercase">[name]</TextSymbolizer>
     </Rule>
+
     <Rule>
       <Filter>([place] = 'town' or [place] = 'city') and [population] &gt; 200000</Filter>
       &maxscale_zoom8;
-      &minscale_zoom10;
+      &minscale_zoom9;
       <TextSymbolizer face-name="DejaVu Sans Book" size="16" fill="#000" halo-radius="2" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W" text-transform="uppercase">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>([place] = 'town' or [place] = 'city') and [population] &gt; 100000 and [population] &lt; 200000</Filter>
       &maxscale_zoom8;
-      &minscale_zoom10;
+      &minscale_zoom9;
       <TextSymbolizer face-name="DejaVu Sans Book" size="14" fill="#000" halo-radius="2" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>([place] = 'town' or [place] = 'city') and [population] &gt; 50000 and [population] &lt; 100000</Filter>
       &maxscale_zoom8;
-      &minscale_zoom10;
+      &minscale_zoom9;
       <TextSymbolizer face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>([place] = 'town' or [place] = 'city') and [population] &lt; 50000 and [population] &gt; 25000</Filter>
       &maxscale_zoom8;
-      &minscale_zoom10;
+      &minscale_zoom9;
       <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>([place] = 'town' or [place] = 'city') and [population] &lt; 25000</Filter>
       &maxscale_zoom8;
-      &minscale_zoom10;
+      &minscale_zoom9;
       <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>([place] = 'town' or [place] = 'city') and not [population] &gt; ''</Filter>
       &maxscale_zoom9;
-      &minscale_zoom10;
+      &minscale_zoom9;
       <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
     </Rule>
+
+    <Rule>
+      <Filter>([place] = 'town' or [place] = 'city') and [population] &gt; 200000</Filter>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <TextSymbolizer face-name="DejaVu Sans Book" size="18" fill="#000" halo-radius="2" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W" text-transform="uppercase">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      <Filter>([place] = 'town' or [place] = 'city') and [population] &gt; 100000 and [population] &lt; 200000</Filter>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <TextSymbolizer face-name="DejaVu Sans Book" size="16" fill="#000" halo-radius="2" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      <Filter>([place] = 'town' or [place] = 'city') and [population] &gt; 50000 and [population] &lt; 100000</Filter>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <TextSymbolizer face-name="DejaVu Sans Book" size="14" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      <Filter>([place] = 'town' or [place] = 'city') and [population] &lt; 50000 and [population] &gt; 25000</Filter>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <TextSymbolizer face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      <Filter>([place] = 'town' or [place] = 'city') and [population] &lt; 25000</Filter>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      <Filter>([place] = 'town' or [place] = 'city') and not [population] &gt; ''</Filter>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <TextSymbolizer face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
+    </Rule>
+
   </Style>
   <Style name="nazwy_miejsc">
     <Rule>
@@ -2153,6 +2186,12 @@
       &maxscale_zoom14;
       &minscale_zoom15;
       <TextSymbolizer face-name="DejaVu Sans Bold" size="16" fill="#000" halo-radius="1" wrap-width="20" text-transform="uppercase" allow-overlap="true">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      <Filter>([place] = 'village' or [place] = 'suburb') and [population] &gt; 4000</Filter>
+      &maxscale_zoom10;
+      &minscale_zoom11;
+      <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" wrap-width="0">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>[place] = 'village' or [place] = 'neighbourhood'</Filter>
