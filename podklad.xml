@@ -2068,8 +2068,8 @@
       &minscale_zoom10;
       <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" wrap-width="20" placement-type="simple" placements="NW,X,SE,SW,S,N,NE,E,W">[name]</TextSymbolizer>
     </Rule>
-    </Style>
-    <Style name="nazwy_miejsc">
+  </Style>
+  <Style name="nazwy_miejsc">
     <Rule>
       <Filter>([place] = 'town' or [place] = 'city') and [population] &gt; 200000</Filter>
       &maxscale_zoom11;
