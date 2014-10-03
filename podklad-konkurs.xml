@@ -1,6 +1,12 @@
   <Style name="linie_dol">
     <!-- głównie czarne obwódki dla dróg, ale także granice itp. wszystkie obiekty z tabeli planet_osm_line - dozwolone. -->
     <Rule>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#FCA000" stroke-width="4" stroke-opacity="0.7"/>
+    </Rule>
+    <Rule>
       &maxscale_zoom11;
       &minscale_zoom11;
       <Filter>[highway] = 'motorway'</Filter>
@@ -729,7 +735,7 @@
       <LineSymbolizer stroke="#222222" stroke-width="3" stroke-dasharray="1,10"/>
     </Rule>
   </Style>
-  <Style name="cieki11i12">
+  <Style name="cieki10i11">
     <Rule>
       &maxscale_zoom10;
       &minscale_zoom11;
@@ -816,7 +822,7 @@
     </Rule>
     <Rule>
       &maxscale_zoom9;
-      &minscale_zoom10;
+      &minscale_zoom9;
       <Filter>[highway] = 'motorway'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FCBD00" stroke-width="3" stroke-opacity="0.5"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="2"/>
@@ -841,12 +847,18 @@
     </Rule>
     <Rule>
       &maxscale_zoom9;
-      &minscale_zoom10;
+      &minscale_zoom9;
       <Filter>[highway] = 'primary' or [highway] = 'trunk'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="1"/>
     </Rule>
-    </Style>
-     <Style name="drogi_glowne">
+  </Style>
+  <Style name="drogi_glowne">
+    <Rule>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="2"/>
+    </Rule>
     <Rule>
       &maxscale_zoom11;
       &minscale_zoom11;
@@ -871,8 +883,8 @@
       <LineSymbolizer stroke-linejoin="round" stroke="#809bc0" stroke-width="8"/>
     </Rule>
     <Rule>
+      &maxscale_zoom10;
       &minscale_zoom11;
-      &maxscale_zoom11;
       <Filter>[highway] = 'primary' or [highway] = 'trunk' or [highway] = 'primary_link' or [highway] = 'trunk_link'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="2"/>
     </Rule>
@@ -1205,8 +1217,8 @@
   <Style name="refy_drog">
     <!-- tabliczki z numerami dróg primary/secondary -->
     <Rule>
-      &minscale_zoom12;
       &maxscale_zoom11;
+      &minscale_zoom12;
       <Filter>[highway] = 'motorway' and [refs] &gt; ''</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="75" spacing="500">[refs]</ShieldSymbolizer>
     </Rule>
@@ -3526,11 +3538,11 @@
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
-  <Layer name="cieki11i12">
-    <StyleName>cieki11i12</StyleName>
+  <Layer name="cieki10i11">
+    <StyleName>cieki10i11</StyleName>
     <Datasource>
       &datasource-settings;
-      <Parameter name="table">(SELECT * FROM planet_osm_line WHERE waterway = 'river' OR waterway = 'canal') as "cieki11i12"</Parameter>
+      <Parameter name="table">(SELECT * FROM planet_osm_line WHERE waterway = 'river' OR waterway = 'canal') as "cieki10i11"</Parameter>
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
