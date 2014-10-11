@@ -16,11 +16,11 @@
   </Datasource>
 </Layer>
 
-<Layer name="nazwy_poligonow_lores">
-  <StyleName>nazwy_poligonow_lores</StyleName>
+<Layer name="countries">
+  <StyleName>countries</StyleName>
   <Datasource>
     &datasource-settings;
-    <Parameter name="table">(SELECT way, name FROM countries WHERE way &amp;&amp; !bbox! ORDER BY population DESC NULLS LAST) AS "miejsca"</Parameter>
+    <Parameter name="table">(SELECT way, name FROM places_point WHERE place = 'country' AND way &amp;&amp; !bbox! ORDER BY population DESC NULLS LAST) AS "miejsca"</Parameter>
     <Parameter name="geometry_field">way</Parameter>
   </Datasource>
 </Layer>
@@ -99,7 +99,16 @@
   <StyleName>nazwy_miast</StyleName>
   <Datasource>
     &datasource-settings;
-    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital, admin_level FROM planet_osm_point WHERE way &amp;&amp; !bbox! AND (place = 'city' OR place = 'town') ORDER BY place ASC, population DESC NULLS LAST) AS "miejsca"</Parameter>
+    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital FROM places_point WHERE way &amp;&amp; !bbox! AND (place = 'city' OR place = 'town') ORDER BY place ASC, population DESC NULLS LAST) AS "miejsca"</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="nazwy_miast_hires" clear-label-cache="on">
+  <StyleName>nazwy_miast_hires</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital FROM places_point WHERE way &amp;&amp; !bbox! AND (place = 'city' OR place = 'town') ORDER BY place ASC, population DESC NULLS LAST) AS "miejsca"</Parameter>
     <Parameter name="geometry_field">way</Parameter>
   </Datasource>
 </Layer>
@@ -108,7 +117,7 @@
   <StyleName>nazwy_miejsc</StyleName>
   <Datasource>
     &datasource-settings;
-    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital, admin_level FROM planet_osm_point WHERE way &amp;&amp; !bbox! AND place IS NOT NULL ORDER BY place &lt;&gt; 'city' ASC, place &lt;&gt; 'town' ASC, place &lt;&gt; 'suburb' ASC, place &lt;&gt; 'village' ASC, population DESC NULLS LAST) as "miejsca"</Parameter>
+    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital FROM planet_osm_point WHERE way &amp;&amp; !bbox! AND place IS NOT NULL ORDER BY place &lt;&gt; 'city' ASC, place &lt;&gt; 'town' ASC, place &lt;&gt; 'suburb' ASC, place &lt;&gt; 'village' ASC, population DESC NULLS LAST) as "miejsca"</Parameter>
     <Parameter name="geometry_field">way</Parameter>
   </Datasource>
 </Layer>

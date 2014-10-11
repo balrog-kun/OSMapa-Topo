@@ -1,0 +1,22 @@
+# osm2pgsql style file for the places_point table used for displaying
+# countries, cities and towns.  The goal of having these separately
+# (apart from possible specialised preprocessing like using the
+# use-latin-script.py script) is to be able to have data for low zoom-
+# levels in separate tables so that the main/live planet_osm_ tables
+# can use only a country extract while low zooms are global.
+#
+# osmosis --read-pbf planet-140910.osm.pbf --tf accept-nodes \
+#    place=country,state,city,town --tf reject-relations --tf reject-ways \
+#    --write-xml places-important.osm
+# ./use-latin-script.py places-important.osm
+# osm2pgsql --prefix places -d osm --cache 8000 --style places.style \
+#    places-important.osm-latin.osm
+#
+# OsmType  Tag           DataType     Flags
+node,way   name          text         linear
+node,way   short_name    text         linear
+node,way   shortest_name text         linear
+node,way   official_name text         linear
+node,way   place         text         linear
+node,way   capital       text         linear
+node,way   population    int4         linear

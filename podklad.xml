@@ -1845,7 +1845,7 @@
       <PolygonSymbolizer fill-opacity="0.25" fill="#666666"/>
     </Rule>
   </Style>
-  <Style name="nazwy_poligonow_lores">
+  <Style name="countries">
     <!--<Rule>
       <Filter>[boundary] = 'administrative' and [admin_level] = '4'</Filter>
       &maxscale_zoom6;
@@ -1869,7 +1869,7 @@
     </Rule>
   </Style>
   <Style name="nazwy_poligonow">
-		    <!-- nazwy krajów, lasów, zbiorników wodnych, zakładów przemysłowych, cmentarzy, terenów chronionych -->
+    <!-- nazwy lasów, zbiorników wodnych, zakładów przemysłowych, cmentarzy, terenów chronionych -->
     <Rule>
       &maxscale_zoom8;
       &minscale_zoom12;
@@ -2102,7 +2102,7 @@
     </Rule>
 
   </Style>
-  <Style name="nazwy_miejsc">
+  <Style name="nazwy_miast_hires">
     <Rule>
       <Filter>([place] = 'town' or [place] = 'city') and [population] &gt; 200000</Filter>
       &maxscale_zoom11;
@@ -2199,6 +2199,8 @@
       &minscale_zoom15;
       <TextSymbolizer face-name="DejaVu Sans Bold" size="16" fill="#000" halo-radius="1" wrap-width="20" text-transform="uppercase" allow-overlap="true">[name]</TextSymbolizer>
     </Rule>
+  </Style>
+  <Style name="nazwy_miejsc">
     <Rule>
       <Filter>([place] = 'village' or [place] = 'suburb') and [population] &gt; 4000</Filter>
       &maxscale_zoom10;
