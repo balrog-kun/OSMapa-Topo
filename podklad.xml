@@ -1881,31 +1881,37 @@
     <!-- nazwy lasów, zbiorników wodnych, zakładów przemysłowych, cmentarzy, terenów chronionych -->
     <Rule>
       &maxscale_zoom8;
+      &minscale_zoom9;
+      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;= 10000000</Filter>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="8" fill="#0000FF" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      &maxscale_zoom10;
       &minscale_zoom12;
-      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;=2500000</Filter>
+      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;= 2500000</Filter>
       <TextSymbolizer face-name="DejaVu Sans Oblique" size="9" fill="#0000FF" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom13;
-      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;=500000</Filter>
+      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;= 500000</Filter>
       <TextSymbolizer face-name="DejaVu Sans Oblique" size="9" fill="#0000FF" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom13;
-      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &lt;=500000</Filter>
+      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &lt;= 500000</Filter>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;=100000</Filter>
+      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;= 100000</Filter>
       <TextSymbolizer face-name="DejaVu Sans Oblique" size="9" fill="#0000FF" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &lt;=100000</Filter>
+      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &lt;= 100000</Filter>
     </Rule>
     <Rule>
       &maxscale_zoom15;
