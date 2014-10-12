@@ -1,0 +1,24 @@
+# osmosis --read-pbf planet-140910.osm.pbf --tf accept-ways \
+#    highway=trunk,motorway,primary --tf reject-relations --used-node \
+#    --write-pbf roads-important.pbf
+# osm2pgsql --prefix roads -d osm --cache 8000 --style roads.style \
+#    roads-important.pbf
+# UPDATE roads_line SET way = ST_SimplifyPreserveTopology(way, 100);
+# ALTER TABLE roads_line RENAME TO roads_line_simpl;
+# ANALYZE roads_line_simpl;
+
+# OsmType  Tag          DataType     Flags
+
+node,way   note         text         delete   # These tags can be long but are useless for rendering
+node,way   source       text         delete   # This indicates that we shouldn't store them
+
+node,way   bridge       text         linear
+node,way   highway      text         linear
+node,way   name         text         linear
+node,way   oneway       text         linear
+node,way   ref          text         linear
+node,way   route        text         linear
+node,way   tunnel       text         linear
+node,way   network      text         linear
+
+way       route_name       text     linear

@@ -1,11 +1,13 @@
-  <Style name="linie_dol">
-    <!-- głównie czarne obwódki dla dróg, ale także granice itp. wszystkie obiekty z tabeli planet_osm_line - dozwolone. -->
+  <Style name="linie_dol_lores">
     <Rule>
       &maxscale_zoom10;
       &minscale_zoom10;
       <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FCA000" stroke-width="4" stroke-opacity="0.7"/>
     </Rule>
+  </Style>
+  <Style name="linie_dol">
+    <!-- głównie czarne obwódki dla dróg, ale także granice itp. wszystkie obiekty z tabeli planet_osm_line - dozwolone. -->
     <Rule>
       &maxscale_zoom11;
       &minscale_zoom11;
@@ -822,6 +824,12 @@
       <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="2"/>
     </Rule>
     <Rule>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="2"/>
+    </Rule>
+    <Rule>
       &maxscale_zoom6;
       &minscale_zoom5;
       <Filter>[highway] = 'primary' or [highway] = 'trunk'</Filter>
@@ -845,14 +853,26 @@
       <Filter>[highway] = 'primary' or [highway] = 'trunk'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="1"/>
     </Rule>
-  </Style>
-  <Style name="drogi_glowne">
     <Rule>
       &maxscale_zoom10;
       &minscale_zoom10;
-      <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
+      <Filter>[highway] = 'primary' or [highway] = 'trunk' or [highway] = 'primary_link' or [highway] = 'trunk_link'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="2"/>
     </Rule>
+    <Rule>
+      &minscale_zoom9;
+      &maxscale_zoom9;
+      <Filter>[highway] = 'secondary'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#AF7817" stroke-width="1"/>
+    </Rule>
+    <Rule>
+      &minscale_zoom10;
+      &maxscale_zoom10;
+      <Filter>[highway] = 'secondary'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#AF7817" stroke-width="2"/>
+    </Rule>
+  </Style>
+  <Style name="drogi_glowne">
     <Rule>
       &maxscale_zoom11;
       &minscale_zoom11;
@@ -877,7 +897,7 @@
       <LineSymbolizer stroke-linejoin="round" stroke="#809bc0" stroke-width="8"/>
     </Rule>
     <Rule>
-      &maxscale_zoom10;
+      &maxscale_zoom11;
       &minscale_zoom11;
       <Filter>[highway] = 'primary' or [highway] = 'trunk' or [highway] = 'primary_link' or [highway] = 'trunk_link'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#C11B17" stroke-width="2"/>
@@ -1057,18 +1077,6 @@
   </Style>
   <Style name="drogi_wojewodzkie">
     <!--wypełnienie dla dróg wojewódzkich (secondary)-->
-    <Rule>
-      &minscale_zoom9;
-      &maxscale_zoom9;
-      <Filter>[highway] = 'secondary'</Filter>
-      <LineSymbolizer stroke-linejoin="round" stroke="#AF7817" stroke-width="1"/>
-    </Rule>
-    <Rule>
-      &minscale_zoom10;
-      &maxscale_zoom10;
-      <Filter>[highway] = 'secondary'</Filter>
-      <LineSymbolizer stroke-linejoin="round" stroke="#AF7817" stroke-width="2"/>
-    </Rule>
     <Rule>
       &minscale_zoom11;
       &maxscale_zoom11;
@@ -3595,6 +3603,14 @@
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
+  <Layer name="linie_dol_lores">
+    <StyleName>linie_dol_lores</StyleName>
+    <Datasource>
+      &datasource-settings;
+      <Parameter name="table">roads_line_simpl</Parameter>
+      <Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
   <Layer name="linie_dol">
     <StyleName>linie_dol</StyleName>
     <Datasource>
@@ -3675,11 +3691,11 @@
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
-    <Layer name="drogi_glowne_lores">
+  <Layer name="drogi_glowne_lores">
     <StyleName>drogi_glowne_lores</StyleName>
     <Datasource>
       &datasource-settings;
-      <Parameter name="table">(SELECT way, highway FROM planet_osm_line_simpl WHERE highway IN ('primary', 'motorway', 'trunk')) AS "drogi_glowne"</Parameter>
+      <Parameter name="table">(SELECT way, highway FROM roads_line_simpl WHERE highway IN ('primary', 'secondary', 'motorway', 'trunk', 'primary_link', 'secondary_link', 'motorway_link', 'trunk_link')) AS "drogi_glowne"</Parameter>
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
