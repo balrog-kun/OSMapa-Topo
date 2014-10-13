@@ -16,7 +16,7 @@
   </Datasource>
 </Layer>
 
-<Layer name="refy_drog">
+<Layer name="refy_drog" clear-label-cache="on">
   <StyleName>refy_drog</StyleName>
   <Datasource>
     &datasource-settings;
