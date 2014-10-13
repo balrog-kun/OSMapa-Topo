@@ -1225,31 +1225,31 @@
       &maxscale_zoom11;
       &minscale_zoom12;
       <Filter>[highway] = 'motorway' and [refs] &gt; ''</Filter>
-      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="75" spacing="500">[refs]</ShieldSymbolizer>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
       <Filter>[highway] = 'motorway' and [refs] &gt; ''</Filter>
-      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="30" spacing="350">[refs]</ShieldSymbolizer>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
       <Filter>[highway] = 'motorway' and [refs] &gt; ''</Filter>
-      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="30" spacing="350">[refs]</ShieldSymbolizer>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
     <Rule>
+      &maxscale_zoom11;
       &minscale_zoom12;
-      &maxscale_zoom11;
       <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [refs] &gt; ''</Filter>
-      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="75" spacing="500">[refs]</ShieldSymbolizer>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
       <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [refs] &gt; ''</Filter>
-      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="30" spacing="350">[refs]</ShieldSymbolizer>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom15;
@@ -1258,22 +1258,22 @@
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="30" spacing="350">[refs]</ShieldSymbolizer>
     </Rule>
     <Rule>
-      &minscale_zoom11;
       &maxscale_zoom11;
+      &minscale_zoom12;
       <Filter>([highway] = 'secondary' or [highway] = 'secondary_link') and [refs] &gt; ''</Filter>
-      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#000000" placement="line" file="symbol/dw[width]x[height].png" minimum-distance="50" spacing="450">[refs]</ShieldSymbolizer>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#000000" placement="line" file="symbol/dw[width]x[height].png" minimum-distance="150" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
       <Filter>([highway] = 'secondary' or [highway] = 'secondary_link') and [refs] &gt; ''</Filter>
-      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#000000" placement="line" file="symbol/dw[width]x[height].png" minimum-distance="30" spacing="350">[refs]</ShieldSymbolizer>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#000000" placement="line" file="symbol/dw[width]x[height].png" minimum-distance="150" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
       <Filter>([highway] = 'secondary' or [highway] = 'secondary_link') and [refs] &gt; ''</Filter>
-      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#000000" placement="line" file="symbol/dw[width]x[height].png" minimum-distance="30" spacing="350">[refs]</ShieldSymbolizer>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#000000" placement="line" file="symbol/dw[width]x[height].png" minimum-distance="150" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
   </Style>
   <Style name="nazwy_drog">
