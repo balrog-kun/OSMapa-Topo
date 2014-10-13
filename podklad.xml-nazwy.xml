@@ -42,7 +42,7 @@
     WHERE ref IS NOT NULL AND highway IS NOT NULL AND
       way &amp;&amp; !bbox! -- ST_Expand(!bbox!, 500)
     GROUP BY highway, ref
-    ORDER BY highway NOT IN ('trunk', 'motorway', 'primary')
+    ORDER BY highway NOT IN ('motorway'), highway NOT IN ('trunk', 'primary')
    ) AS z) AS "refy_drog"</Parameter>
     <Parameter name="geometry_field">way</Parameter>
   </Datasource>
