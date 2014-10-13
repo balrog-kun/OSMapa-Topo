@@ -2217,30 +2217,30 @@
   </Style>
   <Style name="nazwy_miejsc">
     <Rule>
-      <Filter>([place] = 'village' or [place] = 'suburb') and [population] &gt; 4000</Filter>
+      <Filter>([place] = 'village' or [place] = 'suburb') and [population] &gt; 3000</Filter>
       &maxscale_zoom10;
       &minscale_zoom11;
       <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" wrap-width="0">[name]</TextSymbolizer>
     </Rule>
     <Rule>
-      <Filter>[place] = 'village' or [place] = 'neighbourhood'</Filter>
+      <Filter>[place] = 'village' or [place] = 'suburb'</Filter>
       &maxscale_zoom12;
       &minscale_zoom13;
       <TextSymbolizer face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" wrap-width="0">[name]</TextSymbolizer>
     </Rule>
     <Rule>
-      <Filter>[place] = 'village' or [place] = 'neighbourhood'</Filter>
+      <Filter>[place] = 'village' or [place] = 'suburb'</Filter>
       &maxscale_zoom14;
       <TextSymbolizer face-name="DejaVu Sans Bold" size="14" fill="#000" halo-radius="1" wrap-width="0">[name]</TextSymbolizer>
     </Rule>
     <Rule>
-      <Filter>[place] = 'suburb'</Filter>
+      <Filter>[place] = 'neighbourhood'</Filter>
       &maxscale_zoom14;
       &minscale_zoom14;
       <TextSymbolizer face-name="DejaVu Sans Book" size="12" fill="#000" halo-radius="1" wrap-width="0">[name]</TextSymbolizer>
     </Rule>
     <Rule>
-      <Filter>[place] = 'suburb'</Filter>
+      <Filter>[place] = 'neighbourhood'</Filter>
       &maxscale_zoom15;
       <TextSymbolizer face-name="DejaVu Sans Book" size="14" fill="#000" halo-radius="1" wrap-width="0">[name]</TextSymbolizer>
     </Rule>
@@ -2252,7 +2252,7 @@
     <Rule>
       <Filter>[place] = 'locality'</Filter>
       &maxscale_zoom15;
-      <TextSymbolizer face-name="DejaVu Sans Book" size="8" fill="#000" halo-radius="1" wrap-width="0">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Book" size="9" fill="#000" halo-radius="1" wrap-width="0">[name]</TextSymbolizer>
     </Rule>
   </Style>
   <Style name="punkty">
