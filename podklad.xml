@@ -1219,6 +1219,14 @@
       <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="5"/>
     </Rule>
   </Style>
+  <Style name="refy_drog_lores">
+    <Rule>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <Filter>([highway] = 'motorway' or [highway] = 'primary' or [highway] = 'trunk') and [refs] &gt; ''</Filter>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
+    </Rule>
+  </Style>
   <Style name="refy_drog">
     <!-- tabliczki z numerami dróg primary/secondary -->
     <Rule>

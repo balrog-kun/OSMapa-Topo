@@ -48,6 +48,32 @@
   </Datasource>
 </Layer>
 
+<Layer name="refy_drog_lores">
+  <StyleName>refy_drog_lores</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">
+(SELECT way, highway,
+   (SELECT MAX(CASE WHEN char_length(r) &gt; 7 THEN 3 ELSE
+      CASE WHEN char_length(r) &gt; 3 THEN 2 ELSE 1 END END)
+    FROM unnest(refs) AS r) AS width,
+   LEAST(array_length(refs, 1), 3) AS height,
+   array_to_string(refs, E'\n') AS refs -- TODO: sort
+ FROM
+   (SELECT ST_LineMerge(ST_Collect(way)) AS way, highway,
+      (SELECT array_agg(r)
+       FROM unnest(string_to_array(replace(ref, ' ', ''), ';')) AS r
+       WHERE char_length(r) &lt;= 4) AS refs
+    FROM roads_line_simpl
+    WHERE ref IS NOT NULL AND highway IS NOT NULL AND
+      way &amp;&amp; !bbox! -- ST_Expand(!bbox!, 500)
+    GROUP BY highway, ref
+    ORDER BY highway NOT IN ('motorway')
+   ) AS z) AS "refy_drog_lores"</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
+
 <Layer name="nazwy_drog">
   <StyleName>nazwy_drog</StyleName>
   <Datasource>

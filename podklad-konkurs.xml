@@ -1216,6 +1216,14 @@
       <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="5"/>
     </Rule>
   </Style>
+  <Style name="refy_drog_lores">
+    <Rule>
+      &maxscale_zoom10;
+      &minscale_zoom10;
+      <Filter>([highway] = 'motorway' or [highway] = 'primary' or [highway] = 'trunk') and [refs] &gt; ''</Filter>
+      <ShieldSymbolizer face-name="DejaVu Sans Bold" size="8" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
+    </Rule>
+  </Style>
   <Style name="refy_drog">
     <!-- tabliczki z numerami dróg primary/secondary -->
     <Rule>
@@ -1232,7 +1240,7 @@
     </Rule>
     <Rule>
       &maxscale_zoom15;
-      &minscale_zoom15;
+      &minscale_zoom16;
       <Filter>[highway] = 'motorway' and [refs] &gt; ''</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
@@ -1250,7 +1258,7 @@
     </Rule>
     <Rule>
       &maxscale_zoom15;
-      &minscale_zoom15;
+      &minscale_zoom16;
       <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [refs] &gt; ''</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#ffffff" placement="line" file="symbol/dk[width]x[height].png" minimum-distance="100" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
@@ -1268,7 +1276,7 @@
     </Rule>
     <Rule>
       &maxscale_zoom15;
-      &minscale_zoom15;
+      &minscale_zoom16;
       <Filter>([highway] = 'secondary' or [highway] = 'secondary_link') and [refs] &gt; ''</Filter>
       <ShieldSymbolizer face-name="DejaVu Sans Bold" size="9" fill="#000000" placement="line" file="symbol/dw[width]x[height].png" minimum-distance="150" spacing="400">[refs]</ShieldSymbolizer>
     </Rule>
