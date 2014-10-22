@@ -2787,8 +2787,14 @@
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>[historic] = 'castle'</Filter>
+      <Filter>[historic] = 'castle' or [historic] = 'fort'</Filter>
       <PointSymbolizer file="symbol/zamek12.png"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom14;
+      &minscale_zoom14;
+      <Filter>[historic] = 'manor'</Filter>
+      <PointSymbolizer file="symbol/manor12.png"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
@@ -2804,8 +2810,14 @@
     </Rule>
     <Rule>
       &maxscale_zoom15;
-      <Filter>[historic] = 'castle'</Filter>
+      <Filter>[historic] = 'castle' or [historic] = 'fort'</Filter>
       <PointSymbolizer file="symbol/zamek16.png"/>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      &maxscale_zoom15;
+      <Filter>[historic] = 'manor'</Filter>
+      <PointSymbolizer file="symbol/manor12.png"/>
       <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
@@ -3419,13 +3431,25 @@
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>[historic] = 'castle'</Filter>
+      <Filter>[historic] = 'castle' or [historic] = 'fort'</Filter>
       <PointSymbolizer file="symbol/zamek12.png"/>
     </Rule>
     <Rule>
+      &maxscale_zoom14;
+      &minscale_zoom14;
+      <Filter>[historic] = 'manor'</Filter>
+      <PointSymbolizer file="symbol/manor12.png"/>
+    </Rule>
+    <Rule>
       &maxscale_zoom15;
-      <Filter>[historic] = 'castle'</Filter>
+      <Filter>[historic] = 'castle' or [historic] = 'fort'</Filter>
       <PointSymbolizer file="symbol/zamek16.png"/>
+      <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
+    </Rule>
+    <Rule>
+      &maxscale_zoom15;
+      <Filter>[historic] = 'manor'</Filter>
+      <PointSymbolizer file="symbol/manor12.png"/>
       <TextSymbolizer face-name="DejaVu Sans Oblique" size="10" fill="#000000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
