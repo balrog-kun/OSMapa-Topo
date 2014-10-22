@@ -1961,19 +1961,19 @@
       &maxscale_zoom12;
       &minscale_zoom12;
       <Filter>[boundary] = 'national_park' or [boundary] = 'protected_area'</Filter>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="12" fill="#348017" halo-radius="1" placement="point" allow-overlap="true" wrap-width="20">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="12" fill="#348017" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom13;
       <Filter>[boundary] = 'national_park' or [boundary] = 'protected_area'</Filter>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="14" fill="#348017" halo-radius="1" placement="point" allow-overlap="true" wrap-width="20">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="14" fill="#348017" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
       <Filter>[boundary] = 'national_park' or [boundary] = 'protected_area'</Filter>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="16" fill="#348017" halo-radius="1" placement="point" allow-overlap="true" wrap-width="20">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="16" fill="#348017" halo-radius="1" placement="point" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom15;
@@ -2211,25 +2211,25 @@
       <Filter>[place] = 'town'</Filter>
       &maxscale_zoom13;
       &minscale_zoom13;
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="14" fill="#000" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="14" fill="#000" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>[place] = 'city'</Filter>
       &maxscale_zoom13;
       &minscale_zoom13;
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="16" fill="#000" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="16" fill="#000" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>[place] = 'town'</Filter>
       &maxscale_zoom14;
       &minscale_zoom15;
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="14" fill="#000" halo-radius="1" wrap-width="20" text-transform="uppercase" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="14" fill="#000" halo-radius="1" wrap-width="20" text-transform="uppercase">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       <Filter>[place] = 'city'</Filter>
       &maxscale_zoom14;
       &minscale_zoom15;
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="16" fill="#000" halo-radius="1" wrap-width="20" text-transform="uppercase" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="16" fill="#000" halo-radius="1" wrap-width="20" text-transform="uppercase">[name]</TextSymbolizer>
     </Rule>
   </Style>
   <Style name="nazwy_miejsc">
@@ -2931,7 +2931,7 @@
       &maxscale_zoom14;
       <Filter>[railway] = 'station'</Filter>
       <PointSymbolizer file="symbol/stacja12.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
@@ -2944,13 +2944,13 @@
       &minscale_zoom14;
       <Filter>[railway] = 'halt'</Filter>
       <PointSymbolizer file="symbol/przystanek10.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       <Filter>[railway] = 'halt'</Filter>
       <PointSymbolizer file="symbol/przystanek12.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom16;
@@ -3412,20 +3412,20 @@
       &minscale_zoom13;
       <Filter>[aeroway] = 'aerodrome'</Filter>
       <PointSymbolizer file="symbol/lotnisko12.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#0000FF" dy="12" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#0000FF" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
       <Filter>[aeroway] = 'aerodrome'</Filter>
       <PointSymbolizer file="symbol/lotnisko16.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#0000FF" dy="12" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#0000FF" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       <Filter>[aeroway] = 'aerodrome'</Filter>
       <PointSymbolizer file="symbol/lotnisko20.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#0000FF" dy="12" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#0000FF" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
@@ -3437,7 +3437,7 @@
       &maxscale_zoom14;
       <Filter>[railway] = 'station'</Filter>
       <PointSymbolizer file="symbol/stacja12.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="6" dx="6" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="6" dx="6" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom13;
@@ -3450,13 +3450,13 @@
       &minscale_zoom14;
       <Filter>[railway] = 'halt'</Filter>
       <PointSymbolizer file="symbol/przystanek8.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       <Filter>[railway] = 'halt'</Filter>
       <PointSymbolizer file="symbol/przystanek10.png" allow-overlap="true"/>
-      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20" allow-overlap="true">[name]</TextSymbolizer>
+      <TextSymbolizer face-name="DejaVu Sans Bold" size="10" fill="#000000" dy="8" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
     <Rule>
       &maxscale_zoom15;
