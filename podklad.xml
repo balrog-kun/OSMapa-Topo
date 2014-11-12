@@ -1785,9 +1785,49 @@
       <PolygonSymbolizer fill="#88bdea"/>
     </Rule>
     <Rule>
-&maxscale_zoom10;
-    <Filter>[natural] = 'land'</Filter>
-    <PolygonSymbolizer fill-opacity="1" fill="#FFFEE7"/><LineSymbolizer stroke="#1569C7" stroke-width="1"/></Rule>
+      &maxscale_zoom10;
+      <Filter>[natural] = 'land'</Filter>
+      <PolygonSymbolizer fill-opacity="1" fill="#FFFEE7"/>
+      <LineSymbolizer stroke="#1569C7" stroke-width="1"/>
+    </Rule>
+  </Style>
+  <Style name="sport">
+    <Rule>
+      &maxscale_zoom15;
+      <Filter>[sport] = 'soccer' and
+        [angle_diff] &gt; 85 and [angle_diff] &lt; 95 and
+        [diagonal] &gt; 80 and
+        [longer] &gt; [diagonal] * 0.6 and [longer] &lt; [diagonal] and
+        [shorter] &gt; [diagonal] * 0.3 and [shorter] &lt; [diagonal] * 0.8
+      </Filter>
+      <PointSymbolizer file="symbol/fr/sports-soccer.svg"
+       allow-overlap="true" ignore-placement="true"
+       transform="rotate([angle]) scale([scale])" />
+    </Rule>
+    <Rule>
+      &maxscale_zoom15;
+      <Filter>([sport] = 'tennis' or [leisure] = 'court') and
+        [angle_diff] &gt; 80 and [angle_diff] &lt; 100 and
+        [diagonal] &gt; 30 and
+        [longer] &gt; [diagonal] * 0.6 and [longer] &lt; [diagonal] and
+        [shorter] &gt; [diagonal] * 0.3 and [shorter] &lt; [diagonal] * 0.6
+      </Filter>
+      <PointSymbolizer file="symbol/fr/sports-tennis.svg"
+       allow-overlap="true" ignore-placement="true"
+       transform="rotate([angle]) scale([scale] * 1.5)" />
+    </Rule>
+    <Rule>
+      &maxscale_zoom17;
+      <Filter>[sport] = 'basketball' and
+        [angle_diff] &gt; 80 and [angle_diff] &lt; 100 and
+        [diagonal] &gt; 30 and
+        [longer] &gt; [diagonal] * 0.7 and [longer] &lt; [diagonal] and
+        [shorter] &gt; [diagonal] * 0.3 and [shorter] &lt; [diagonal] * 0.6
+      </Filter>
+      <PointSymbolizer file="symbol/fr/sports-basketball.svg"
+       allow-overlap="true" ignore-placement="true"
+       transform="rotate([angle]) scale([scale])" />
+    </Rule>
   </Style>
   <Style name="budynki">
     <Rule>
@@ -3518,16 +3558,19 @@
     </Rule>
     <Rule>
       &maxscale_zoom16;
+      &minscale_zoom18;
       <Filter>([leisure] = 'pitch' or [leisure] = 'stadium') and [sport] = 'soccer'</Filter>
       <PointSymbolizer file="symbol/pilka.png"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
+      &minscale_zoom18;
       <Filter>([leisure] = 'pitch' or [leisure] = 'stadium') and not [sport] &gt;''</Filter>
       <PointSymbolizer file="symbol/pilka.png"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
+      &minscale_zoom18;
       <Filter>([leisure] = 'pitch' or [leisure] = 'stadium') and [sport] = 'basketball'</Filter>
       <PointSymbolizer file="symbol/basketball.png"/>
     </Rule>
@@ -3538,11 +3581,13 @@
     </Rule>
     <Rule>
       &maxscale_zoom16;
+      &minscale_zoom18;
       <Filter>([leisure] = 'pitch' or [leisure] = 'stadium') and [sport] = 'tennis'</Filter>
       <PointSymbolizer file="symbol/tennis.png"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
+      &minscale_zoom18;
       <Filter>[leisure] = 'court'</Filter>
       <PointSymbolizer file="symbol/tennis.png"/>
     </Rule>
@@ -3746,4 +3791,36 @@
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
-
+  <Layer name="sport">
+    <StyleName>sport</StyleName>
+    <Datasource>
+      &datasource-settings;
+      <Parameter name="table">(
+SELECT *, abs(a12 - a23) AS angle_diff,
+  (a12 + a23 + CASE WHEN d12 &gt; d23 THEN 90 ELSE 270 END) / 2 AS angle,
+  GREATEST(d12, d23) AS longer, LEAST(d12, d23) AS shorter,
+  (|/ way_area) * 690 / 100 / (ST_XMax(!bbox!) - ST_XMin(!bbox!)) AS scale
+  -- sqrt(area)(== wall length) * 1:1 tile size / 1:1 wall length / (1/scale)
+FROM (
+  SELECT *, ST_NPoints(way2) AS nb,
+    ST_Distance(ST_PointN(way2, 1), ST_PointN(way2, 2)) AS d12,
+    ST_Distance(ST_PointN(way2, 3), ST_PointN(way2, 2)) AS d23,
+    ST_Distance(ST_PointN(way2, 1), ST_PointN(way2, 3)) AS diagonal,
+    degrees(ST_Azimuth(ST_PointN(way2, 1), ST_PointN(way2, 2))) AS a12,
+    degrees(ST_Azimuth(ST_PointN(way2, 2), ST_PointN(way2, 3))) AS a23
+  FROM (
+    SELECT *, ST_Area(way) AS way_area,
+      ST_ExteriorRing(ST_SimplifyPreserveTopology(way, 50)) AS way2
+    FROM (
+      SELECT (ST_Dump(way)).geom AS way, leisure, sport
+      FROM planet_osm_polygon
+      WHERE (sport IN ('tennis', 'soccer', 'basketball', 'rugby', 'rugby_union',
+        'rugby_league', 'american_football') OR leisure = 'court') AND
+        way &amp;&amp; !bbox!
+      ) AS dump
+    ) AS simplified
+  ) AS simplified2
+) AS sport</Parameter>
+      <Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
