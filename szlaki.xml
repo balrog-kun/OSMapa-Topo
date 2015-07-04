@@ -98,6 +98,7 @@ SELECT way, routes[num].route AS route,
 FROM (
   SELECT ST_LineMerge(ST_Collect(way)) AS way, routes
   FROM planet_osm_track
+  WHERE way &amp;&amp; !bbox!
   GROUP BY routes) AS x, generate_subscripts(x.routes, 1) AS num
 ) AS "szlaki"</Parameter>
     <Parameter name="geometry_field">way</Parameter>
@@ -111,6 +112,7 @@ FROM (
     <Parameter name="table">(
 SELECT ST_LineMerge(ST_Collect(way)) AS way, name
 FROM planet_osm_track
+WHERE way &amp;&amp; ST_Expand(!bbox!, 500)
 GROUP BY name
 ) AS "szlaki-names"</Parameter>
     <Parameter name="geometry_field">way</Parameter>
