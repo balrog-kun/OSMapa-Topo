@@ -2047,6 +2047,8 @@
       <Filter>[tourism] = 'attraction'</Filter>
       <TextSymbolizer face-name="DejaVu Sans Book" size="10" fill="#FF0000" dy="12" halo-radius="1" wrap-width="20">[name]</TextSymbolizer>
     </Rule>
+  </Style>
+  <Style name="nazwy_poligonow17p">
     <Rule>
       &maxscale_zoom17;
       <Filter>[addr:housenumber] &gt; ''</Filter>
@@ -3690,7 +3692,7 @@
     <StyleName>zbiorniki_wodne</StyleName>
     <Datasource>
       &datasource-settings;
-      <Parameter name="table">planet_osm_polygon</Parameter>
+      <Parameter name="table">(SELECT way, landuse, "natural", waterway, way_area FROM planet_osm_polygon WHERE way &amp;&amp; !bbox! AND (waterway IS NOT NULL OR "natural" IN ('water', 'lake') OR landuse IN ('reservoir', 'basin', 'land'))) as "zbiorniki_wodne"</Parameter>
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>

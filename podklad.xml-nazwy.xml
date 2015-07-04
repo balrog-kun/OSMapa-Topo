@@ -143,7 +143,15 @@
   <StyleName>nazwy_poligonow</StyleName>
   <Datasource>
     &datasource-settings;
-    <Parameter name="table">planet_osm_polygon</Parameter>
+    <Parameter name="table">(SELECT way, name, amenity, tourism, leisure, boundary, landuse, "natural", way_area FROM planet_osm_polygon WHERE way &amp;&amp; !bbox! AND name IS NOT NULL AND (boundary IN ('national_park', 'protected_area') OR "natural" IS NOT NULL OR landuse IS NOT NULL OR amenity IS NOT NULL OR leisure IS NOT NULL OR tourism IS NOT NULL)) AS "nazwy_poligonow"</Parameter>
+    <Parameter name="geometry_field">way</Parameter>
+  </Datasource>
+</Layer>
+<Layer name="nazwy_poligonow17p">
+  <StyleName>nazwy_poligonow17p</StyleName>
+  <Datasource>
+    &datasource-settings;
+    <Parameter name="table">(SELECT way, "addr:housenumber", way_area FROM planet_osm_polygon WHERE way &amp;&amp; !bbox! AND "addr:housenumber" IS NOT NULL) AS "nazwy_poligonow17p"</Parameter>
     <Parameter name="geometry_field">way</Parameter>
   </Datasource>
 </Layer>
