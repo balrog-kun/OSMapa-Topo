@@ -209,11 +209,23 @@ rawbuildings AS (
 
   SELECT *
   FROM buildingswhole AS a
-  WHERE NOT EXISTS (
-    SELECT 1
-    FROM buildingparts AS b
-    WHERE ST_Intersects(a.way, b.way)) -- could also just use &amp;&amp;
-    -- perhaps should only check for interior intersection, not walls
+  WHERE
+    NOT EXISTS (
+      SELECT 1
+      FROM buildingparts AS b
+      WHERE ST_Contains(a.way, b.way)) OR
+        -- Also should really just check if a and b also intersect vertically,
+        -- but for that we'd need the string to float conversion and NULL checks
+        -- which are done later..
+        -- Instead, if the building contains any building:part's then we check
+        -- if its interior also intersects with any other buildings.  If that
+        -- is true, then, probably, we need to render both the buildings and
+        -- the building:part's.  There are several ways in which this logic
+        -- could fail though.  We probably need to use functions here.
+    EXISTS (
+      SELECT 1
+      FROM buildingswhole AS b
+      WHERE ST_Contains(a.way, b.way) OR ST_Contains(b.way, a.way))
 
   UNION
 
