@@ -134,7 +134,7 @@
   <StyleName>nazwy_miejsc</StyleName>
   <Datasource>
     &datasource-settings;
-    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital FROM planet_osm_point WHERE way &amp;&amp; !bbox! AND place IS NOT NULL ORDER BY place &lt;&gt; 'city' ASC, place &lt;&gt; 'town' ASC, place &lt;&gt; 'suburb' ASC, place &lt;&gt; 'village' ASC, population DESC NULLS LAST) as "miejsca"</Parameter>
+    <Parameter name="table">(SELECT way, name, short_name, shortest_name, population, place, capital FROM planet_osm_point WHERE way &amp;&amp; !bbox! AND place IS NOT NULL ORDER BY place &lt;&gt; 'city' ASC, place &lt;&gt; 'town' ASC, place &lt;&gt; 'suburb' ASC, place &lt;&gt; 'village' ASC, population DESC NULLS LAST) AS "miejsca"</Parameter>
     <Parameter name="geometry_field">way</Parameter>
   </Datasource>
 </Layer>

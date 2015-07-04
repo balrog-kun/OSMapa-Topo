@@ -919,12 +919,12 @@
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#f38730" stroke-width="9"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#f38730" stroke-width="11"/>
     </Rule>
   </Style>

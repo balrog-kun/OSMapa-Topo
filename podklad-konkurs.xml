@@ -917,12 +917,12 @@
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#f38730" stroke-width="9"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#f38730" stroke-width="11"/>
     </Rule>
   </Style>
@@ -1785,7 +1785,7 @@
   </Style>
   <Style name="sport">
     <Rule>
-      &maxscale_zoom15;
+      &maxscale_zoom16;
       <Filter>[sport] = 'soccer' and
         [angle_diff] &gt; 85 and [angle_diff] &lt; 95 and
         [diagonal] &gt; 80 and
@@ -1797,7 +1797,7 @@
        transform="rotate([angle]) scale([scale])" />
     </Rule>
     <Rule>
-      &maxscale_zoom15;
+      &maxscale_zoom17;
       <Filter>([sport] = 'tennis' or [leisure] = 'court') and
         [angle_diff] &gt; 80 and [angle_diff] &lt; 100 and
         [diagonal] &gt; 30 and
@@ -1837,7 +1837,7 @@
     <Rule>
     &maxscale_zoom14;
     &minscale_zoom14;
-    <Filter>[building] &gt; '' and [way_area] &gt;= 600</Filter>
+    <Filter>[building] &gt; '' and [way_area] &gt; 600</Filter>
     <PolygonSymbolizer fill="#909090"/></Rule>
     <Rule>
     &maxscale_zoom15;
@@ -1848,25 +1848,19 @@
     <Rule>
     &maxscale_zoom15;
     &minscale_zoom15;
-    <Filter>([building] &gt; '' and [way_area] &gt;= 400) and not ([historic] &gt; '' or [heritage] &gt; '')</Filter>
+    <Filter>([building] &gt; '' and [way_area] &gt; 400) and not ([historic] &gt; '' or [heritage] &gt; '')</Filter>
     <PolygonSymbolizer fill="#909090"/><LineSymbolizer stroke="#000000" stroke-width="0.1"/></Rule>
     <Rule>
     &maxscale_zoom15;
     &minscale_zoom15;
-    <Filter>([building] &gt; '' and [way_area] &gt;= 400) and ([historic] &gt; '' or [heritage] &gt; '')</Filter>
+    <Filter>([building] &gt; '' and [way_area] &gt; 400) and ([historic] &gt; '' or [heritage] &gt; '')</Filter>
     <PolygonSymbolizer fill="#909090"/><LineSymbolizer stroke="#000000" stroke-width="0.1"/></Rule>
-    <!--Rule>
-    &maxscale_zoom16;
-    &minscale_zoom16;
-    <Filter>[building] &gt; '' and not ([heritage] &gt; '' or [historic] &gt; '')</Filter>
-    <PolygonSymbolizer>
-  <CssParameter name="fill">#BBBBBB</CssParameter>
-  </PolygonSymbolizer>
-       <LineSymbolizer>
-        <CssParameter name="stroke">#000000</CssParameter>
-        <CssParameter name="stroke-width">0.5</CssParameter>
-      </LineSymbolizer>
-    </Rule-->
+    <Rule>
+      &maxscale_zoom16;
+      &minscale_zoom16;
+      <Filter>[building] &gt; '' and not ([heritage] &gt; '' or [historic] &gt; '')</Filter>
+      <PolygonSymbolizer fill="#909090"/><LineSymbolizer stroke="#000000" stroke-width="0.2"/>
+    </Rule>
     <Rule>
       &maxscale_zoom16;
       &minscale_zoom16;
