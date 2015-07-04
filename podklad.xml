@@ -931,7 +931,7 @@
   <Style name="transport_publiczny">
     <Rule>
       &maxscale_zoom16;
-      <Filter>[railway] = 'tram'</Filter>
+      <Filter>[railway] = 'tram' or [railway] = 'light_rail'</Filter>
       <LineSymbolizer stroke="#FF0000" stroke-width="1"/>
     </Rule>
   </Style>
@@ -3789,7 +3789,7 @@
     <StyleName>transport_publiczny</StyleName>
     <Datasource>
       &datasource-settings;
-      <Parameter name="table">(select way,highway,railway,oneway,route,type from planet_osm_line WHERE route is not null OR railway='tram') as "transport_publiczny"</Parameter>
+      <Parameter name="table">(SELECT way, highway, railway, oneway, route, type FROM planet_osm_line WHERE route IS NOT NULL OR railway = 'tram' OR railway = 'light_rail') as "transport_publiczny"</Parameter>
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
