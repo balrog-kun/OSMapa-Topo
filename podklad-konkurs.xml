@@ -51,13 +51,13 @@
     <Rule>
       &minscale_zoom14;
       &maxscale_zoom13;
-      <Filter>([highway] = 'motorway' or [highway] = 'motorway_link')  and [bridge] &gt;= ''</Filter>
+      <Filter>([highway] = 'motorway' or [highway] = 'motorway_link') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="9"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="7"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
-      <Filter>([highway] = 'motorway' or [highway] = 'motorway_link')  and [bridge] &gt;= ''</Filter>
+      <Filter>([highway] = 'motorway' or [highway] = 'motorway_link') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="13"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="11"/>
     </Rule>
@@ -82,54 +82,54 @@
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
-      <Filter>([highway] = 'primary' or [highway] = 'trunk')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="8.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
-      <Filter>([highway] = 'primary_link' or [highway] = 'trunk_link')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary_link' or [highway] = 'trunk_link') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="7.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
-      <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link')  and [bridge] &gt;= ''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="11.5"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="9.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'primary' or [highway] = 'trunk')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="10.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'primary_link' or [highway] = 'trunk_link')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary_link' or [highway] = 'trunk_link') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="9.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link')  and [bridge] &gt;= ''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="13.5"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="11.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'primary' or [highway] = 'trunk')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'trunk') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="12.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'primary_link' or [highway] = 'trunk_link')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'primary_link' or [highway] = 'trunk_link') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="11.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link')  and [bridge] &gt;= ''</Filter>
+      <Filter>([highway] = 'primary' or [highway] = 'primary_link' or [highway] = 'trunk' or [highway] = 'trunk_link') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="15.5"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="13.5"/>
     </Rule>
@@ -154,26 +154,26 @@
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
-      <Filter>[highway] = 'secondary'  and not [tunnel] &gt;= ''</Filter>
+      <Filter>[highway] = 'secondary' and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="6.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
-      <Filter>[highway] = 'secondary_link'   and not [tunnel] &gt;= ''</Filter>
+      <Filter>[highway] = 'secondary_link' and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="5.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom14;
-      <Filter>([highway] = 'secondary' or [highway] = 'secondary_link' ) and [bridge] &gt;=''</Filter>
+      <Filter>([highway] = 'secondary' or [highway] = 'secondary_link') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="9.5"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="7.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>[highway] = 'secondary'  and not [tunnel] &gt;= ''</Filter>
+      <Filter>[highway] = 'secondary' and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="8.5"/>
     </Rule>
     <Rule>
@@ -239,18 +239,18 @@
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'tertiary' or [highway] = 'tertiary_link')  and [bridge] &gt;='' </Filter>
+      <Filter>([highway] = 'tertiary' or [highway] = 'tertiary_link') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="9.5"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="7.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'tertiary' or [highway] = 'tertiary_link')  and not [tunnel]&gt;='' </Filter>
+      <Filter>([highway] = 'tertiary' or [highway] = 'tertiary_link') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="8.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'tertiary' or [highway] = 'tertiary_link' )  and [bridge] &gt;='' </Filter>
+      <Filter>([highway] = 'tertiary' or [highway] = 'tertiary_link' ) and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="11.5"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="9.5"/>
     </Rule>
@@ -263,39 +263,39 @@
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom13;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#777777" stroke-width="1.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom13;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'living_street' or [highway] = 'pedestrian' ) and [bridge] &gt;='' </Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'living_street' or [highway] = 'pedestrian') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="3"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="2"/>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and not [tunnel] &gt;= '' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="3"/>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and  ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="3" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'living_street' or [highway] = 'pedestrian')  and [bridge] &gt;=''  </Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'living_street' or [highway] = 'pedestrian') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="6"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="4"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and not [tunnel] &gt;= '' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="5"/>
     </Rule>
     <Rule>
@@ -307,23 +307,23 @@
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'living_street' or [highway] = 'pedestrian')  and [bridge] &gt;=''  </Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'living_street' or [highway] = 'pedestrian') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="8"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="6"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and not [tunnel]&gt;='' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and not [tunnel] &gt;= '' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="6"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road')  and ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road') and ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="6.5" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>( [highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] ='road' or [highway] = 'service' or [highway] = 'living_street' or [highway] = 'pedestrian')  and [bridge] &gt;=''  </Filter>
+      <Filter>( [highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] ='road' or [highway] = 'service' or [highway] = 'living_street' or [highway] = 'pedestrian') and [bridge] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="9"/>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="7"/>
     </Rule>
@@ -336,29 +336,29 @@
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>[highway] = 'service'  and not [tunnel]&gt;=''</Filter>
+      <Filter>[highway] = 'service' and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="1.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'service'  and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')) and not [tunnel]&gt;='' </Filter>
+      <Filter>([highway] = 'service' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')) and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="3"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'service' and ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay') or [tracktype] = 'grade1') and not [tunnel]&gt;='' </Filter>
+      <Filter>([highway] = 'service' and ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay') or [tracktype] = 'grade1') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="3.5" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'service' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay'))  and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'service' and not ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay')) and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#333333" stroke-width="4.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'service' and ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay') or [tracktype] = 'grade1') and not [tunnel]&gt;=''</Filter>
+      <Filter>([highway] = 'service' and ([surface] = 'unpaved' or [surface] = 'artificial_turf' or [surface] = 'compacted' or [surface] = 'concrete:lanes' or [surface] = 'dirt earth' or [surface] = 'fine_gravel' or [surface] = 'grass' or [surface] = 'grass_paver' or [surface] = 'gravel' or [surface] = 'ground' or [surface] = 'mud' or [surface] = 'pebblestone' or [surface] = 'sand' or [surface] = 'wood' or [surface] = 'clay') or [tracktype] = 'grade1') and not [tunnel] &gt;= ''</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#7b4e00" stroke-width="5" stroke-dasharray="10 2"/>
     </Rule>
     <Rule>
@@ -1025,7 +1025,7 @@
     </Rule>
     <Rule>
       &maxscale_zoom15;
-      <Filter>[highway] = 'track' and  not [tracktype]&gt;'' or [tracktype] = 'grade4'</Filter>
+      <Filter>[highway] = 'track' and not [tracktype] &gt; '' or [tracktype] = 'grade4'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#666666" stroke-width="1.5"/>
     </Rule>
     <Rule>
@@ -1161,41 +1161,41 @@
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' ) and not [tunnel]&gt;='' and not ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
+      <Filter>([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' ) and not [tunnel] &gt;= '' and not ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="5" stroke-linecap="butt"/>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>[highway] = 'service' and not [tunnel]&gt;='' and not ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
+      <Filter>[highway] = 'service' and not [tunnel] &gt;= '' and not ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="1"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'service' or [tracktype] = 'grade1') and not [tunnel]&gt;='' and not ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
+      <Filter>([highway] = 'service' or [tracktype] = 'grade1') and not [tunnel] &gt;= '' and not ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="2.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'service' or [tracktype] = 'grade1') and not [tunnel]&gt;='' and not ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
+      <Filter>([highway] = 'service' or [tracktype] = 'grade1') and not [tunnel] &gt;= '' and not ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#FFFFFF" stroke-width="4"/>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       &minscale_zoom14;
-      <Filter>[highway] = 'service' and not [tunnel]&gt;='' and ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
+      <Filter>[highway] = 'service' and not [tunnel] &gt;= '' and ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="1"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
       &minscale_zoom15;
-      <Filter>([highway] = 'service' or [tracktype] = 'grade1') and not [tunnel]&gt;='' and ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
+      <Filter>([highway] = 'service' or [tracktype] = 'grade1') and not [tunnel] &gt;= '' and ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="2.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
-      <Filter>([highway] = 'service' or [tracktype] = 'grade1')  and not [tunnel]&gt;='' and ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
+      <Filter>([highway] = 'service' or [tracktype] = 'grade1')  and not [tunnel] &gt;= '' and ([surface] = 'paving_stones' or [surface] = 'cobblestone' or [surface] = 'sett')</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#ddd" stroke-width="4"/>
     </Rule>
     <Rule>
@@ -1504,12 +1504,12 @@
   <Style name="pokrycie_terenu_gora_obwodki">
     <Rule>
       &maxscale_zoom13;
-      <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard' and not [religion]&gt;'') or (([landuse] = 'cemetery' or [amenity] = 'grave_yard') and [religion] = 'christian')</Filter>
+      <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard' and not [religion] &gt; '') or (([landuse] = 'cemetery' or [amenity] = 'grave_yard') and [religion] = 'christian')</Filter>
       <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
      </Rule>
     <Rule>
       &maxscale_zoom13;
-      <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard') and ([religion]&gt;'' and not [religion] = 'christian')</Filter>
+      <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard') and ([religion] &gt; '' and not [religion] = 'christian')</Filter>
       <LineSymbolizer stroke="#FFFFFF" stroke-width="0.2"/>
      </Rule>
     <Rule>
@@ -1617,7 +1617,7 @@
     <!--cmentarze, parki, kamieniołomy, obiekty sportowe, ogródki działkowe, śmietniska, bagna +place i drogi reprezentowane powierzchniowo -->
     <Rule>
       &maxscale_zoom13;
-      <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard' and not [religion]&gt;'') or (([landuse] = 'cemetery' or [amenity] = 'grave_yard') and [religion] = 'christian')</Filter>
+      <Filter>([landuse] = 'cemetery' or [landuse] = 'grave_yard' or [amenity] = 'grave_yard' and not [religion] &gt; '') or (([landuse] = 'cemetery' or [amenity] = 'grave_yard') and [religion] = 'christian')</Filter>
       <PolygonPatternSymbolizer  file="symbol/cm.png"/>
     </Rule>
     <Rule>
@@ -1754,14 +1754,14 @@
     <Rule>
       &minscale_zoom12;
       &maxscale_zoom11;
-      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;=250000</Filter>
+      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;= 250000</Filter>
       <PolygonSymbolizer fill="#88bdea"/>
       <LineSymbolizer stroke="#1569C7" stroke-width="0.5"/>
     </Rule>
     <Rule>
       &maxscale_zoom13;
       &minscale_zoom13;
-      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;=50000</Filter>
+      <Filter>([landuse] = 'reservoir' or [natural] = 'water' or [landuse] = 'basin' or [natural] = 'lake') and [way_area] &gt;= 50000</Filter>
       <PolygonSymbolizer fill="#88bdea"/>
       <LineSymbolizer stroke="#1569C7" stroke-width="0.5"/>
     </Rule>
@@ -3724,7 +3724,7 @@
     <StyleName>budynki</StyleName>
     <Datasource>
       &datasource-settings;
-      <Parameter name="table">(select * from planet_osm_polygon WHERE building is not null) as budynki</Parameter>
+      <Parameter name="table">(SELECT * FROM planet_osm_polygon WHERE building IS NOT NULL) AS budynki</Parameter>
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>

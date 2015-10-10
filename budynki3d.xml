@@ -56,12 +56,6 @@
   />
  </Rule>
 
- <!--Rule>
-  &maxscale_zoom16;
-  <Filter>[visible]='yes-v' or [visible]='no-v'</Filter>
-  <TextSymbolizer name="diff" face-name="DejaVu Sans Book" size="10" fill="black" halo-fill= "white" halo-radius="1" placement="point" allow-overlap="false"/>
- </Rule-->
-
  <!-- Planes -->
  <Rule>
   &maxscale_zoom16;
@@ -152,7 +146,7 @@
   />
  </Rule>
 
- <!-- Flat buildings? -->
+ <!-- Flat rooves -->
  <Rule>
   &maxscale_zoom16;
   <Filter>[hv] = 2 and [visible] = 'yes-h'</Filter>
@@ -162,18 +156,6 @@
   />
  </Rule>
 
- <Rule>
-  &maxscale_zoom16;
-  <Filter>[hv] = 3 and [visible] = 'yes'</Filter>
-  <PolygonSymbolizer
-   fill-opacity=".4"
-  />
-  <LineSymbolizer
-   stroke="#444444"
-   stroke-width=".4"
-   stroke-linejoin="round"
-  />
- </Rule>
 </Style>
 
 <Layer>
@@ -229,7 +211,7 @@ rawbuildings AS (
 
   UNION
 
-  SELECT ST_Buffer(way,7) AS way, "building:levels", height,
+  SELECT ST_Buffer(way, 7) AS way, "building:levels", height,
     "building:min_level", min_height
   FROM planet_osm_point
   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) and
@@ -258,13 +240,17 @@ rawbuildings AS (
 buildings AS
       (SELECT * FROM
            (SELECT ST_ForceRHR(ST_SimplifyPreserveTopology(way, .4)) AS way,
-                 (CASE WHEN z."height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."height" AS FLOAT) ELSE
-                      CASE WHEN z."building:levels" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:levels" AS FLOAT) * 3 ELSE 6 END END) * &tilt; as hei,
-                  (CASE WHEN z."min_height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."min_height" AS FLOAT) ELSE
-                      CASE WHEN z."building:min_level" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$' THEN CAST (z."building:min_level" AS FLOAT) * 3 ELSE 0 END END) * &tilt; AS minhei
-                   FROM rawbuildings AS z
-) zz -- WHERE GeometryType(way) = 'POLYGON' for some reason doing this here is slower than repeating it &gt; 1 times belowe
-), -- END OF "buildings AS"
+                CASE WHEN z."height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+                     THEN CAST (z."height" AS FLOAT) ELSE
+                     CASE WHEN z."building:levels" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+                          THEN CAST (z."building:levels" AS FLOAT) * 3 ELSE 6 END END * &tilt; AS hei,
+                CASE WHEN z."min_height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+                     THEN CAST (z."min_height" AS FLOAT) ELSE
+                     CASE WHEN z."building:min_level" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+                          THEN CAST (z."building:min_level" AS FLOAT) * 3 ELSE 0 END END * &tilt; AS minhei,
+            FROM rawbuildings AS z
+           ) zz -- WHERE GeometryType(way) = 'POLYGON' for some reason doing this here is slower than repeating it &gt; 1 times belowe
+      ), -- END OF "buildings AS"
 
 byhei AS
   (SELECT hei, ST_Buffer(ST_Collect(way), 0) AS way
@@ -278,78 +264,101 @@ joined AS
    (SELECT CASE WHEN n.hei IS NOT NULL THEN n.hei ELSE o.minhei END AS hei,
         --n.way AS maxway, o.way AS minway,
         CASE WHEN n.way IS NOT NULL THEN CASE WHEN o.way IS NOT NULL THEN
-	    ST_Difference(n.way, o.way) ELSE n.way END ELSE NULL END AS maxmin,
+            ST_Difference(n.way, o.way) ELSE n.way END ELSE NULL END AS maxmin,
         CASE WHEN o.way IS NOT NULL THEN CASE WHEN n.way IS NOT NULL THEN
-	    ST_Difference(o.way, n.way) ELSE o.way END ELSE NULL END AS minmax
+            ST_Difference(o.way, n.way) ELSE o.way END ELSE NULL END AS minmax
     FROM byhei AS n FULL OUTER JOIN byminhei AS o ON n.hei = o.minhei)
 
 -------------- End of WITH definitions, the query starts here ---------------
 
-                     -- Walls fill
-SELECT ST_MakePolygon(ST_MakeLine(ARRAY[ST_Translate(p2,0,minhei),ST_Translate(p1,0,minhei),ST_Translate(p1,0,hei),ST_Translate(p2,0,hei),ST_Translate(p2,0,minhei)])) AS way, LEAST(ST_Y(p1),ST_Y(p2)) AS lea, 1 AS hv,
-CASE WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes' ELSE 'no' END AS visible,
-ST_Azimuth(p2,p1)/3.14159265358*180 AS azim, minhei, hei, 'area' AS fill, 1 AS diff
-
+                     -- Walls fill only up to flat roof base level
+SELECT ST_MakePolygon(ST_MakeLine(ARRAY[
+      ST_Translate(p2, 0, minhei),
+      ST_Translate(p1, 0, minhei),
+      ST_Translate(p1, 0, hei),
+      ST_Translate(p2, 0, hei),
+      ST_Translate(p2, 0, minhei)])) AS way,
+    LEAST(ST_Y(p1),ST_Y(p2)) AS lea, 1 AS hv,
+    CASE WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes' ELSE 'no' END AS visible,
+    degrees(ST_Azimuth(p2, p1)) AS azim, minhei, hei, 'area' AS fill, 1 AS diff
 FROM (
-   SELECT (ST_PointN(way,generate_series(1, ST_NPoints(way)-1))) AS p1, 
-          (ST_PointN(way,generate_series(2, ST_NPoints(way)))  ) AS p2, hei*2 AS hei, minhei*2 AS minhei
-            FROM (SELECT (ST_Dump(ST_Boundary(way))).geom AS way, minhei, hei FROM buildings WHERE GeometryType(way) = 'POLYGON') p) a
+    SELECT ST_PointN(way,generate_series(1, ST_NPoints(way) - 1)) AS p1,
+        ST_PointN(way,generate_series(2, ST_NPoints(way))) AS p2,
+        hei * 2 AS hei, minhei * 2 AS minhei
+    FROM (
+        SELECT (ST_Dump(ST_Boundary(way))).geom AS way, minhei, hei
+        FROM buildings WHERE GeometryType(way) = 'POLYGON') p) a
 
-                      -- Roof fills
+                      -- Wall vertical lines up to flat roof level
 UNION
 
-SELECT ST_Translate(way, 0, hei) AS way, ST_YMin(way) AS lea, 2 AS hv, 'yes-h' AS visible, -500 AS azim, hei AS minhei, hei, 'area' AS fill, 1 AS diff
-FROM
-	(SELECT maxmin AS way, hei * 2 AS hei
-	FROM joined WHERE maxmin IS NOT NULL) p
-
-                      -- Wall vertical lines
-UNION
-
-SELECT (ST_MakeLine(ST_Translate(p2, 0, minhei), ST_Translate(p2, 0, hei))) AS way, LEAST(ST_Y(p1), ST_Y(p2)) AS lea, 1 AS hv,
-CASE WHEN (ST_X(p3) - ST_X(p2)) * (ST_X(p2) - ST_X(p1)) &lt; 0 THEN CASE WHEN (ST_X(p2) - ST_X(p1)) * (ST_Y(p3) - ST_Y(p2)) - (ST_X(p3) - ST_X(p2)) * (ST_Y(p2) - ST_Y(p1)) &lt; 0 THEN 'border-yes-v' ELSE 'border-no-v' END WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes-v' ELSE 'no-v' END AS visible,
-ST_Azimuth(p2, p1) / 3.14159265358 * 180 AS azim, minhei, hei, 'line' AS fill, 1 - abs(abs(ST_Azimuth(p3, p2) - ST_Azimuth(p2, p1)) / 3.14159265358 - 1) AS diff
-
-
+SELECT ST_MakeLine(ST_Translate(p2, 0, minhei),
+    ST_Translate(p2, 0, hei)) AS way,
+    ST_Y(p2) AS lea, 1 AS hv,
+    CASE WHEN (ST_X(p3) - ST_X(p2)) * (ST_X(p2) - ST_X(p1)) &lt; 0
+        THEN CASE WHEN (ST_X(p2) - ST_X(p1)) * (ST_Y(p3) - ST_Y(p2)) -
+                 (ST_X(p3) - ST_X(p2)) * (ST_Y(p2) - ST_Y(p1)) &lt; 0
+            THEN 'border-yes-v'
+            ELSE 'border-no-v' END
+        WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes-v'
+        ELSE 'no-v' END AS visible,
+    -500 AS azim, minhei, hei, 'line' AS fill,
+     1 - abs(abs(ST_Azimuth(p3, p2) - ST_Azimuth(p2, p1)) / 3.14159265358 - 1) AS diff -- TODO: fix the azimuth rollover
 FROM (
-   SELECT (ST_PointN(way, generate_series(1, ST_NPoints(way) - 1))) AS p1,
-          (ST_PointN(way, generate_series(2, ST_NPoints(way)))) AS p2,
-          (ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1)) AS p3, hei * 2 AS hei, minhei * 2 AS minhei
-            FROM (SELECT (ST_Dump(ST_Boundary(way))).geom AS way, minhei, hei FROM buildings WHERE GeometryType(way) = 'POLYGON') p) a
-
-                      -- Used for horizontal lines (coule we remove this?)
-UNION
-
-SELECT ST_Translate(way, 0, hei) AS way, ST_YMin(way) AS lea, 2 AS hv,
-	'no-h' AS visible, -500 AS azim, hei AS minhei, hei,
-	'line' AS fill, 1 AS diff
-FROM
-	(SELECT maxmin AS way, hei * 2 AS hei
-	FROM joined WHERE maxmin IS NOT NULL) p
+    SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1))) AS p1,
+        ST_PointN(way, generate_series(2, ST_NPoints(way))) AS p2,
+        ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1) AS p3,
+        hei * 2 AS hei, minhei * 2 AS minhei
+    FROM (
+        SELECT (ST_Dump(ST_Boundary(way))).geom AS way, minhei, hei
+        FROM buildings
+        WHERE GeometryType(way) = 'POLYGON') p) a
 
                       -- Bottom lines
 UNION
 
 SELECT ST_Translate(ST_MakeLine(p1, p2), 0, minhei) AS way,
-	LEAST(ST_Y(p1), ST_Y(p2)) as lea, 2 AS hv, CASE
-		WHEN ST_X(p2) &gt; ST_X(p1) THEN 'no-h-d'
-		ELSE 'no-h' END AS visible, -500 AS azim,
-	minhei, minhei AS hei, 'line' AS fill, 1 AS diff
-FROM
-	(SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) as p1,
-		ST_PointN(way, generate_series(2, ST_NPoints(way))) as p2,
-		minhei
-	FROM
-		(SELECT (ST_Dump(ST_Boundary(ST_ForceRHR(way)))).geom AS way,
-			minhei * 2 AS minhei
-		FROM
-			(SELECT minmax AS way, hei AS minhei
-			FROM joined WHERE minmax IS NOT NULL) a
-		WHERE way IS NOT NULL AND NOT ST_IsEmpty(way)) b) c
+    LEAST(ST_Y(p1), ST_Y(p2)) as lea, 2 AS hv,
+    CASE WHEN ST_X(p2) &gt; ST_X(p1) THEN 'no-h-d'
+        ELSE 'no-h' END AS visible, -500 AS azim,
+    minhei, minhei AS hei, 'line' AS fill, 1 AS diff
+FROM (
+    SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) as p1,
+        ST_PointN(way, generate_series(2, ST_NPoints(way))) as p2, minhei
+    FROM (
+        SELECT (ST_Dump(ST_Boundary(ST_ForceRHR(way)))).geom AS way,
+            minhei * 2 AS minhei
+        FROM (
+            SELECT minmax AS way, hei AS minhei
+            FROM joined
+            WHERE minmax IS NOT NULL) a
+        WHERE way IS NOT NULL AND NOT ST_IsEmpty(way)) b) c
 --                        WHERE
 --                            (o.way IS NULL OR
 --                             NOT ST_IsEmpty(ST_Difference(n.way, o.way)))
 --                            AND GeometryType(ST_Multi(CASE WHEN o.way IS NOT NULL THEN ST_Difference(n.way, o.way) ELSE n.way END)) = 'MULTIPOLYGON') p) r
+
+                      -- Flat roof fills
+UNION
+
+SELECT ST_Translate(way, 0, hei) AS way,
+    ST_YMin(way) AS lea, 2 AS hv, 'yes-h' AS visible, -500 AS azim,
+    hei AS minhei, hei, 'area' AS fill, 1 AS diff
+FROM (
+    SELECT maxmin AS way, hei * 2 AS hei
+    FROM joined
+    WHERE maxmin IS NOT NULL) p
+
+                      -- Flat roof lines
+UNION
+
+SELECT ST_Translate(way, 0, hei) AS way, ST_YMin(way) AS lea, 2 AS hv,
+    'no-h' AS visible, -500 AS azim, hei AS minhei, hei,
+    'line' AS fill, 1 AS diff
+FROM (
+    SELECT maxmin AS way, hei * 2 AS hei
+    FROM joined
+    WHERE maxmin IS NOT NULL) p
 
 ) order by minhei, lea DESC, fill, hv, hei
 ) as text
