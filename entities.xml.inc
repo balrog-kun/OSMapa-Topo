@@ -16,7 +16,7 @@
 <!ENTITY mezoregions SYSTEM "mezoregions.xml">
 <!ENTITY budynki3d SYSTEM "budynki3d.xml">
 <!ENTITY hillshade-thin SYSTEM "hillshade-thin.xml">
-<!ENTITY tilt "0.4">
+<!ENTITY tilt "0.3">
 
 <!ENTITY maxscale_zoom0 "<MaxScaleDenominator>250000000000</MaxScaleDenominator>">
 <!ENTITY maxscale_zoom1 "<MaxScaleDenominator>500000000</MaxScaleDenominator>">

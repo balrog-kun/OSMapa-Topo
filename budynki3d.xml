@@ -2,7 +2,7 @@
  <!-- Edges -->
  <Rule>
   <Filter>([visible] = 'yes-v' and [diff] &gt; 0.4 and [diff] &lt;= 0.7) or [visible] = 'yes-h' or [visible] = 'border-yes-v'</Filter>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <LineSymbolizer
    stroke="#444444"
    stroke-width=".3"
@@ -11,7 +11,7 @@
  </Rule>
  <Rule>
   <Filter>[visible] = 'yes-v' and [diff] &gt; 0.7</Filter>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <LineSymbolizer
    stroke="#444444"
    stroke-width=".5"
@@ -20,7 +20,7 @@
  </Rule>
  <Rule>
   <Filter>[visible] = 'yes-v' and [diff] &gt; 0.3 and [diff] &lt;= 0.45</Filter>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <LineSymbolizer
    stroke="#444444"
    stroke-width=".2"
@@ -29,7 +29,7 @@
  </Rule>
  <Rule>
   <Filter>[visible] = 'yes-v' and [diff] &gt; 0.15 and [diff] &lt;= 0.3</Filter>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <LineSymbolizer
    stroke="#444444"
    stroke-width=".1"
@@ -38,7 +38,7 @@
  </Rule>
  <Rule>
   <Filter>[visible] = 'no-h'</Filter>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <LineSymbolizer
    stroke="#444444"
    stroke-width=".2"
@@ -47,7 +47,7 @@
  </Rule>
  <Rule>
   <Filter>([visible] = 'no-v' and [diff] &gt; 0.3) or [visible] = 'border-no-v' or [visible] = 'no-h-d'</Filter>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <LineSymbolizer
    stroke="#444444"
    stroke-width=".3"
@@ -58,7 +58,7 @@
 
  <!-- Planes -->
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[visible] = 'yes'</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -66,7 +66,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 0.0 and [azim] &lt; 18.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -74,7 +74,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 18.0 and [azim] &lt; 36.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -82,7 +82,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 36.0 and [azim] &lt; 54.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -90,7 +90,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 54.0 and [azim] &lt; 72.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -98,7 +98,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 72.0 and [azim] &lt; 90.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -106,7 +106,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 90.0 and [azim] &lt; 108.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -114,7 +114,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 108.0 and [azim] &lt; 126.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -122,7 +122,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 126.0 and [azim] &lt; 144.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -130,7 +130,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 144.0 and [azim] &lt; 162.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -138,7 +138,7 @@
   />
  </Rule>
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 1 and [visible] = 'yes' and [azim] &gt;= 162.0 and [azim] &lt; 180.0</Filter>
   <PolygonSymbolizer
    fill="silver"
@@ -148,7 +148,7 @@
 
  <!-- Flat rooves -->
  <Rule>
-  &maxscale_zoom16;
+  &maxscale_zoom17;
   <Filter>[hv] = 2 and [visible] = 'yes-h'</Filter>
   <PolygonSymbolizer
    fill="silver"
