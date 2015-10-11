@@ -168,16 +168,16 @@
 WITH
 
 buildingparts AS
-  (SELECT ST_Buffer(way, 0) AS way, "building:levels", height,
-     "building:min_level", min_height
+  (SELECT ST_Buffer(way, 0) AS way, "building:levels", height, "roof:height",
+     "building:min_level", min_height, "roof:shape"
    FROM planet_osm_polygon
    WHERE "building:part" IS NOT NULL AND
      (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
      way &amp;&amp; ST_Expand(!bbox!, 500)),
 
 buildingswhole AS
-  (SELECT ST_Buffer(way, 0) AS way, "building:levels", height,
-     "building:min_level", "min_height"
+  (SELECT ST_Buffer(way, 0) AS way, "building:levels", height, "roof:height",
+     "building:min_level", "min_height", "roof:shape"
    FROM planet_osm_polygon AS a
    WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) AND
      (building IS NOT NULL OR height IS NOT NULL OR
@@ -211,8 +211,8 @@ rawbuildings AS (
 
   UNION
 
-  SELECT ST_Buffer(way, 7) AS way, "building:levels", height,
-    "building:min_level", min_height
+  SELECT ST_Buffer(way, 2.5) AS way, "building:levels", height, "roof:height",
+    "building:min_level", min_height, "roof:shape"
   FROM planet_osm_point
   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) and
     (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
@@ -222,7 +222,7 @@ rawbuildings AS (
 
   SELECT ST_Buffer(way, 0.1, 1) AS way, "building:levels",
      CASE WHEN height IS NOT NULL THEN height ELSE '1.0' END AS height,
-     "building:min_level", min_height
+     "roof:height", "building:min_level", min_height, "roof:shape"
   FROM planet_osm_line
   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower') OR
      barrier IN ('fence','wall')) AND
@@ -232,23 +232,36 @@ rawbuildings AS (
 
   SELECT ST_Buffer(ST_Boundary(way), 0.1, 1) AS way, "building:levels",
     CASE WHEN "height" IS NOT NULL THEN height ELSE '1.0' END AS height,
-    "building:min_level", "min_height"
+    '0' AS "roof:height", "building:min_level", "min_height",
+    NULL AS "roof:shape"
   FROM planet_osm_polygon
   WHERE barrier IN ('fence','wall') AND way &amp;&amp; ST_Expand(!bbox!, 500)
 ), -- end of "rawbuildings AS"
 
+rawbuildingswithroof AS
+      (SELECT *,
+           CASE WHEN z."height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+               THEN CAST (z."height" AS FLOAT) ELSE
+               CASE WHEN z."building:levels" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+                    THEN CAST (z."building:levels" AS FLOAT) * 3 ELSE 6 END END AS hei,
+           CASE WHEN z."min_height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+               THEN CAST (z."min_height" AS FLOAT) ELSE
+               CASE WHEN z."building:min_level" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+                   THEN CAST (z."building:min_level" AS FLOAT) * 3 ELSE 0 END END AS minhei,
+           CASE WHEN z."roof:height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
+               THEN CAST (z."roof:height" AS FLOAT) ELSE 0 END AS rhei,
+           "roof:shape" AS rshape
+       FROM rawbuildings AS z
+      ), -- END OF "rawbuildingswithroof AS"
+
 buildings AS
       (SELECT * FROM
            (SELECT ST_ForceRHR(ST_SimplifyPreserveTopology(way, .4)) AS way,
-                CASE WHEN z."height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
-                     THEN CAST (z."height" AS FLOAT) ELSE
-                     CASE WHEN z."building:levels" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
-                          THEN CAST (z."building:levels" AS FLOAT) * 3 ELSE 6 END END * &tilt; AS hei,
-                CASE WHEN z."min_height" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
-                     THEN CAST (z."min_height" AS FLOAT) ELSE
-                     CASE WHEN z."building:min_level" ~ E'^(-)?[[:digit:]]+([.][[:digit:]]+)?$'
-                          THEN CAST (z."building:min_level" AS FLOAT) * 3 ELSE 0 END END * &tilt; AS minhei,
-            FROM rawbuildings AS z
+                GREATEST(z.hei - z.rhei, z.minhei) * &tilt; AS hei,
+                LEAST(z.hei - z.rhei, z.minhei) * &tilt; AS minhei,
+                LEAST(z.hei, z.rhei) * &tilt; AS rhei,
+                rshape
+            FROM rawbuildingswithroof AS z
            ) zz -- WHERE GeometryType(way) = 'POLYGON' for some reason doing this here is slower than repeating it &gt; 1 times belowe
       ), -- END OF "buildings AS"
 
