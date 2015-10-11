@@ -1020,8 +1020,19 @@
     </Rule>
     <Rule>
       &maxscale_zoom15;
-      <Filter>[tracktype] = 'grade3' or [highway] = 'cycleway'</Filter>
+      <Filter>[tracktype] = 'grade3'</Filter>
       <LineSymbolizer stroke-linejoin="round" stroke="#555555" stroke-width="1.5"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom15;
+      &minscale_zoom16;
+      <Filter>[highway] = 'cycleway'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#555555" stroke-width="1.5"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom17;
+      <Filter>[highway] = 'cycleway'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#e99" stroke-width="2"/>
     </Rule>
     <Rule>
       &maxscale_zoom15;
@@ -1604,12 +1615,16 @@
     </Rule>
     <Rule>
       &maxscale_zoom14;
-      <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'track' or [highway] = 'path' or [highway] = 'cycleway'</Filter>
+      <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'track' or [highway] = 'path'</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1"/>
     </Rule>
     <Rule>
       &maxscale_zoom14;
       <Filter>[highway] = 'living_street' or [highway] = 'pedestrian' or [highway] = 'footway'</Filter>
+    </Rule>
+    <Rule>
+      &maxscale_zoom18;
+      <Filter>[highway] &gt; '' and not ([highway] = 'cycleway')</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1"/>
     </Rule>
   </Style>
@@ -1739,8 +1754,8 @@
       <PolygonSymbolizer fill="#FDFD83"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
-      <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'track' or [highway] = 'path' or [highway] = 'cycleway'</Filter>
+      &maxscale_zoom17;
+      <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'track'</Filter>
       <PolygonSymbolizer fill="#FFFFFF"/>
     </Rule>
     <Rule>
