@@ -269,6 +269,7 @@ byhei AS
   (SELECT hei, ST_Buffer(ST_Collect(way), 0) AS way
    FROM buildings WHERE rshape IS NULL OR rshape NOT IN (
      'skillion', '1.0',
+     'gabled', '2.0',
      'pyramidal', '2.5')
    GROUP BY hei),
 
@@ -554,6 +555,145 @@ UNION
      degrees(ST_Azimuth(p2, p1)) AS azim, hei AS minhei, hei + rhei AS hei,
      'area' AS fill, 1 AS diff
  FROM roof_helpers_points
+)
+
+                     -- Gabled rooves
+UNION
+
+(WITH
+ raw_roof AS (
+     SELECT (ST_Dump(ST_Boundary(way))).geom AS way, way AS origway, hei, rhei
+     FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
+         rshape IN ('gabled', '2.0')),
+
+ raw_roof_direction AS (
+     SELECT hei, rhei, way, origway,
+         (ST_X(ST_PointN(way, num + 1)) - ST_X(ST_PointN(way, num))) /
+           ST_Distance(ST_PointN(way, num + 1), ST_PointN(way, num)) AS px,
+         (ST_Y(ST_PointN(way, num + 1)) - ST_Y(ST_PointN(way, num))) /
+           ST_Distance(ST_PointN(way, num + 1), ST_PointN(way, num)) AS py
+     FROM (
+         SELECT hei * 2 AS hei, rhei * 2 AS rhei, way, origway,
+             (SELECT num
+              FROM generate_series(1, ST_NPoints(way) - 1) AS num
+              ORDER BY ST_Distance(ST_PointN(way, num),
+                  ST_PointN(way, num + 1)) DESC
+              LIMIT 1)
+         FROM raw_roof) AS a),
+
+ rotated_roof AS (
+     SELECT hei, rhei, px, py, ST_Affine(way, py, -px, px, py, 0, 0) AS rway,
+         way, origway
+     FROM raw_roof_direction),
+
+ roof_helpers AS (
+     SELECT way, origway, hei, rhei, px, py, rway,
+         ST_XMin(rway) AS min, ST_XMax(rway) AS max,
+         0.5 * (ST_XMin(rway) + ST_XMax(rway)) AS mid,
+         rhei * 4 / (ST_XMax(rway) - ST_XMin(rway)) AS ratio
+     FROM rotated_roof),
+
+ roof_slope_data AS (
+     SELECT way, origway, hei, rhei, px, py,
+         ST_SetSRID(ST_Affine(ST_MakePolygon(unnest(ARRAY[
+           ST_MakeLine(ARRAY[
+             ST_Point(min, ST_YMin(rway)),
+             ST_Point(mid, ST_YMin(rway)),
+             ST_Point(mid, ST_YMax(rway)),
+             ST_Point(min, ST_YMax(rway)),
+             ST_Point(min, ST_YMin(rway))]),
+           ST_MakeLine(ARRAY[
+             ST_Point(max, ST_YMax(rway)),
+             ST_Point(mid, ST_YMax(rway)),
+             ST_Point(mid, ST_YMin(rway)),
+             ST_Point(max, ST_YMin(rway)),
+             ST_Point(max, ST_YMax(rway))])
+         ])), py, px, -px, py, 0, 0), 900913) AS slope,
+         reduce_dim(ARRAY[
+           -- TODO: azimuth
+           [ py * ratio, -px * ratio, -min * ratio ],
+           [ -py * ratio, px * ratio, 4 * rhei + min * ratio ]
+         ]) AS params
+     FROM roof_helpers),
+
+ roof_slope_points AS (
+     SELECT hei, rhei, px, py, slope, params,
+         ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) AS p1,
+         ST_PointN(way, generate_series(2, ST_NPoints(way))) AS p2,
+         ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1) AS p3
+     FROM roof_slope_data)
+
+ -- Roof fills
+ SELECT ST_Affine(ST_Intersection(origway, slope), 1, 0,
+       params[1], 1 + params[2], 0, hei + params[3]) AS way,
+     ST_YMin(origway) AS lea, 1 AS hv,
+     CASE WHEN 1 + params[2] &gt; 0 THEN 'yes' ELSE 'no' END AS visible,
+     degrees(ST_Azimuth(ST_Point(0, 0), ST_Point(px, py))) AS azim,
+     hei AS minhei, hei + rhei AS hei, 'area' AS fill, 1 AS diff
+ FROM roof_slope_data
+
+ -- Roof vertical lines
+ UNION
+ SELECT ST_MakeLine(ST_Translate(p2, 0, hei),
+       ST_Translate(p2, 0, params[1] * ST_X(p2) + params[2] * ST_Y(p2) +
+         hei + params[3])) AS way,
+     ST_Y(p2) AS lea, 1 AS hv,
+     CASE WHEN (ST_X(p3) - ST_X(p2)) * (ST_X(p2) - ST_X(p1)) &lt; 0
+          THEN CASE WHEN (ST_X(p2) - ST_X(p1)) * (ST_Y(p3) - ST_Y(p2)) -
+                      (ST_X(p3) - ST_X(p2)) * (ST_Y(p2) - ST_Y(p1)) &lt; 0
+                    THEN 'border-yes-v'
+                    ELSE 'border-no-v' END
+          WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes-v' ELSE 'no-v' END AS visible,
+     -500 AS azim, hei, hei + rhei, 'line' AS fill,
+     1 - abs(abs(ST_Azimuth(p3, p2) - ST_Azimuth(p2, p1)) / 3.14159265358 - 1) AS diff -- TODO: take the azimuth from the params
+ FROM roof_slope_points
+ WHERE ST_Intersects(slope, p2)
+
+ -- Roof edge lines (rakes and eaves)
+ UNION
+ SELECT ST_Affine(ST_Intersection(slope, ST_MakeLine(p2, p1)), 1, 0,
+       params[1], 1 + params[2], 0, hei + params[3]) AS way,
+     LEAST(ST_Y(p1), ST_Y(p2)) AS lea, 2 AS hv,
+     CASE WHEN 1 + params[2] &gt; 0 OR ST_X(p2) &gt; ST_X(p1)
+          THEN 'no-h' ELSE 'no-h-d' END AS visible,
+     -500 AS azim,
+     hei AS minhei, hei, 'line' AS fill, 1 AS diff
+ FROM roof_slope_points
+ WHERE ST_Intersects(slope, ST_MakeLine(p2, p1))
+
+ -- Wall fills (gables and similar)
+ UNION
+ SELECT ST_MakePolygon(ST_Translate(ST_MakeLine(ARRAY[
+       ST_PointN(seg, 1),
+       ST_Affine(seg, 1, 0, params[1], 1 + params[2], 0, params[3]),
+       ST_PointN(seg, 2), ST_PointN(seg, 1)]), 0, hei)) AS way,
+     LEAST(ST_Y(p1), ST_Y(p2)) AS lea, 1 AS hv,
+     CASE WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes' ELSE 'no' END AS visible,
+     degrees(ST_Azimuth(p2, p1)) AS azim, hei AS minhei, hei + rhei AS hei,
+     'area' AS fill, 1 AS diff
+ FROM (
+     SELECT p1, p2, hei, rhei, params,
+         ST_Intersection(slope, ST_MakeLine(p2, p1)) AS seg
+     FROM roof_slope_points
+     WHERE ST_Intersects(slope, ST_MakeLine(p2, p1)) AND
+         ST_Length(ST_Intersection(slope, ST_MakeLine(p2, p1))) > 1) a
+
+ -- Roof ridge/hip lines
+ UNION
+ SELECT ST_Affine(ST_Intersection(a.origway,
+         ST_Intersection(a.slope, b.slope)), 1, 0,
+       a.params[1], 1 + a.params[2], 0, a.hei + a.params[3]) AS way,
+     ST_YMin(a.slope) AS lea, 1 AS hv,
+     -- Note: for simplicity assuming all angles convex here
+     CASE WHEN 1 + a.params[2] &gt; 0 AND 1 + b.params[2] &gt; 0
+          THEN 'yes-v'
+          ELSE CASE WHEN 1 + a.params[2] &gt; 0 OR 1 + b.params[2] &gt; 0
+                    THEN 'border-yes-v' ELSE 'no-v' END END as visible,
+     -500 AS azim, a.hei AS minhei, a.hei + a.rhei AS hei, 'line' AS fill,
+     0.4 AS diff -- TODO: calculate the real angle between the two surfaces
+ FROM roof_slope_data AS a, roof_slope_data AS b
+ WHERE ST_YMin(a.slope) &lt; ST_YMin(b.slope) AND
+     ST_Intersects(a.slope, b.slope)
 )
 
 ) order by minhei, lea DESC, fill, hv, hei
