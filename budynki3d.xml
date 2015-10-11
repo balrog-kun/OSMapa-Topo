@@ -267,7 +267,8 @@ buildings AS
 
 byhei AS
   (SELECT hei, ST_Buffer(ST_Collect(way), 0) AS way
-   FROM buildings GROUP BY hei),
+   FROM buildings WHERE rshape IS NULL OR rshape NOT IN ('pyramidal', '2.5')
+   GROUP BY hei),
 
 byminhei AS
   (SELECT minhei, ST_Buffer(ST_Collect(way), 0) AS way
@@ -372,6 +373,92 @@ FROM (
     SELECT maxmin AS way, hei * 2 AS hei
     FROM joined
     WHERE maxmin IS NOT NULL) p
+
+                     -- Pyramid roof fills
+UNION
+
+SELECT ST_MakePolygon(ST_Translate(ST_MakeLine(ARRAY[p2, p1, p3, p2]), 0, hei))
+      AS way,
+    LEAST(ST_Y(p1), ST_Y(p2)) AS lea, 1 AS hv,
+    -- See if the points are in RHR order
+    -- TODO: use http://trac.osgeo.org/postgis/wiki/UsersWikiplpgsqlfunctions
+    -- as an example to convert this into a function
+    CASE WHEN (ST_X(p1) - ST_X(p2)) * (ST_Y(p1) - ST_Y(p3)) &lt;
+            (ST_X(p1) - ST_X(p3)) * (ST_Y(p1) - ST_Y(p2))
+        THEN 'yes' ELSE 'no' END AS visible,
+    --- TODO: rename azimuth to opacity and incorporate the roof tilt into
+    --- how opacity is calculated
+    degrees(ST_Azimuth(p2, p1)) AS azim,
+    hei AS minhei, hei + rhei AS hei, 'area' AS fill, 1 AS diff
+FROM (
+    SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) AS p1,
+        ST_PointN(way, generate_series(2, ST_NPoints(way))) AS p2,
+        ST_Translate(center, 0, rhei * 2) AS p3,
+        hei * 2 AS hei, rhei * 2 AS rhei
+    FROM (
+        SELECT (ST_Dump(ST_Boundary(way))).geom AS way, hei, rhei,
+            ST_Centroid(way) AS center
+        FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
+            rshape IN ('pyramidal', '2.5')
+        ) p
+    ) a
+
+                     -- Pyramid roof angle lines
+UNION
+
+SELECT ST_Translate(ST_MakeLine(ARRAY[p2, p3]), 0, hei) AS way,
+    ST_Y(p2) AS lea, 1 AS hv,
+    -- TODO: use http://trac.osgeo.org/postgis/wiki/UsersWikiplpgsqlfunctions
+    -- as an example to convert this into a function
+    -- TODO: yield border-yes-v on both borders
+    -- Note: for simplicity we assume all angles convex for now
+    CASE WHEN (ST_X(p1) - ST_X(p2)) * (ST_Y(p1) - ST_Y(p3)) &lt;
+            (ST_X(p1) - ST_X(p3)) * (ST_Y(p1) - ST_Y(p2))
+         THEN 'yes-v' ELSE
+             CASE WHEN (ST_X(p2) - ST_X(p4)) * (ST_Y(p2) - ST_Y(p3)) &lt;
+                     (ST_X(p2) - ST_X(p3)) * (ST_Y(p2) - ST_Y(p4))
+             THEN 'border-yes-v' ELSE 'no-v' END END AS visible,
+    -500 AS azim, hei AS minhei, hei + rhei AS hei, 'line' AS fill,
+    0.4 AS diff -- TODO: calculate the real angle between the two surfaces
+FROM (
+    SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) AS p1,
+        ST_PointN(way, generate_series(2, ST_NPoints(way))) AS p2,
+        ST_Translate(center, 0, rhei * 2) AS p3,
+        ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1) AS p4,
+        hei * 2 AS hei, rhei * 2 AS rhei
+    FROM (
+        SELECT (ST_Dump(ST_Boundary(way))).geom AS way, hei, rhei,
+            ST_Centroid(way) AS center
+        FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
+            rshape IN ('pyramidal', '2.5')
+        ) p
+    ) a
+
+                      -- Pyramid roof horizontal lines
+UNION
+
+SELECT ST_Translate(ST_MakeLine(ARRAY[p2, p1]), 0, hei) AS way,
+    LEAST(ST_Y(p1), ST_Y(p2)) AS lea, 2 AS hv,
+    -- See if the points are in RHR order
+    -- TODO: use http://trac.osgeo.org/postgis/wiki/UsersWikiplpgsqlfunctions
+    -- as an example to convert this into a function
+    CASE WHEN (ST_X(p1) - ST_X(p2)) * (ST_Y(p1) - ST_Y(p3)) &lt;
+            (ST_X(p1) - ST_X(p3)) * (ST_Y(p1) - ST_Y(p2))
+        THEN 'no-h' ELSE 'no-h-d' END AS visible,
+    -500 AS azim,
+    hei AS minhei, hei, 'line' AS fill, 1 AS diff
+FROM (
+    SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) AS p1,
+        ST_PointN(way, generate_series(2, ST_NPoints(way))) AS p2,
+        ST_Translate(center, 0, rhei * 2) AS p3,
+        hei * 2 AS hei, rhei * 2 AS rhei
+    FROM (
+        SELECT (ST_Dump(ST_Boundary(way))).geom AS way, hei, rhei,
+            ST_Centroid(way) AS center
+        FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
+            rshape IN ('pyramidal', '2.5')
+        ) p
+    ) a
 
 ) order by minhei, lea DESC, fill, hv, hei
 ) as text
