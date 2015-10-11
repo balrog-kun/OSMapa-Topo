@@ -1078,6 +1078,34 @@
     </Rule>
     <Rule>
       &maxscale_zoom16;
+      &minscale_zoom17;
+      <Filter>[highway] = 'crossing'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#302226" stroke-width="1" stroke-dasharray="4, 2"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom18;
+      &minscale_zoom18;
+      <Filter>[highway] = 'crossing'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#b0b0b0" stroke-width="13" stroke-dasharray="4, 2"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom18;
+      &minscale_zoom18;
+      <Filter>[highway] = 'crossing'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#ffffff" stroke-width="12" stroke-dasharray="0, 0.5, 3, 2.5"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom19;
+      <Filter>[highway] = 'crossing'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#b0b0b0" stroke-width="23" stroke-dasharray="6, 3"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom19;
+      <Filter>[highway] = 'crossing'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#ffffff" stroke-width="22" stroke-dasharray="0, 0.5, 5, 3.5"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom16;
       &minscale_zoom18;
       <Filter>[highway] = 'steps'</Filter>
       <LineSymbolizer stroke="#302226" stroke-width="4" stroke-dasharray="1, 5"/>
