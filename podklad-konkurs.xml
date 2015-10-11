@@ -1064,15 +1064,29 @@
     </Rule>
     <Rule>
       &maxscale_zoom16;
+      &minscale_zoom18;
       <Filter>[highway] = 'path' or [highway] = 'footway' or [highway] = 'bridleway'</Filter>
-      <LineSymbolizer stroke-linejoin="round" stroke="#302226" stroke-width="1" stroke-dasharray="4,2"/>
+      <LineSymbolizer stroke-linejoin="round" stroke="#302226" stroke-width="1" stroke-dasharray="4, 2"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom19;
+      <Filter>[highway] = 'path' or [highway] = 'footway' or [highway] = 'bridleway'</Filter>
+      <LineSymbolizer stroke-linejoin="round" stroke="#302226" stroke-width="1" stroke-dasharray="6, 3"/>
     </Rule>
     <Rule>
       &maxscale_zoom16;
+      &minscale_zoom18;
       <Filter>[highway] = 'steps'</Filter>
-      <LineSymbolizer stroke="#302226" stroke-width="4" stroke-dasharray="1,5"/>
+      <LineSymbolizer stroke="#302226" stroke-width="4" stroke-dasharray="1, 5"/>
       <LineSymbolizer stroke="#302226" stroke-width="1" offset="2"/>
       <LineSymbolizer stroke="#302226" stroke-width="1" offset="-2"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom19;
+      <Filter>[highway] = 'steps'</Filter>
+      <LineSymbolizer stroke="#302226" stroke-width="6" stroke-dasharray="1, 8"/>
+      <LineSymbolizer stroke="#302226" stroke-width="1" offset="3"/>
+      <LineSymbolizer stroke="#302226" stroke-width="1" offset="-3"/>
     </Rule>
     <Rule>
       &maxscale_zoom14;
