@@ -1618,33 +1618,46 @@
   </Style>
   <Style name="pokrycie_terenu_drogi_dol">
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom16;
+      &minscale_zoom17;
       <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom16;
+      &minscale_zoom17;
       <Filter>[highway] = 'primary' or [highway] = 'trunk' or [highway] = 'primary_link' or [highway] = 'trunk_link'</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom17;
+      &minscale_zoom17;
       <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom17;
+      &minscale_zoom17;
       <Filter>[highway] = 'tertiary'</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom17;
+      &minscale_zoom17;
       <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'track' or [highway] = 'path' or [highway] = 'bridleway'</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1"/>
     </Rule>
     <Rule>
+      &maxscale_zoom17;
+      &minscale_zoom17;
+      <Filter>[highway] = 'living_street' or [highway] = 'footway'</Filter>
+      <LineSymbolizer stroke="#000000" stroke-width="1"/>
+    </Rule>
+    <Rule>
+      <!-- Squares are treated differently, show them at lower zoom levels -->
       &maxscale_zoom14;
-      <Filter>[highway] = 'living_street' or [highway] = 'pedestrian' or [highway] = 'footway'</Filter>
+      &minscale_zoom17;
+      <Filter>[highway] = 'pedestrian'</Filter>
       <LineSymbolizer stroke="#000000" stroke-width="1"/>
     </Rule>
     <Rule>
@@ -1757,37 +1770,65 @@
   </Style>
   <Style name="pokrycie_terenu_drogi_gora">
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom16;
       <Filter>[highway] = 'motorway' or [highway] = 'motorway_link'</Filter>
       <PolygonSymbolizer fill="#809bc0"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom16;
       <Filter>[highway] = 'primary' or [highway] = 'trunk' or [highway] = 'primary_link' or [highway] = 'trunk_link'</Filter>
       <PolygonSymbolizer fill="#f38730"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom17;
       <Filter>[highway] = 'secondary' or [highway] = 'secondary_link'</Filter>
       <PolygonSymbolizer fill="#f3ba30"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
+      &maxscale_zoom17;
       <Filter>[highway] = 'tertiary'</Filter>
       <PolygonSymbolizer fill="#FDFD83"/>
     </Rule>
     <Rule>
-      &maxscale_zoom14;
-      <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'track' or [highway] = 'path' or [highway] = 'cycleway' or [highway] = 'bridleway'</Filter>
+      &maxscale_zoom17;
+      <Filter>[highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'track' or [highway] = 'bridleway'</Filter>
       <PolygonSymbolizer fill="#FFFFFF"/>
     </Rule>
     <Rule>
       &maxscale_zoom14;
-      <Filter>[highway] = 'living_street' or [highway] = 'pedestrian' or [highway] = 'footway'</Filter>
+      &minscale_zoom17;
+      <Filter>[highway] = 'pedestrian'</Filter>
+      <PolygonSymbolizer fill="#ddd"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom17;
+      &minscale_zoom17;
+      <Filter>[highway] = 'living_street' or [highway] = 'pedestrian'</Filter>
+      <PolygonSymbolizer fill="#ddd"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom18;
+      <Filter>[highway] &gt; '' and not ([highway] = 'residential' or [highway] = 'unclassified' or [highway] = 'minor' or [highway] = 'road' or [highway] = 'service' or [highway] = 'track' or [highway] = 'path' or [highway] = 'cycleway' or [highway] = 'motorway' or [highway] = 'trunk' or [highway] = 'primary' or [highway] = 'secondary' or [highway] = 'tertiary' or [highway] = 'motorway_link' or [highway] = 'trunk_link' or [highway] = 'primary_link' or [highway] = 'secondary_link' or [highway] = 'footway' or [highway] = 'bridleway')</Filter>
       <PolygonSymbolizer fill="#ddd"/>
     </Rule>
   </Style>
-  <Style name="zbiorniki_wodne">
+  <Style name="pokrycie_terenu_sciezki_hires_gora">
+    <Rule>
+      &maxscale_zoom17;
+      <Filter>[highway] = 'path'</Filter>
+      <PolygonSymbolizer fill="#fff"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom17;
+      <Filter>[highway] = 'cycleway'</Filter>
+      <PolygonSymbolizer fill="#e99"/>
+    </Rule>
+    <Rule>
+      &maxscale_zoom17;
+      <Filter>[highway] = 'footway'</Filter>
+      <PolygonSymbolizer fill="#ddd"/>
+    </Rule>
+  </Style>  <Style name="zbiorniki_wodne">
     <!-- jeziora, stawy, oraz rzeki reprezentowane powierzchniowo + wyspy na nich położone -->
     <Rule>
       &minscale_zoom12;
@@ -3727,6 +3768,14 @@
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
+  <Layer name="drogi_gora_thin_line">
+    <StyleName>drogi_gora_thin_line</StyleName>
+    <Datasource>
+      &datasource-settings;
+      <Parameter name="table">planet_osm_line</Parameter>
+      <Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
   <Layer name="pokrycie_terenu_drogi_gora">
     <StyleName>pokrycie_terenu_drogi_gora</StyleName>
     <Datasource>
@@ -3748,14 +3797,6 @@
     <Datasource>
       &datasource-settings;
       <Parameter name="table">(SELECT * FROM planet_osm_lores_line WHERE admin_level IN ('2', '4')) AS admin_lores</Parameter>
-      <Parameter name="geometry_field">way</Parameter>
-    </Datasource>
-  </Layer>
-  <Layer name="sciezki">
-    <StyleName>sciezki</StyleName>
-    <Datasource>
-      &datasource-settings;
-      <Parameter name="table">(select * from planet_osm_line WHERE highway is not null OR man_made='pier') as "sciezki"</Parameter>
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
@@ -3812,6 +3853,22 @@
     <Datasource>
       &datasource-settings;
       <Parameter name="table">(select way,highway,oneway,bridge,tunnel,surface from planet_osm_line WHERE highway is not null) as "drogi_glowne"</Parameter>
+      <Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="sciezki">
+    <StyleName>sciezki</StyleName>
+    <Datasource>
+      &datasource-settings;
+      <Parameter name="table">(SELECT * FROM planet_osm_line WHERE highway IS NOT NULL OR man_made = 'pier') AS "sciezki"</Parameter>
+      <Parameter name="geometry_field">way</Parameter>
+    </Datasource>
+  </Layer>
+  <Layer name="pokrycie_terenu_sciezki_hires_gora">
+    <StyleName>pokrycie_terenu_sciezki_hires_gora</StyleName>
+    <Datasource>
+      &datasource-settings;
+      <Parameter name="table">planet_osm_polygon</Parameter>
       <Parameter name="geometry_field">way</Parameter>
     </Datasource>
   </Layer>
