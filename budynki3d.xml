@@ -242,9 +242,10 @@ rawbuildingswithroof AS
       (SELECT *,
            CASE WHEN height ~ &len-re;
                THEN CAST (trim(trailing ' m' from height) AS FLOAT)
-               ELSE CASE WHEN "building:levels" ~ &num-re;
-                   THEN CAST ("building:levels" AS FLOAT) * 3
-                   ELSE 6 END END AS hei,
+               ELSE NULL END AS hei,
+           CASE WHEN "building:levels" ~ &num-re;
+               THEN CAST ("building:levels" AS FLOAT) * 3
+               ELSE 6 END AS fallback_hei,
            CASE WHEN min_height ~ &len-re;
                THEN CAST (trim(trailing ' m' from min_height) AS FLOAT)
                ELSE CASE WHEN "building:min_level" ~ &num-re;
@@ -260,9 +261,14 @@ rawbuildingswithroof AS
 buildings AS
       (SELECT * FROM
            (SELECT ST_ForceRHR(ST_SimplifyPreserveTopology(way, .4)) AS way,
-                GREATEST(z.hei - z.rhei, z.minhei) * &tilt; AS hei,
-                LEAST(z.hei - z.rhei, z.minhei) * &tilt; AS minhei,
-                LEAST(z.hei, z.rhei) * &tilt; AS rhei,
+                -- When building:levels is used as a fallback for height
+                -- indication, it doesn't include roof height
+                GREATEST(COALESCE(hei - rhei, fallback_hei), z.minhei) *
+                  &tilt; AS hei,
+                LEAST(COALESCE(hei - rhei, fallback_hei), z.minhei) *
+                  &tilt; AS minhei,
+                LEAST(COALESCE(hei, fallback_hei + rhei), rhei) *
+                  &tilt; AS rhei,
 		CASE
                   -- Note: the "_cutted" values are copied verbatim from wiki
 
