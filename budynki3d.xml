@@ -260,7 +260,37 @@ buildings AS
                 GREATEST(z.hei - z.rhei, z.minhei) * &tilt; AS hei,
                 LEAST(z.hei - z.rhei, z.minhei) * &tilt; AS minhei,
                 LEAST(z.hei, z.rhei) * &tilt; AS rhei,
-                rshape
+		CASE
+                  -- Note: the "_cutted" values are copied verbatim from wiki
+
+                  WHEN rshape IN ('skillion', '1.0', 'lean_to',
+                    'double_skillion', '2.7', 'triple_skillion', '2.8',
+                    'round_skillion', '5.2', 'round_skillion_cutted', '5.4',
+                    'round_skillion_double_cutted', '5.5')
+                  THEN 'skillion'
+
+                  WHEN rshape IN ('gabled', '2.0', 'gabled_height_moved', '2.1',
+                    'side_hipped', '2.2', 'double_saltbox', '3.1',
+                    'triple_saltbox', '3.3', 'gambrel', '4.0',
+                    'mansard_onesided', '4.1', 'round', '5.0',
+                    'round_gabled', '5.3', 'apse_gabled', '6.4')
+                  THEN 'gabled'
+
+                  WHEN rshape IN ('half-hipped', '2.3')
+                  THEN 'half-hipped'
+
+                  WHEN rshape IN ('hipped', '2.4', 'quadruple_saltbox', '3.4',
+                    'mansard', '4.2', 'thai_cutted', 'thai', '4.2.1',
+                    'round_hipped', '5.6')
+                  THEN 'hipped'
+
+                  WHEN rshape IN ('pyramidal', '2.5',
+                    'pyramidal_diagonal', '4.3', 'round_pyramidal', '5.1')
+                  THEN 'pyramidal'
+
+                  WHEN rshape IN ('dome', '5.7', 'geodesic_dome', '8.8')
+                  THEN 'dome'
+                END AS rshape
             FROM rawbuildingswithroof AS z
            ) zz -- WHERE GeometryType(way) = 'POLYGON' for some reason doing this here is slower than repeating it &gt; 1 times belowe
       ), -- END OF "buildings AS"
@@ -268,9 +298,9 @@ buildings AS
 byhei AS
   (SELECT hei, ST_Buffer(ST_Collect(way), 0) AS way
    FROM buildings WHERE rshape IS NULL OR rshape NOT IN (
-     'skillion', '1.0',
-     'gabled', '2.0',
-     'pyramidal', '2.5')
+     'skillion',
+     'gabled',
+     'pyramidal')
    GROUP BY hei),
 
 byminhei AS
@@ -402,7 +432,7 @@ FROM (
         SELECT (ST_Dump(ST_Boundary(way))).geom AS way, hei, rhei,
             ST_Centroid(way) AS center
         FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
-            rshape IN ('pyramidal', '2.5')
+            rshape = 'pyramidal'
         ) p
     ) a
 
@@ -433,7 +463,7 @@ FROM (
         SELECT (ST_Dump(ST_Boundary(way))).geom AS way, hei, rhei,
             ST_Centroid(way) AS center
         FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
-            rshape IN ('pyramidal', '2.5')
+            rshape = 'pyramidal'
         ) p
     ) a
 
@@ -459,7 +489,7 @@ FROM (
         SELECT (ST_Dump(ST_Boundary(way))).geom AS way, hei, rhei,
             ST_Centroid(way) AS center
         FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
-            rshape IN ('pyramidal', '2.5')
+            rshape = 'pyramidal'
         ) p
     ) a
 
