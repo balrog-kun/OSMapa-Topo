@@ -463,23 +463,26 @@ FROM (
         ) p
     ) a
 
-                     -- Skillion rooves
+                     -- Faceted roof types with (mostly) rectangular base
 UNION
 
 (WITH
  raw_roof AS (
-     SELECT (ST_Dump(ST_Boundary(way))).geom AS way, way AS origway, hei, rhei
+     SELECT (ST_Dump(ST_Boundary(way))).geom AS way, way AS origway,
+         hei, rhei, rshape
      FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
-         rshape IN ('skillion', '1.0')),
+         rshape IN (
+             'skillion',
+             'gabled')),
 
  raw_roof_direction AS (
-     SELECT hei, rhei, way, origway,
+     SELECT hei, rhei, rshape, way, origway,
          (ST_X(ST_PointN(way, num + 1)) - ST_X(ST_PointN(way, num))) /
            ST_Distance(ST_PointN(way, num + 1), ST_PointN(way, num)) AS px,
          (ST_Y(ST_PointN(way, num + 1)) - ST_Y(ST_PointN(way, num))) /
            ST_Distance(ST_PointN(way, num + 1), ST_PointN(way, num)) AS py
      FROM (
-         SELECT hei * 2 AS hei, rhei * 2 AS rhei, way, origway,
+         SELECT hei * 2 AS hei, rhei * 2 AS rhei, rshape, way, origway,
              (SELECT num
               FROM generate_series(1, ST_NPoints(way) - 1) AS num
               ORDER BY ST_Distance(ST_PointN(way, num),
@@ -489,106 +492,13 @@ UNION
 
  rotated_roof AS (
      SELECT hei, rhei, px, py, ST_Affine(way, py, -px, px, py, 0, 0) AS rway,
-         way, origway
+         rshape, way, origway
      FROM raw_roof_direction),
 
  roof_helpers AS (
-     SELECT way, origway, hei, rhei, px, py,
+     SELECT way, origway, hei, rhei, rshape, px, py, rway,
          ST_XMin(rway) AS min, ST_XMax(rway) AS max,
-         rhei * 2 / (ST_XMax(rway) - ST_XMin(rway)) AS ratio
-     FROM rotated_roof),
-
- roof_helpers_points AS (
-     SELECT hei, rhei, px, py, min, max, ratio,
-         ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) AS p1,
-         ST_PointN(way, generate_series(2, ST_NPoints(way))) AS p2,
-         ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1) AS p3
-     FROM roof_helpers)
-
- -- Roof fills
- SELECT ST_Affine(origway, 1, 0,
-       py * ratio, 1 - px * ratio, 0, hei - min * ratio) AS way,
-     ST_YMin(origway) AS lea, 1 AS hv,
-     CASE WHEN 1 - px * ratio &gt; 0 THEN 'yes' ELSE 'no' END AS visible,
-     degrees(ST_Azimuth(ST_Point(0, 0), ST_Point(px, py))) AS azim,
-     hei AS minhei, hei + rhei AS hei, 'area' AS fill, 1 AS diff
- FROM roof_helpers
-
- -- Roof vertical lines
- UNION
- SELECT ST_MakeLine(ST_Translate(p2, 0, hei),
-       ST_Translate(p2, 0, hei + (py * ST_X(p2) - px * ST_Y(p2) - min) * ratio))
-       AS way,
-     ST_Y(p2) AS lea, 1 AS hv,
-     CASE WHEN (ST_X(p3) - ST_X(p2)) * (ST_X(p2) - ST_X(p1)) &lt; 0
-          THEN CASE WHEN (ST_X(p2) - ST_X(p1)) * (ST_Y(p3) - ST_Y(p2)) -
-                      (ST_X(p3) - ST_X(p2)) * (ST_Y(p2) - ST_Y(p1)) &lt; 0
-                    THEN 'border-yes-v'
-                    ELSE 'border-no-v' END
-          WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes-v' ELSE 'no-v' END AS visible,
-     -500 AS azim, hei, hei + rhei, 'line' AS fill,
-     1 - abs(abs(ST_Azimuth(p3, p2) - ST_Azimuth(p2, p1)) / 3.14159265358 - 1) AS diff -- TODO: fix the azimuth rollover
- FROM roof_helpers_points
-
- -- Roof horizontal lines
- UNION
- SELECT ST_MakeLine(ARRAY[
-       ST_Translate(p2, 0, hei + (py * ST_X(p2) - px * ST_Y(p2) - min) * ratio),
-       ST_Translate(p1, 0, hei + (py * ST_X(p1) - px * ST_Y(p1) - min) * ratio)])
-       AS way,
-     LEAST(ST_Y(p1), ST_Y(p2)) AS lea, 2 AS hv,
-     CASE WHEN 1 - px * ratio &gt; 0 OR ST_X(p2) &gt; ST_X(p1)
-          THEN 'no-h' ELSE 'no-h-d' END AS visible,
-     -500 AS azim,
-     hei AS minhei, hei, 'line' AS fill, 1 AS diff
- FROM roof_helpers_points
-
- -- Wall fills
- UNION
- SELECT ST_MakePolygon(ST_Translate(ST_MakeLine(ARRAY[
-       p2, p1,
-       ST_Translate(p1, 0, (py * ST_X(p1) - px * ST_Y(p1) - min) * ratio),
-       ST_Translate(p2, 0, (py * ST_X(p2) - px * ST_Y(p2) - min) * ratio),
-       p2]), 0, hei)) AS way,
-     LEAST(ST_Y(p1), ST_Y(p2)) AS lea, 1 AS hv,
-     CASE WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes' ELSE 'no' END AS visible,
-     degrees(ST_Azimuth(p2, p1)) AS azim, hei AS minhei, hei + rhei AS hei,
-     'area' AS fill, 1 AS diff
- FROM roof_helpers_points
-)
-
-                     -- Gabled rooves
-UNION
-
-(WITH
- raw_roof AS (
-     SELECT (ST_Dump(ST_Boundary(way))).geom AS way, way AS origway, hei, rhei
-     FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
-         rshape IN ('gabled', '2.0')),
-
- raw_roof_direction AS (
-     SELECT hei, rhei, way, origway,
-         (ST_X(ST_PointN(way, num + 1)) - ST_X(ST_PointN(way, num))) /
-           ST_Distance(ST_PointN(way, num + 1), ST_PointN(way, num)) AS px,
-         (ST_Y(ST_PointN(way, num + 1)) - ST_Y(ST_PointN(way, num))) /
-           ST_Distance(ST_PointN(way, num + 1), ST_PointN(way, num)) AS py
-     FROM (
-         SELECT hei * 2 AS hei, rhei * 2 AS rhei, way, origway,
-             (SELECT num
-              FROM generate_series(1, ST_NPoints(way) - 1) AS num
-              ORDER BY ST_Distance(ST_PointN(way, num),
-                  ST_PointN(way, num + 1)) DESC
-              LIMIT 1)
-         FROM raw_roof) AS a),
-
- rotated_roof AS (
-     SELECT hei, rhei, px, py, ST_Affine(way, py, -px, px, py, 0, 0) AS rway,
-         way, origway
-     FROM raw_roof_direction),
-
- roof_helpers AS (
-     SELECT way, origway, hei, rhei, px, py, rway,
-         ST_XMin(rway) AS min, ST_XMax(rway) AS max,
+         ST_YMin(rway) AS ymin, ST_YMax(rway) AS ymax,
          0.5 * (ST_XMin(rway) + ST_XMax(rway)) AS mid,
          rhei * 4 / (ST_XMax(rway) - ST_XMin(rway)) AS ratio
      FROM rotated_roof),
@@ -596,25 +506,38 @@ UNION
  roof_slope_data AS (
      SELECT way, origway, hei, rhei, px, py,
          row_number() OVER () AS roof_id,
-         ST_SetSRID(ST_Affine(ST_MakePolygon(unnest(ARRAY[
-           ST_MakeLine(ARRAY[
-             ST_Point(min, ST_YMin(rway)),
-             ST_Point(mid, ST_YMin(rway)),
-             ST_Point(mid, ST_YMax(rway)),
-             ST_Point(min, ST_YMax(rway)),
-             ST_Point(min, ST_YMin(rway))]),
-           ST_MakeLine(ARRAY[
-             ST_Point(max, ST_YMax(rway)),
-             ST_Point(mid, ST_YMax(rway)),
-             ST_Point(mid, ST_YMin(rway)),
-             ST_Point(max, ST_YMin(rway)),
-             ST_Point(max, ST_YMax(rway))])
-         ])), py, px, -px, py, 0, 0), 900913) AS slope,
-         reduce_dim(ARRAY[
+         ST_SetSRID(ST_Affine(ST_MakePolygon(unnest(CASE
+           WHEN rshape = 'skillion'
+           THEN ARRAY[ST_Boundary(ST_Expand(rway, 1))]
+
+           WHEN rshape = 'gabled'
+           THEN ARRAY[
+             ST_MakeLine(ARRAY[
+               ST_Point(min - 1, ymin - 1),
+               ST_Point(mid    , ymin - 1),
+               ST_Point(mid    , ymax + 1),
+               ST_Point(min - 1, ymax + 1),
+               ST_Point(min - 1, ymin - 1)]),
+             ST_MakeLine(ARRAY[
+               ST_Point(max + 1, ymax + 1),
+               ST_Point(mid    , ymax + 1),
+               ST_Point(mid    , ymin - 1),
+               ST_Point(max + 1, ymin - 1),
+               ST_Point(max + 1, ymax + 1)])]
+
+           END)), py, px, -px, py, 0, 0), 900913) AS slope,
+         reduce_dim(CASE
            -- TODO: azimuth
-           [ py * ratio, -px * ratio, -min * ratio ],
-           [ -py * ratio, px * ratio, 4 * rhei + min * ratio ]
-         ]) AS params
+
+           WHEN rshape = 'skillion'
+           THEN ARRAY[[py * ratio / 2, -px * ratio / 2, -min * ratio / 2]]
+
+           WHEN rshape = 'gabled'
+           THEN ARRAY[
+             [ py * ratio, -px * ratio, -min * ratio ],
+             [ -py * ratio, px * ratio, 4 * rhei + min * ratio ]]
+
+           END) AS params
      FROM roof_helpers),
 
  roof_slope_points AS (
@@ -624,7 +547,7 @@ UNION
          ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1) AS p3
      FROM roof_slope_data)
 
- -- Roof fills
+ -- Faceted roof fills
  SELECT ST_Affine(ST_Intersection(origway, slope), 1, 0,
        params[1], 1 + params[2], 0, hei + params[3]) AS way,
      ST_YMin(origway) AS lea, 1 AS hv,
@@ -633,7 +556,7 @@ UNION
      hei AS minhei, hei + rhei AS hei, 'area' AS fill, 1 AS diff
  FROM roof_slope_data
 
- -- Roof vertical lines
+ -- Faceted roof vertical lines
  UNION
  SELECT ST_MakeLine(ST_Translate(p2, 0, hei),
        ST_Translate(p2, 0, params[1] * ST_X(p2) + params[2] * ST_Y(p2) +
@@ -650,7 +573,7 @@ UNION
  FROM roof_slope_points
  WHERE ST_Intersects(slope, p2)
 
- -- Roof edge lines (rakes and eaves)
+ -- Faceted roof edge lines (rakes, eaves)
  UNION
  SELECT ST_Affine(ST_Intersection(slope, ST_MakeLine(p2, p1)), 1, 0,
        params[1], 1 + params[2], 0, hei + params[3]) AS way,
@@ -679,7 +602,7 @@ UNION
      WHERE ST_Intersects(slope, ST_MakeLine(p2, p1)) AND
          ST_Length(ST_Intersection(slope, ST_MakeLine(p2, p1))) > 1) a
 
- -- Roof ridge/hip lines
+ -- Faceted roof ridge/hip lines
  UNION
  SELECT ST_Affine(ST_Intersection(a.origway,
          ST_Intersection(a.slope, b.slope)), 1, 0,
