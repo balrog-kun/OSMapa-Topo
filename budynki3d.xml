@@ -299,8 +299,8 @@ SELECT ST_MakePolygon(ST_MakeLine(ARRAY[
     CASE WHEN ST_X(p1) &gt; ST_X(p2) THEN 'yes' ELSE 'no' END AS visible,
     degrees(ST_Azimuth(p2, p1)) AS azim, minhei, hei, 'area' AS fill, 1 AS diff
 FROM (
-    SELECT ST_PointN(way,generate_series(1, ST_NPoints(way) - 1)) AS p1,
-        ST_PointN(way,generate_series(2, ST_NPoints(way))) AS p2,
+    SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) AS p1,
+        ST_PointN(way, generate_series(2, ST_NPoints(way))) AS p2,
         hei * 2 AS hei, minhei * 2 AS minhei
     FROM (
         SELECT (ST_Dump(ST_Boundary(way))).geom AS way, minhei, hei
@@ -322,7 +322,7 @@ SELECT ST_MakeLine(ST_Translate(p2, 0, minhei),
     -500 AS azim, minhei, hei, 'line' AS fill,
      1 - abs(abs(ST_Azimuth(p3, p2) - ST_Azimuth(p2, p1)) / 3.14159265358 - 1) AS diff -- TODO: fix the azimuth rollover
 FROM (
-    SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1))) AS p1,
+    SELECT ST_PointN(way, generate_series(1, ST_NPoints(way) - 1)) AS p1,
         ST_PointN(way, generate_series(2, ST_NPoints(way))) AS p2,
         ST_PointN(way, (generate_series(2, ST_NPoints(way)) % (ST_NPoints(way) - 1)) + 1) AS p3,
         hei * 2 AS hei, minhei * 2 AS minhei
@@ -595,6 +595,7 @@ UNION
 
  roof_slope_data AS (
      SELECT way, origway, hei, rhei, px, py,
+         row_number() OVER () AS roof_id,
          ST_SetSRID(ST_Affine(ST_MakePolygon(unnest(ARRAY[
            ST_MakeLine(ARRAY[
              ST_Point(min, ST_YMin(rway)),
@@ -692,7 +693,7 @@ UNION
      -500 AS azim, a.hei AS minhei, a.hei + a.rhei AS hei, 'line' AS fill,
      0.4 AS diff -- TODO: calculate the real angle between the two surfaces
  FROM roof_slope_data AS a, roof_slope_data AS b
- WHERE ST_YMin(a.slope) &lt; ST_YMin(b.slope) AND
+ WHERE a.roof_id = b.roof_id AND ST_YMin(a.slope) &lt; ST_YMin(b.slope) AND
      ST_Intersects(a.slope, b.slope)
 )
 
