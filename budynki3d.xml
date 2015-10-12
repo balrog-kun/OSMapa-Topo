@@ -169,7 +169,7 @@ WITH
 
 buildingparts AS
   (SELECT ST_Buffer(way, 0) AS way, "building:levels", height, "roof:height",
-     "building:min_level", min_height, "roof:shape"
+     "building:min_level", min_height, "roof:shape", "roof:levels"
    FROM planet_osm_polygon
    WHERE "building:part" IS NOT NULL AND
      (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
@@ -177,7 +177,7 @@ buildingparts AS
 
 buildingswhole AS
   (SELECT ST_Buffer(way, 0) AS way, "building:levels", height, "roof:height",
-     "building:min_level", "min_height", "roof:shape"
+     "building:min_level", "min_height", "roof:shape", "roof:levels"
    FROM planet_osm_polygon AS a
    WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) AND
      (building IS NOT NULL OR height IS NOT NULL OR
@@ -212,7 +212,7 @@ rawbuildings AS (
   UNION
 
   SELECT ST_Buffer(way, 2.5) AS way, "building:levels", height, "roof:height",
-    "building:min_level", min_height, "roof:shape"
+    "building:min_level", min_height, "roof:shape", "roof:levels"
   FROM planet_osm_point
   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) and
     (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
@@ -222,7 +222,8 @@ rawbuildings AS (
 
   SELECT ST_Buffer(way, 0.1, 1) AS way, "building:levels",
      CASE WHEN height IS NOT NULL THEN height ELSE '1.0' END AS height,
-     "roof:height", "building:min_level", min_height, "roof:shape"
+     "roof:height", "building:min_level", min_height, "roof:shape",
+     "roof:levels"
   FROM planet_osm_line
   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower') OR
      barrier IN ('fence','wall')) AND
@@ -233,7 +234,7 @@ rawbuildings AS (
   SELECT ST_Buffer(ST_Boundary(way), 0.1, 1) AS way, "building:levels",
     CASE WHEN "height" IS NOT NULL THEN height ELSE '1.0' END AS height,
     '0' AS "roof:height", "building:min_level", "min_height",
-    NULL AS "roof:shape"
+    NULL AS "roof:shape", NULL AS "roof:levels"
   FROM planet_osm_polygon
   WHERE barrier IN ('fence','wall') AND way &amp;&amp; ST_Expand(!bbox!, 500)
 ), -- end of "rawbuildings AS"
@@ -253,7 +254,12 @@ rawbuildingswithroof AS
                    ELSE 0 END END AS minhei,
            CASE WHEN "roof:height" ~ &len-re;
                THEN CAST (trim(trailing ' m' from "roof:height") AS FLOAT)
-               ELSE 0 END AS rhei
+               ELSE CASE WHEN "roof:levels" ~ &num-re;
+                   THEN CAST ("roof:levels" AS FLOAT) * 3
+                   ELSE CASE WHEN "roof:shape" IS NULL OR
+                           "roof:shape" IN ('', 'flat', '0.0')
+                       THEN 0
+                       ELSE 3 END END END AS rhei,
            "roof:shape" AS rshape
        FROM rawbuildings AS z
       ), -- END OF "rawbuildingswithroof AS"

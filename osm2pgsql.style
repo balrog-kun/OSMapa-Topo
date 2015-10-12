@@ -112,6 +112,7 @@ way,node	min_height		text	linear
 node,way	building:part		text	polygon
 way,node	roof:shape		text	polygon
 way,node	roof:height		text	polygon
+way,node	roof:levels		text	polygon
 
 # Automated name abbreviation
 way,node	short_name		text	linear
