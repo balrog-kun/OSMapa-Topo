@@ -318,6 +318,7 @@ byhei AS
    FROM buildings WHERE rshape IS NULL OR rshape NOT IN (
      'skillion',
      'gabled',
+     'hipped',
      'pyramidal')
    GROUP BY hei),
 
@@ -521,7 +522,8 @@ UNION
      FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
          rshape IN (
              'skillion',
-             'gabled')),
+             'gabled',
+             'hipped')),
 
  raw_roof_direction AS (
      SELECT hei, rhei, rshape, way, origway, CASE
@@ -597,7 +599,10 @@ UNION
          ST_YMin(rway) AS ymin, ST_YMax(rway) AS ymax,
          0.5 * (ST_XMin(rway) + ST_XMax(rway)) AS mid,
          rhei * 4 / (ST_XMax(rway) - ST_XMin(rway)) AS ratio
-     FROM rotated_roof),
+     FROM rotated_roof
+     WHERE rshape NOT IN ('hipped', 'half-hipped') OR
+         (rshape = 'hipped' AND ST_YMax(rway) - ST_YMin(rway) >
+          ST_XMax(rway) - ST_XMin(rway)))),
 
  roof_slope_data AS (
      SELECT way, origway, hei, rhei, px, py,
@@ -621,6 +626,31 @@ UNION
                ST_Point(max + 1, ymin - 1),
                ST_Point(max + 1, ymax + 1)])]
 
+           WHEN rshape = 'hipped'
+           THEN ARRAY[
+             ST_MakeLine(ARRAY[
+               ST_Point(min - 1, ymin - 1),
+               ST_Point(mid, ymin + (max - min) * 0.5),
+               ST_Point(mid, ymax - (max - min) * 0.5),
+               ST_Point(min - 1, ymax + 1),
+               ST_Point(min - 1, ymin - 1)]),
+             ST_MakeLine(ARRAY[
+               ST_Point(max + 1, ymax + 1),
+               ST_Point(mid, ymax - (max - min) * 0.5),
+               ST_Point(mid, ymin + (max - min) * 0.5),
+               ST_Point(max + 1, ymin - 1),
+               ST_Point(max + 1, ymax + 1)]),
+             ST_MakeLine(ARRAY[
+               ST_Point(min - 1, ymin - 1),
+               ST_Point(max + 1, ymin - 1),
+               ST_Point(mid, ymin + (max - min) * 0.5),
+               ST_Point(min - 1, ymin - 1)]),
+             ST_MakeLine(ARRAY[
+               ST_Point(max + 1, ymax + 1),
+               ST_Point(min - 1, ymax + 1),
+               ST_Point(mid, ymax - (max - min) * 0.5),
+               ST_Point(max + 1, ymax + 1)])]
+
            END)), py, px, -px, py, 0, 0), 900913) AS slope,
          reduce_dim(CASE
            -- TODO: azimuth
@@ -632,6 +662,13 @@ UNION
            THEN ARRAY[
              [ py * ratio, -px * ratio, -min * ratio ],
              [ -py * ratio, px * ratio, 4 * rhei + min * ratio ]]
+
+           WHEN rshape = 'hipped'
+           THEN ARRAY[
+             [ py * ratio, -px * ratio, -min * ratio ],
+             [ -py * ratio, px * ratio, 4 * rhei + min * ratio ],
+             [ px * ratio, py * ratio, -ymin * ratio ],
+             [ -px * ratio, -py * ratio, ymax * ratio ]]
 
            END) AS params
      FROM roof_helpers),
