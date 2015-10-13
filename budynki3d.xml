@@ -169,7 +169,8 @@ WITH
 
 buildingparts AS
   (SELECT ST_Buffer(way, 0) AS way, "building:levels", height, "roof:height",
-     "building:min_level", min_height, "roof:shape", "roof:levels"
+     "building:min_level", min_height, "roof:shape", "roof:levels",
+     "roof:orientation"
    FROM planet_osm_polygon
    WHERE "building:part" IS NOT NULL AND
      (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
@@ -177,7 +178,8 @@ buildingparts AS
 
 buildingswhole AS
   (SELECT ST_Buffer(way, 0) AS way, "building:levels", height, "roof:height",
-     "building:min_level", "min_height", "roof:shape", "roof:levels"
+     "building:min_level", "min_height", "roof:shape", "roof:levels",
+     "roof:orientation"
    FROM planet_osm_polygon AS a
    WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) AND
      (building IS NOT NULL OR height IS NOT NULL OR
@@ -212,7 +214,8 @@ rawbuildings AS (
   UNION
 
   SELECT ST_Buffer(way, 2.5) AS way, "building:levels", height, "roof:height",
-    "building:min_level", min_height, "roof:shape", "roof:levels"
+    "building:min_level", min_height, "roof:shape", "roof:levels",
+     "roof:orientation"
   FROM planet_osm_point
   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) and
     (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
@@ -223,7 +226,7 @@ rawbuildings AS (
   SELECT ST_Buffer(way, 0.1, 1) AS way, "building:levels",
      CASE WHEN height IS NOT NULL THEN height ELSE '1.0' END AS height,
      "roof:height", "building:min_level", min_height, "roof:shape",
-     "roof:levels"
+     "roof:levels", "roof:orientation"
   FROM planet_osm_line
   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower') OR
      barrier IN ('fence','wall')) AND
@@ -234,7 +237,7 @@ rawbuildings AS (
   SELECT ST_Buffer(ST_Boundary(way), 0.1, 1) AS way, "building:levels",
     CASE WHEN "height" IS NOT NULL THEN height ELSE '1.0' END AS height,
     '0' AS "roof:height", "building:min_level", "min_height",
-    NULL AS "roof:shape", NULL AS "roof:levels"
+    NULL AS "roof:shape", NULL AS "roof:levels", NULL AS "roof:orientation"
   FROM planet_osm_polygon
   WHERE barrier IN ('fence','wall') AND way &amp;&amp; ST_Expand(!bbox!, 500)
 ), -- end of "rawbuildings AS"
@@ -260,7 +263,7 @@ rawbuildingswithroof AS
                            "roof:shape" IN ('', 'flat', '0.0')
                        THEN 0
                        ELSE 3 END END END AS rhei,
-           "roof:shape" AS rshape
+           "roof:shape" AS rshape, "roof:orientation" AS rdir
        FROM rawbuildings AS z
       ), -- END OF "rawbuildingswithroof AS"
 
@@ -305,7 +308,7 @@ buildings AS
 
                   WHEN rshape IN ('dome', '5.7', 'geodesic_dome', '8.8')
                   THEN 'dome'
-                END AS rshape
+                END AS rshape, rdir
             FROM rawbuildingswithroof AS z
            ) zz -- WHERE GeometryType(way) = 'POLYGON' for some reason doing this here is slower than repeating it &gt; 1 times belowe
       ), -- END OF "buildings AS"
@@ -514,29 +517,77 @@ UNION
 (WITH
  raw_roof AS (
      SELECT (ST_Dump(ST_Boundary(way))).geom AS way, way AS origway,
-         hei, rhei, rshape
+         hei, rhei, rshape, lower(rdir) AS rdir
      FROM buildings WHERE GeometryType(way) = 'POLYGON' AND
          rshape IN (
              'skillion',
              'gabled')),
 
  raw_roof_direction AS (
-     SELECT hei, rhei, rshape, way, origway,
-         (ST_X(ST_PointN(way, num + 1)) - ST_X(ST_PointN(way, num))) /
-           ST_Distance(ST_PointN(way, num + 1), ST_PointN(way, num)) AS px,
-         (ST_Y(ST_PointN(way, num + 1)) - ST_Y(ST_PointN(way, num))) /
-           ST_Distance(ST_PointN(way, num + 1), ST_PointN(way, num)) AS py
+     SELECT hei, rhei, rshape, way, origway, CASE
+           WHEN CASE
+               -- If NULL or 'along', ridge is parallel to long edge
+               WHEN rdir IS NULL OR rdir IN ('along', 'across')
+               THEN (COALESCE(rdir, '') IN ('across')) = (
+                   SELECT ST_XMax(bb) - ST_XMin(bb) > ST_YMax(bb) - ST_YMin(bb)
+                   FROM (SELECT ST_Affine(way,
+                           ST_Y(p), -ST_X(p), ST_X(p), ST_Y(p), 0, 0) AS bb) b)
+               ELSE FALSE
+               END
+           THEN p
+           ELSE ST_Point(ST_Y(p), -ST_X(p)) -- rotate 90 degrees clockwise
+           END AS p
      FROM (
-         SELECT hei * 2 AS hei, rhei * 2 AS rhei, rshape, way, origway,
-             (SELECT num
-              FROM generate_series(1, ST_NPoints(way) - 1) AS num
-              ORDER BY ST_Distance(ST_PointN(way, num),
-                  ST_PointN(way, num + 1)) DESC
-              LIMIT 1)
-         FROM raw_roof) AS a),
+         SELECT hei * 2 AS hei, rhei * 2 AS rhei, rshape, rdir, way, origway,
+             CASE
+               WHEN rdir IS NULL OR rdir IN (
+                 'along', 'across', 'n', 'e', 'w', 's', 'north', 'east',
+                 'west', 'south', 'ne', 'nw', 'se', 'sw', 'nnw', 'nne', 'wnw',
+                 'ene', 'wsw', 'ese', 'ssw', 'sse')
+               THEN (
+                 SELECT ST_Point(
+                       (ST_X(p1) - ST_X(p0)) / ST_Distance(p0, p1),
+		       (ST_Y(p1) - ST_Y(p0)) / ST_Distance(p0, p1))
+                 FROM (
+                     SELECT
+                         ST_PointN(way,
+                           generate_series(1, ST_NPoints(way) - 1)) AS p0,
+                         ST_PointN(way,
+                           generate_series(2, ST_NPoints(way))) AS p1) p
+                 ORDER BY CASE
+                     WHEN rdir IS NULL OR rdir IN ('along', 'across')
+                     THEN ST_Distance(p0, p1)
+                     ELSE @((CAST ((degrees(ST_Azimuth(p0, p1)) - CASE
+                         WHEN rdir IN ('n', 'north') THEN 0
+                         WHEN rdir IN ('e', 'east') THEN 90
+                         WHEN rdir IN ('w', 'west') THEN 270
+                         WHEN rdir IN ('s', 'south') THEN 180
+                         WHEN rdir = 'ne' THEN 45
+                         WHEN rdir = 'nw' THEN 315
+                         WHEN rdir = 'se' THEN 135
+                         WHEN rdir = 'sw' THEN 225
+                         WHEN rdir = 'nnw' THEN 337
+                         WHEN rdir = 'nne' THEN 22
+                         WHEN rdir = 'wnw' THEN 292
+                         WHEN rdir = 'ene' THEN 67
+                         WHEN rdir = 'wsw' THEN 247
+                         WHEN rdir = 'ese' THEN 112
+                         WHEN rdir= 'ssw' THEN 202
+                         WHEN rdir = 'sse' THEN 157
+                         END + 360.0) AS numeric) % 360.0) - 180)
+                     END DESC
+                 LIMIT 1)
+               WHEN rdir ~ &num-re;
+               THEN (SELECT ST_Point(sin(a), cos(a))
+                   FROM (SELECT radians(CAST (rdir AS float)) AS a) dummy)
+               ELSE NULL
+               END AS p
+         FROM raw_roof) AS dummy
+     WHERE p IS NOT NULL),
 
  rotated_roof AS (
-     SELECT hei, rhei, px, py, ST_Affine(way, py, -px, px, py, 0, 0) AS rway,
+     SELECT hei, rhei, ST_X(p) AS px, ST_Y(p) AS py,
+         ST_Affine(way, ST_Y(p), -ST_X(p), ST_X(p), ST_Y(p), 0, 0) AS rway,
          rshape, way, origway
      FROM raw_roof_direction),
 
