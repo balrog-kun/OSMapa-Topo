@@ -749,7 +749,7 @@ UNION
      -500 AS azim, a.hei AS minhei, a.hei + a.rhei AS hei, 'line' AS fill,
      0.4 AS diff -- TODO: calculate the real angle between the two surfaces
  FROM roof_slope_data AS a, roof_slope_data AS b
- WHERE a.roof_id = b.roof_id AND ST_YMin(a.slope) &lt; ST_YMin(b.slope) AND
+ WHERE a.roof_id = b.roof_id AND a.params &lt; b.params AND
      ST_Intersects(a.slope, b.slope)
 )
 
