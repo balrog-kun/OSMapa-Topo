@@ -215,7 +215,7 @@ rawbuildings AS (
 
   SELECT ST_Buffer(way, 2.5) AS way, "building:levels", height, "roof:height",
     "building:min_level", min_height, "roof:shape", "roof:levels",
-     "roof:orientation"
+    "roof:orientation"
   FROM planet_osm_point
   WHERE (building IS NOT NULL OR "man_made" IN ('chimney', 'tower')) and
     (height IS NOT NULL OR "building:levels" IS NOT NULL) AND
@@ -278,7 +278,7 @@ buildings AS
                   &tilt; AS minhei,
                 LEAST(COALESCE(hei, fallback_hei + rhei), rhei) *
                   &tilt; AS rhei,
-		CASE
+                CASE
                   -- Note: the "_cutted" values are copied verbatim from wiki
 
                   WHEN rshape IN ('skillion', '1.0', 'lean_to',
@@ -318,6 +318,7 @@ byhei AS
    FROM buildings WHERE rshape IS NULL OR rshape NOT IN (
      'skillion',
      'gabled',
+     'half-hipped',
      'hipped',
      'pyramidal')
    GROUP BY hei),
@@ -523,14 +524,18 @@ UNION
          rshape IN (
              'skillion',
              'gabled',
+             'half-hipped',
              'hipped')),
 
  raw_roof_direction AS (
      SELECT hei, rhei, rshape, way, origway, CASE
            WHEN CASE
                -- If NULL or 'along', ridge is parallel to long edge
+               -- Ignore in case of the hipped roof because the along/across
+               -- value is determined by the dimensions anyway.
                WHEN rdir IS NULL OR rdir IN ('along', 'across')
-               THEN (COALESCE(rdir, '') IN ('across')) = (
+               THEN (COALESCE(rdir, '') IN ('across') AND
+                     rshape NOT IN ('hipped')) = (
                    SELECT ST_XMax(bb) - ST_XMin(bb) > ST_YMax(bb) - ST_YMin(bb)
                    FROM (SELECT ST_Affine(way,
                            ST_Y(p), -ST_X(p), ST_X(p), ST_Y(p), 0, 0) AS bb) b)
@@ -549,7 +554,7 @@ UNION
                THEN (
                  SELECT ST_Point(
                        (ST_X(p1) - ST_X(p0)) / ST_Distance(p0, p1),
-		       (ST_Y(p1) - ST_Y(p0)) / ST_Distance(p0, p1))
+                       (ST_Y(p1) - ST_Y(p0)) / ST_Distance(p0, p1))
                  FROM (
                      SELECT
                          ST_PointN(way,
@@ -602,7 +607,9 @@ UNION
      FROM rotated_roof
      WHERE rshape NOT IN ('hipped', 'half-hipped') OR
          (rshape = 'hipped' AND ST_YMax(rway) - ST_YMin(rway) >
-          ST_XMax(rway) - ST_XMin(rway)))),
+          ST_XMax(rway) - ST_XMin(rway)) OR
+         (rshape = 'half-hipped' AND ST_YMax(rway) - ST_YMin(rway) >
+          (ST_XMax(rway) - ST_XMin(rway)) / 2)),
 
  roof_slope_data AS (
      SELECT way, origway, hei, rhei, px, py,
@@ -625,6 +632,35 @@ UNION
                ST_Point(mid    , ymin - 1),
                ST_Point(max + 1, ymin - 1),
                ST_Point(max + 1, ymax + 1)])]
+
+           WHEN rshape = 'half-hipped'
+           THEN ARRAY[
+             ST_MakeLine(ARRAY[
+               ST_Point(min - 1, ymin - 1),
+               ST_Point(min + (max - min) * 0.25 - 1, ymin - 1),
+               ST_Point(mid, ymin + (max - min) * 0.25),
+               ST_Point(mid, ymax - (max - min) * 0.25),
+               ST_Point(min + (max - min) * 0.25 - 1, ymax + 1),
+               ST_Point(min - 1, ymax + 1),
+               ST_Point(min - 1, ymin - 1)]),
+             ST_MakeLine(ARRAY[
+               ST_Point(max + 1, ymax + 1),
+               ST_Point(max - (max - min) * 0.25 + 1, ymax + 1),
+               ST_Point(mid, ymax - (max - min) * 0.25),
+               ST_Point(mid, ymin + (max - min) * 0.25),
+               ST_Point(max - (max - min) * 0.25 + 1, ymin - 1),
+               ST_Point(max + 1, ymin - 1),
+               ST_Point(max + 1, ymax + 1)]),
+             ST_MakeLine(ARRAY[
+               ST_Point(min + (max - min) * 0.25 - 1, ymin - 1),
+               ST_Point(max - (max - min) * 0.25 + 1, ymin - 1),
+               ST_Point(mid, ymin + (max - min) * 0.25),
+               ST_Point(min + (max - min) * 0.25 - 1, ymin - 1)]),
+             ST_MakeLine(ARRAY[
+               ST_Point(min + (max - min) * 0.25 - 1, ymax + 1),
+               ST_Point(mid, ymax - (max - min) * 0.25),
+               ST_Point(max - (max - min) * 0.25 + 1, ymax + 1),
+               ST_Point(min + (max - min) * 0.25 - 1, ymax + 1)])]
 
            WHEN rshape = 'hipped'
            THEN ARRAY[
@@ -662,6 +698,13 @@ UNION
            THEN ARRAY[
              [ py * ratio, -px * ratio, -min * ratio ],
              [ -py * ratio, px * ratio, 4 * rhei + min * ratio ]]
+
+           WHEN rshape = 'half-hipped'
+           THEN ARRAY[
+             [ py * ratio, -px * ratio, -min * ratio ],
+             [ -py * ratio, px * ratio, 4 * rhei + min * ratio ],
+             [ px * ratio, py * ratio, rhei - ymin * ratio ],
+             [ -px * ratio, -py * ratio, rhei + ymax * ratio ]]
 
            WHEN rshape = 'hipped'
            THEN ARRAY[
